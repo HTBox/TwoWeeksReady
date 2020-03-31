@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <base href="/">
+    <title>Two Week Ready - Humanitarian Toolbox</title>
+    <meta name="description" content="Two Week Ready - Humanitarian Toolbox">
+
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/all.min.css" rel="stylesheet">
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <link href="css/appbar.css" rel="stylesheet">
+    <link href="css/site.css" rel="stylesheet">
+    <link href="css/mdc.snackbar.min.css" rel="stylesheet">
+
+    <link href="css/addtohomescreen.css" rel="stylesheet">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="GVTC">
+    <meta name="apple-mobile-web-app-title" content="GVTC">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="apple-touch-icon" href="meta/ios/ios-appicon-120-120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="meta/ios/ios-appicon-152-152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="meta/ios/ios-appicon-180-180.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="meta/ios/ios-appicon-120-120.png">
+    <link href="meta/ios/apple-touch-startup-image-320x460.png" media="(device-width: 320px)"
+        rel="apple-touch-startup-image">
+    <!-- iPhone (Retina) SPLASHSCREEN-->
+    <link href="meta/ios/apple-touch-startup-image-640x920.png"
+        media="(device-width: 320px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+    <!-- iPad (portrait) SPLASHSCREEN-->
+    <link href="meta/ios/apple-touch-startup-image-768x1004.png"
+        media="(device-width: 768px) and (orientation: portrait)" rel="apple-touch-startup-image">
+    <!-- iPad (landscape) SPLASHSCREEN-->
+    <link href="meta/ios/apple-touch-startup-image-748x1024.png"
+        media="(device-width: 768px) and (orientation: landscape)" rel="apple-touch-startup-image">
+    <!-- iPad (Retina, portrait) SPLASHSCREEN-->
+    <link href="meta/ios/apple-touch-startup-image-1536x2008.png"
+        media="(device-width: 1536px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image">
+    <!-- iPad (Retina, landscape) SPLASHSCREEN-->
+    <link href="meta/ios/apple-touch-startup-image-2048x1496.png"
+        media="(device-width: 1536px)  and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image">
+    <!-- iPhone 6/7/8 -->
+    <link href="/meta/ios/apple-touch-startup-image-750x1334.png"
+        media="(device-width: 375px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <!-- iPhone 6 Plus/7 Plus/8 Plus -->
+    <link href="/meta/ios/apple-touch-startup-image-1242x2208.png"
+        media="(device-width: 414px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+
+    <meta name="msapplication-starturl" content="/?utm_source=homescreen">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link rel="icon" type="image/png" href="meta/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="meta/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="meta/favicon-96x96.png" sizes="96x96">
+
+    <meta name="theme-color" content="#D51B31">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="generator" content="PWA Starter">
+</head>
+
+<body class="grey lighten-3">
+
+    <section class="wrapper">
+
+        <aside class="sidebar bg-black">
+            <div class="logo">
+                <a href="/" class="simple-text">
+                    <img srcset="img/ht-logo.png 236w" src="img/ht-logo.png" sizes="236px"
+                        alt="Two Week Ready - Humanitarian Toolbox" class="gvtc-logo">
+                </a></div>
+            </div>
+            <div class="sidebar-wrapper ps">
+                <ul class="nav">
+                    <li><a aria-current="page" class="nav-link active" href="/">
+                            <p>Home</p>
+                        </a></li>
+                    <li><a class="nav-link " href="family/">
+                            <p>Family</p>
+                        </a></li>
+                    <li><a class="nav-link " href="emergency-contacts/">
+                            <p>Emergency Contacts</p>
+                        </a></li>
+                    <li><a class="nav-link " href="feedback/">
+                            <p>Feedback</p>
+                        </a></li>
+                    <li><a class="nav-link " href="faq/">
+                            <p>FAQ</p>
+                        </a></li>
+                    <li><a class="nav-link " href="notifications/">
+                            <p>Notifications</p>
+                        </a></li>
+                    <li><a class="nav-link " href="about/">
+                            <p>About</p>
+                        </a></li>
+                </ul>
+            </div>
+            <div class="signout-row p-3 mx-3">
+                <button class="btn-logout">
+                    <i class="fas fa-unlock mr-2"></i><span class="nav-label">Sign Out</span>
+                </button>
+            </div>
+        </aside>
+
+        <section class="main-panel">
+            <nav class="navbar navbar-dark navbar-expand-lg fixed-top d-lg-none grey lighten-3">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper mr-5">
+                        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+                        <div class="navbar-toggle">
+                            <label for="nav-toggle" class="nav-toggle-label">
+                                <span class="navbar-toggler-bar"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <img srcset="img/ht-logo.png 236w" src="img/ht-logo.png" sizes="236px"
+                        alt="Two Week Ready - Humanitarian Toolbox" class="gvtc-logo">
+                </div>
+            </nav>
+            <main class="main-content d-flex flex-row justify-content-center">
+                <%body%>
+            </main>
+        </section>
+
+        <footer class="page-footer d-flex flex-column font-small bg-dark text-white darken-2 px-3 mt-4 fadeIn">
+
+            <div class="d-flex flex-wrap col-12">
+
+                <div class="pt-4 col-12 col-md-6 col-lg-4">
+                    <h3>Services</h3>
+                    <ul>
+                        <li>----</li>
+                        <li>----</li>
+                        <li>----</li>
+                    </ul>
+                </div>
+
+                <div class="pt-4 col-12 col-md-6 col-lg-4">
+                    <h3>Links</h3>
+                    <ul>
+                        <li>Contact Us</li>
+                        <li>Request Assistance</li>
+                        <li>Family</li>
+                        <li>TV Support Library</li>
+                        <li>FAQ</li>
+                        <li>Policies, Terms & Conditions</li>
+                    </ul>
+                </div>
+
+                <div class="pt-4 col-12 col-md-6 col-lg-4 text-center">
+                    [Social Icons]
+                </div>
+            </div>
+
+            <div class="footer-copyright py-3 col-12">
+                © 2020 Copyright:
+                <a href="http://www.htbox.org/" target="_blank">Humanitarian Toolbox</a>
+            </div>
+
+        </footer>
+
+    </section>
+
+    <script src="js/libs/addtohomescreen.min.js" type="application/javascript"></script>
+    <script src="js/libs/localforage.min.js" type="application/javascript"></script>
+    <script src="js/app/ui/component.base.js" type="application/javascript"></script>
+    <script src="js/app/services/http.js" type="application/javascript"></script>
+    <script src="js/app/services/utils.js" type="application/javascript"></script>
+    <script src="js/app/httoolbox.js" type="application/javascript"></script>
+    <script src="js/app/services/auth.js" type="application/javascript"></script>
+    <script src="js/app/services/data.js" type="application/javascript"></script>
+    <script src="js/app/services/httoolbox.js" type="application/javascript"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>

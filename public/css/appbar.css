@@ -1,0 +1,210 @@
+/*  AppBar */
+
+.appbar {
+    border-top: solid 1px var(--site-dark-lightest);
+    position: fixed;
+    right: 0;
+    left: 0;
+    height: 72px;
+    overflow: hidden;
+    transform: none;
+    z-index: 999;
+    padding: 2px auto;
+}
+
+.appbar-top {
+    top: 0;
+    padding-top: 9px;
+    display: flex;
+    z-index: 10000;
+    font-size: 1.3em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.appbar-bottom {
+    top: calc(100vh - 64px);
+}
+
+.appbar::after {
+    content: '';
+    position: absolute;
+    z-index: -10;
+}
+
+.appbar-bottom.appbar-right-fab-inset::after,
+.appbar-bottom.appbar-center-fab-inset::after,
+.appbar-top.appbar-right-fab-inset::after,
+.appbar-top.appbar-center-fab-inset::after {
+    top: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 1000px;
+    width: 64px;
+    height: 64px;
+}
+
+.appbar-top.appbar-right-fab-inset::after,
+.appbar-top.appbar-center-fab-inset::after {
+    top: 32px;
+}
+
+.appbar-bottom.appbar-right-fab+.btn-floating,
+.appbar-bottom.appbar-center-fab+.btn-floating,
+.appbar-top.appbar-right-fab+.btn-floating,
+.appbar-top.appbar-center-fab+.btn-floating,
+.appbar-bottom.appbar-right-fab-inset+.btn-floating,
+.appbar-bottom.appbar-center-fab-inset+.btn-floating,
+.appbar-top.appbar-right-fab-inset+.btn-floating,
+.appbar-top.appbar-center-fab-inset+.btn-floating {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    background-color: var(--site-dark-darkest);
+    color: var(--site-white-lightest);
+    border: none;
+    z-index: 999;
+}
+
+.appbar-bottom.appbar-right-fab-inset+.btn-floating,
+.appbar-bottom.appbar-center-fab-inset+.btn-floating,
+.appbar-top.appbar-right-fab-inset+.btn-floating,
+.appbar-top.appbar-center-fab-inset+.btn-floating {
+    background-color: var(--site-white-lightest);
+    color: var(--site-dark-darkest);
+}
+
+.appbar-top.appbar-right-fab+.btn-floating,
+.appbar-top.appbar-center-fab+.btn-floating,
+.appbar-top.appbar-right-fab-inset+.btn-floating,
+.appbar-top.appbar-center-fab-inset+.btn-floating {
+    bottom: auto;
+    top: 28px;
+}
+
+.appbar-top.appbar-right-fab::after,
+.appbar-bottom.appbar-right-fab::after {
+    left: 86%;
+}
+
+.appbar-top.appbar-right-fab+.btn-floating,
+.appbar-bottom.appbar-right-fab+.btn-floating {
+    left: 86%;
+}
+
+.btn-floating .fas,
+.btn-floating .far {
+    font-size: 1.25em;
+}
+
+/* should be invoked when 
+        
+            - input field in focus so keyboard can be seen 
+            - when navigation drawer displayed
+            - possibly when list is being scrolled
+
+        */
+
+.hide-appbar .appbar-bottom {
+    display: none;
+}
+
+.appbar ul,
+.appbar ol {
+    list-style: none;
+    padding-left: 12px;
+    display: flex;
+}
+
+.appbar li {
+    margin: 3px 5px;
+    text-align: center;
+    font-size: 1.25em;
+    line-height: 48px;
+    padding: 0;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+.appbar li span {
+    width: 100%;
+    color: var(--site-dark-dark);
+}
+
+.appbar-icon {
+    height: 36px;
+    padding: 0;
+    line-height: 36px;
+}
+
+.appbar-btn-text {
+    font-size: .7em;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    line-height: 1em;
+}
+
+.appbar li.active span {
+    color: var(--site-teal);
+}
+
+.appbar .fas,
+.appbar .far,
+.appbar a,
+.appbar a ::before,
+.appbar a ::after {
+    text-decoration: none;
+}
+
+.appbar-child-nav-left {
+    position: absolute;
+    left: 15px;
+}
+
+.appbar-child-nav-right {
+    position: absolute;
+    right: 15px;
+}
+
+[class*='appbar-child-nav-'] {
+    margin-top: 6px;
+}
+
+[class*='appbar-child-nav-'] .fas,
+[class*='appbar-child-nav-'] .far {
+    text-align: center;
+    font-size: 1.25em;
+    color: var(--site-white-lightest);
+    line-height: 1.5em;
+    margin-top: 6px;
+}
+
+
+@media screen and (min-width: 800px) {
+
+    .appbar-bottom {
+        display: none;
+    }
+
+}
+
+@media screen and (min-width: 992px) {
+
+    .appbar {
+        left: 260px;
+        padding-left: 36px;
+    }
+
+    .appbar li {
+        margin-left: 2em;
+    }
+
+}
