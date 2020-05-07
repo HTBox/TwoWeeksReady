@@ -25,5 +25,7 @@
     "strip-bom": "*",
     "watch": "*"
   },
-  "dependencies": {}
+  "dependencies": {
+    "gitlog": "^4.0.0"
+  }
 }
