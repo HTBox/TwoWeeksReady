@@ -2,150 +2,12 @@
 
     "use strict";
 
-    gvtc.utils.nameSpace( "gvtc.user_data" );
-
-    var apiURL = "user-profile-3.json";
+    var apiURL = "https://rj6n0jgrvg.execute-api.us-east-1.amazonaws.com/dev/";
 
     var USER_PROFILE = "-user-profile",
-        MAX_LIST_CACHE = 15;
-
-    //MESSAGE
-    function getMessage( options ) {
-
-        if ( !options && ( !options.id ) ) {
-
-            return Promise.reject( "no valid message selection criteria supplied" );
-
-        }
-
-        return getMessages( options )
-            .then( function ( user_data ) {
-
-                for ( var index = 0; index < user_data.length; index++ ) {
-
-                    var message = user_data[ index ];
-
-                    if ( options.id === message.assetId ) {
-
-                        return message;
-
-                    }
-                }
-
-            } );
-
-    }
-
-    function getMessages( options ) {
-
-        return getUserProfileData()
-            .then( function ( data ) {
-
-                if ( data ) {
-                    return data.ContactRequests;
-                }
-
-            } );
-
-    }
-
-    function getActiveMessageCount() {
-
-        return getMessages()
-            .then( function ( messages ) {
-
-                var count = 0;
-
-                if ( !messages ) {
-                    return count;
-                }
-
-                for ( var index = 0; index < messages.length; index++ ) {
-
-                    if ( messages[ index ].IsActive ) {
-                        count++;
-                    }
-
-                }
-
-                return count;
-
-            } );
-
-    }
-
-    function postMessage( message ) {
-
-        if ( !message ) {
-            return Promise.reject( "no message object supplied" );
-        }
-
-        message.date_updated = new Date().toISOString();
-
-        message.assetType = "message";
-
-        // return gvtc.http.authorized( {
-        //         "method": "POST",
-        //         "mode": "cors",
-        //         "url": gvtc.apiURLBase + apiURL + "?tennantId=" + employee.tennantId,
-        //         "body": JSON.stringify( employee )
-        //     } )
-        //     .then( function ( response ) {
-
-        //         if ( response.ok ) {
-
-        //             return response.json();
-
-        //         }
-
-        //         //could postMessage to service worker to update cached list here
-        //     } )
-        //     .then( function () {
-
-        //         return getMessage( {
-        //             "forceUpdate": true,
-        //             "tennantId": employee.tennantId
-        //         } );
-        //     } );
-
-        return Promise.resolve();
-
-    }
-
-    function deleteMessage( options ) {
-
-        if ( options.id ) {
-
-            // return gvtc.http.authorized( {
-            //         "method": "DELETE",
-            //         "mode": "cors",
-            //         "url": gvtc.apiURLBase + apiURL + "?id=" + options.id +
-            //             "&tennantId=" + options.tennantId
-            //     } )
-            //     .then( function ( response ) {
-
-            //         if ( response.ok ) {
-
-            //             return response.json();
-
-            //         }
-
-            //     } )
-            //     .then( function () {
-
-            //         return updateLocaluser_data( options.tennantId );
-
-            //     } );
-
-            return Promise.resolve();
-
-        } else {
-
-            return Promise.reject( "missing Message Id" );
-
-        }
-
-    }
+        FAMILY_KEY = "current-family",
+        FAMILY_MEMBER_KEY = "family-member",
+        cacheLifeSpan = 15 * 60;
 
     //PROFILE
     function getProfile( options ) {
@@ -204,7 +66,6 @@
 
     }
 
-
     function getUserProfileData() {
 
         return gvtc.data
@@ -212,306 +73,199 @@
 
     }
 
-    // Request Issues
-    function getRequestIssue( options ) {
-
-        if ( !options && ( !options.id ) ) {
-
-            return Promise.reject( "no valid Request Issue selection criteria supplied" );
-
-        }
-
-        return getRequestIssues( options )
-            .then( function ( issues ) {
-
-                for ( var index = 0; index < issues.length; index++ ) {
-
-                    var issue = issues[ index ];
-
-                    if ( options.id === issue.RequestIssueId ) {
-
-                        return issue;
-
-                    }
-                }
-
-            } );
-
-    }
-
-    function getRequestIssues( options ) {
-
-        return getUserProfileData()
-            .then( function ( data ) {
-
-                if ( data ) {
-                    return data.Data.RequestIssues;
-                }
-
-            } );
-
-    }
-
-    function getRequestIssueCount() {
-
-        return getRequestIssues()
-            .then( function ( issues ) {
-
-                var count = 0;
-
-                if ( !issues ) {
-                    return count;
-                }
-
-                for ( var index = 0; index < issues.length; index++ ) {
-
-                    if ( issues[ index ].IsActive ) {
-                        count++;
-                    }
-
-                }
-
-                return count;
-
-            } );
-
-    }
-
-    function postRequestIssue( issue ) {
-
-        if ( !issue ) {
-            return Promise.reject( "no request issue object supplied" );
-        }
-
-        message.date_updated = new Date().toISOString();
-
-        message.assetType = "request-issue";
-
-        // return gvtc.http.authorized( {
-        //         "method": "POST",
-        //         "mode": "cors",
-        //         "url": gvtc.apiURLBase + apiURL + "?tennantId=" + employee.tennantId,
-        //         "body": JSON.stringify( employee )
-        //     } )
-        //     .then( function ( response ) {
-
-        //         if ( response.ok ) {
-
-        //             return response.json();
-
-        //         }
-
-        //         //could postMessage to service worker to update cached list here
-        //     } )
-        //     .then( function () {
-
-        //         return getMessage( {
-        //             "forceUpdate": true,
-        //             "tennantId": employee.tennantId
-        //         } );
-        //     } );
-
-        return Promise.resolve();
-
-    }
-
-    function deleteRequestIssue( options ) {
+    function deleteFamily( options ) {
 
         if ( options.id ) {
 
-            // return gvtc.http.authorized( {
-            //         "method": "DELETE",
-            //         "mode": "cors",
-            //         "url": gvtc.apiURLBase + apiURL + "?id=" + options.id +
-            //             "&tennantId=" + options.tennantId
-            //     } )
-            //     .then( function ( response ) {
+            return fetch( apiURL + "family?id=" + options.id, {
+                    "mode": "cors",
+                    "method": "DELETE"
+                } )
+                .then( function ( response ) {
 
-            //         if ( response.ok ) {
+                    if ( response.ok ) {
 
-            //             return response.json();
+                        return response.json();
 
-            //         }
+                    }
 
-            //     } )
-            //     .then( function () {
+                } )
+                .then( function ( response ) {
 
-            //         return updateLocaluser_data( options.tennantId );
+                    return getFamilies();
 
-            //     } );
-
-            return Promise.resolve();
+                } );
 
         } else {
 
-            return Promise.reject( "missing Request Issue Id" );
+            return Promise.reject( "missing Patient Id" );
 
         }
 
     }
 
-    // Service Requests
-    function getServiceRequest( options ) {
+    function updateFamily( family ) {
 
-        if ( !options && ( !options.id ) ) {
+        return love2dev.http.post( {
+                url: apiURL + "family",
+                body: JSON.stringify( family )
+            } )
+            .then( function ( response ) {
 
-            return Promise.reject( "no valid Service Requests selection criteria supplied" );
+                return response;
 
+            } );
+
+    }
+
+    function getFamily( options ) {
+
+        if ( !options || !options.id ) {
+            return Promise.reject( "invalid fetch options provided: ", options );
         }
 
-        return getServiceRequests( options )
-            .then( function ( issues ) {
+        var key = FAMILY_KEY + "-" + options.id;
 
-                for ( var index = 0; index < issues.length; index++ ) {
+        return love2dev.http.cacheAndFetch( {
+                key: key,
+                url: apiURL + "family?id=" + options.id,
+                ttl: cacheLifeSpan,
+                mode: "cors"
+            } )
+            .then( response => {
 
-                    var issue = issues[ index ];
+                if ( response.length && response.length > 0 ) {
 
-                    if ( options.id === issue.RecordId ) {
+                    var page = response[ 0 ];
 
-                        return issue;
-
-                    }
+                    return localforage.setItem( key, page )
+                        .then( function () {
+                            return page;
+                        } );
                 }
+
+                return response;
 
             } );
 
     }
 
-    function getServiceRequests( options ) {
+    function getFamilies( options ) {
 
-        return getUserProfileData()
-            .then( function ( data ) {
+        options.limitAttributes = options.limitAttributes || true;
+        options.limit = 1000;
 
-                if ( data ) {
-                    return data.Data.ServiceRequests;
-                }
-
-            } );
-
-    }
-
-    function getServiceRequestCount() {
-
-        return ServiceRequests()
-            .then( function ( issues ) {
-
-                var count = 0;
-
-                if ( !issues ) {
-                    return count;
-                }
-
-                for ( var index = 0; index < issues.length; index++ ) {
-
-                    if ( issues[ index ].IsActive ) {
-                        count++;
-                    }
-
-                }
-
-                return count;
-
-            } );
+        return love2dev.http.cacheAndFetch( {
+            key: FAMILY_KEY,
+            url: apiURL + "family",
+            ttl: cacheLifeSpan
+        } );
 
     }
 
-    function postServiceRequest( issue ) {
 
-        if ( !issue ) {
-            return Promise.reject( "no request issue object supplied" );
-        }
-
-        message.date_updated = new Date().toISOString();
-
-        message.assetType = "service-request";
-
-        // return gvtc.http.authorized( {
-        //         "method": "POST",
-        //         "mode": "cors",
-        //         "url": gvtc.apiURLBase + apiURL + "?tennantId=" + employee.tennantId,
-        //         "body": JSON.stringify( employee )
-        //     } )
-        //     .then( function ( response ) {
-
-        //         if ( response.ok ) {
-
-        //             return response.json();
-
-        //         }
-
-        //         //could postMessage to service worker to update cached list here
-        //     } )
-        //     .then( function () {
-
-        //         return getMessage( {
-        //             "forceUpdate": true,
-        //             "tennantId": employee.tennantId
-        //         } );
-        //     } );
-
-        return Promise.resolve();
-
-    }
-
-    function deleteServiceRequest( options ) {
+    function deleteFamilyMember( options ) {
 
         if ( options.id ) {
 
-            // return gvtc.http.authorized( {
-            //         "method": "DELETE",
-            //         "mode": "cors",
-            //         "url": gvtc.apiURLBase + apiURL + "?id=" + options.id +
-            //             "&tennantId=" + options.tennantId
-            //     } )
-            //     .then( function ( response ) {
+            return fetch( apiURL + "family-member?id=" + options.id, {
+                    "mode": "cors",
+                    "method": "DELETE"
+                } )
+                .then( function ( response ) {
 
-            //         if ( response.ok ) {
+                    if ( response.ok ) {
 
-            //             return response.json();
+                        return response.json();
 
-            //         }
+                    }
 
-            //     } )
-            //     .then( function () {
+                } )
+                .then( function ( response ) {
 
-            //         return updateLocaluser_data( options.tennantId );
+                    return getFamilies();
 
-            //     } );
-
-            return Promise.resolve();
+                } );
 
         } else {
 
-            return Promise.reject( "missing Request Issue Id" );
+            return Promise.reject( "missing Patient Id" );
 
         }
 
     }
 
+    function updateFamilyMember( family ) {
 
-    gvtc.user_data = {
+        return love2dev.http.post( {
+                url: apiURL + "family-member",
+                body: JSON.stringify( family )
+            } )
+            .then( function ( response ) {
 
-        getMessage: getMessage,
+                return response;
 
-        getMessages: getMessages,
+            } );
 
-        postMessage: postMessage,
+    }
 
-        deleteMessage: deleteMessage,
+    function getFamilyMember( options ) {
 
-        getUserProfileData: getUserProfileData,
+        if ( !options || !options.id ) {
+            return Promise.reject( "invalid fetch options provided: ", options );
+        }
 
-        getActiveMessageCount: getActiveMessageCount,
+        var key = FAMILY_MEMBER_KEY + "-" + options.id;
 
-        getServiceRequest: getServiceRequest,
+        return love2dev.http.cacheAndFetch( {
+                key: key,
+                url: apiURL + "family-member?id=" + options.id,
+                ttl: cacheLifeSpan,
+                mode: "cors"
+            } )
+            .then( response => {
 
-        getServiceRequests: getServiceRequests,
+                if ( response.length && response.length > 0 ) {
 
-        getRequestIssue: getRequestIssue,
+                    var page = response[ 0 ];
 
-        getRequestIssues: getRequestIssues,
+                    return localforage.setItem( key, page )
+                        .then( function () {
+                            return page;
+                        } );
+                }
 
-        getRequestIssueCount: getRequestIssueCount
+                return response;
+
+            } );
+
+    }
+
+    function getFamilyMembers( options ) {
+
+        options.limitAttributes = options.limitAttributes || true;
+        options.limit = 1000;
+
+        return love2dev.http.cacheAndFetch( {
+            key: FAMILY_MEMBER_KEY + "-" + options.id,
+            url: apiURL + "family-member?id=" + options.id,
+            ttl: cacheLifeSpan
+        } );
+
+    }
+
+    window.httoolbox = window.httoolbox || {};
+    httoolbox.data = {
+
+        getFamilies: getFamilies,
+        getFamily: getFamily,
+        updateFamily: updateFamily,
+        deleteFamily: deleteFamily,
+
+        getFamilyMember: getFamilyMember,
+        getFamilyMembers: getFamilyMembers,
+        updateFamilyMember: updateFamilyMember,
+        deleteFamilyMember: deleteFamilyMember
 
     };
 

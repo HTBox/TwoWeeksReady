@@ -126,9 +126,34 @@
                         alt="Two Week Ready - Humanitarian Toolbox" class="gvtc-logo">
                 </div>
             </nav>
-            <main class="main-content d-flex flex-row justify-content-center">
-                <h1>Two Week Ready - Humanitarian Toolbox</h1>
-<h2>Main Dashboard</h2>
+            <main class="main-content d-flex flex-column justify-content-start">
+                <header class="d-flex justify-content-center flex-column">
+    <h1 class="text-center">2 Weeks Ready</h1>
+    <h2 class="text-center">Main Dashboard</h2>
+</header>
+
+<div class="row data-list display-list col-12 m-3 d-flex py-2 mt-5 d-none">
+    <a href="family/" class="col-12 col-md-6 col-xl-4 flex-shrink-1 my-2 text-white">
+        <div class="bg-primary-darker card flex-row align-items-center align-items-stretch border-0 mh-100">
+            <div
+                class=" col-4 d-flex align-items-center justify-content-center rounded-left bg-love2dev-red py-3 wh-100">
+                <em class="fas fa-users fa-3x"></em></div>
+            <div class="col-8 py-3 rounded-right">
+                <div class="h2 mt-0">family</div>
+            </div>
+        </div>
+    </a>
+    <a href="resources/" class="col-12 col-md-6 col-xl-4 flex-shrink-1 my-2 text-white">
+        <div class="bg-primary-darker card flex-row align-items-center align-items-stretch border-0 mh-100">
+            <div
+                class=" col-4 d-flex align-items-center justify-content-center rounded-left bg-love2dev-red py-3 wh-100">
+                <em class="fas fa-cloud fa-3x"></em></div>
+            <div class="col-8 py-3 rounded-right">
+                <div class="h2 mt-0">Sites</div>
+            </div>
+        </div>
+    </a>
+</div>
             </main>
         </section>
 
@@ -171,12 +196,43 @@
 
     </section>
 
+    <div class="modal-bg" role="dialog" aria-modal="true"></div>
+    <div class="mdc-snackbar snackbar-confirm animated fadeOut">
+        <div class="mdc-snackbar__surface">
+            <div class="mdc-snackbar__label" role="status" aria-live="polite"></div>
+            <div class="mdc-snackbar__actions">
+                <button type="button" class="mdc-button mdc-snackbar__action">OK</button>
+            </div>
+        </div>
+    </div>
+    <div class="gdpr-prompt py-3 px-4 d-none">
+
+        <p class="col-12 col-lg-7 col-xl-8 mr-1 pr-2">We use cookies to give you the best experience possible. By
+            continuing, we'll assume
+            you're
+            cool with our
+            cookie
+            policy.
+        </p>
+        <button class="btn btn-danger btn-gdpr-accept mr-2">Accept</button>
+    </div>
+
+    <div class="a2hs-prompt py-3 px-4 d-none">
+        <p class="col-6 mr-1">Install 2 Weeks Ready for quick, easy access from your homescreen or start menu.
+        </p>
+        <div class="col-6 d-flex justify-content-between align-items-center">
+            <button class="btn btn-link btn-a2hs-cancel mr-1">No Thanks</button>
+            <button class="btn btn-danger btn-a2hs-accept">Install?</button>
+        </div>
+    </div>
+
+
     <script src="js/libs/addtohomescreen.min.js" type="application/javascript"></script>
     <script src="js/libs/localforage.min.js" type="application/javascript"></script>
+    <script src="js/libs/mustache.min.js" type="application/javascript"></script>
     <script src="js/app/ui/component.base.js" type="application/javascript"></script>
     <script src="js/app/services/http.js" type="application/javascript"></script>
     <script src="js/app/services/utils.js" type="application/javascript"></script>
-    <script src="js/app/httoolbox.js" type="application/javascript"></script>
     <script src="js/app/services/auth.js" type="application/javascript"></script>
     <script src="js/app/services/data.js" type="application/javascript"></script>
     <script src="js/app/services/httoolbox.js" type="application/javascript"></script>

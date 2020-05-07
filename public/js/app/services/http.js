@@ -1,53 +1,69 @@
 /*
 
-gvtc.http
+love2dev.http
 
 */
 
 
 ( function () {
 
-    window.gvtc = window.gvtc || {};
-
     var AUTH_KEY = "access_token",
-        GROUP_KEY = "cognito:groups";
+        ID_KEY = "id_token",
+        GROUP_KEY = "cognito:groups",
+        defaultTTL = 60 * 15;
 
-    gvtc.http = {
+    function getBody( options ) {
+
+        if ( !options.ContentType || options.ContentType.includes( "application/json" ) ) {
+
+            if ( options.body && typeof options.body === "object" ) {
+                options.body = JSON.stringify( options.body );
+            }
+
+        }
+
+        return options;
+    }
+
+    /** @function cacheTTLValue
+        options: {
+            key: lookup key
+            value: value
+            ttl: # of seconds till data becomes stale
+        }
+    */
+    function cacheTTLValue( options ) {
+
+        return cacheValue( options )
+            .then( function () {
+
+                if ( options.ttl && !Number.isNaN( options.ttl ) ) {
+
+                    var now = new Date().getTime();
+
+                    return localforage.setItem( options.key + "-ttl", now + ( options.ttl * 1000 ) );
+
+                }
+
+                return;
+
+            } );
+
+    }
+
+    function cacheValue( options ) {
+
+        return localforage.setItem( options.key, options.value );
+
+    }
+
+    love2dev.http = {
 
         baseUrl: "/",
 
-        cacheValue: function ( options ) {
+        cacheValue: cacheValue,
 
-            return localforage.setItem( options.key, options.value );
-
-        },
-
-        /** @function cacheTTLValue
-            options: {
-                key: lookup key
-                value: value
-                ttl: # of seconds till data becomes stale
-            }
-        */
-        cacheTTLValue: function ( options ) {
-
-            return this.cacheValue( options )
-                .then( function () {
-
-                    if ( options.ttl && !Number.isNaN( options.ttl ) ) {
-
-                        var now = new Date();
-                        now.setSeconds( now.getSeconds() + ( options.ttl * 1000 ) );
-
-                        return localforage.setItem( options.key + "-ttl", now );
-
-                    }
-
-                    return;
-
-                } );
-
-        },
+        cacheTTLValue: cacheTTLValue,
 
         deleteCacheValue: function ( key ) {
 
@@ -89,6 +105,8 @@ gvtc.http
 
             var self = this;
 
+            options.ttl = options.ttl || defaultTTL;
+
             return self.checkCachedValueStaleness( options.key )
                 .then( function ( value ) {
 
@@ -108,23 +126,28 @@ gvtc.http
                                 return response.json()
                                     .then( function ( value ) {
 
-                                        value = value ? value.Data : undefined;
-
-                                        if ( value && value.length ) {
-                                            value = value.length > 0 ? value : undefined;
-                                        }
-
                                         if ( value ) {
 
-                                            gvtc.http.cacheTTLValue( {
-                                                key: options.key,
-                                                value: value,
-                                                ttl: options.ttl
-                                            } );
+                                            if ( typeof value === "string" ) {
+
+                                                value = JSON.parse( value );
+
+                                            }
+
+                                            return cacheTTLValue( {
+                                                    key: options.key,
+                                                    value: value,
+                                                    ttl: options.ttl
+                                                } )
+                                                .then( function () {
+                                                    return value;
+                                                } );
+
+                                        } else {
+
+                                            return value;
 
                                         }
-
-                                        return value;
 
                                     } );
                             }
@@ -135,39 +158,72 @@ gvtc.http
 
         },
 
+        postAndClearCache: function ( options ) {
+
+            return this.post( options )
+                .then( function ( response ) {
+
+                    if ( response.ok ) {
+
+                        if ( options.key ) {
+                            return localforage.removeItem( options.key )
+                                .then( function () {
+                                    return response.json()
+                                        .then( function ( result ) {
+                                            return result.Item;
+                                        } );
+                                } );
+
+                        } else {
+
+                            return response.json()
+                                .then( function ( result ) {
+                                    return result.Item;
+                                } );
+
+                        }
+
+                    }
+
+                } );
+
+        },
+
         validateResponse: function ( response ) {
 
             switch ( response.status ) {
 
-                case 500:
+                // case 500:
 
-                    location.replace( "error/" );
-                    break;
+                //     location.replace( "error/" );
+                //     break;
 
                 case 401:
-
+                case 403:
                     //no authentication
-                    localforage.removeItem( AUTH_KEY )
-                        .then( function () {
 
-                            //this should mean the token has expired or is missing
-                            location.replace( "login/" );
+                    console.log( "no authentication" );
+                    //localforage.removeItem( AUTH_KEY )
+                    //    .then( function () {
 
-                        } );
+                    //this should mean the token has expired or is missing
+                    //love2dev.app.goToLogin();
+
+                    //} );
 
                     break;
                     // ...
 
-                case 0: //opaque cross origin request
-                case 200: //good response
-                case 201: //object created
-                case 202: //good but processing is still happening. Poll to update process
-                case 204: //no record
-                case 205: //Email Already exist.
-                case 300: //record exists
-                case 404: //not found
-                case 403: //not authorized
-                case 406: //please register yourself
+                    // case 0: //opaque cross origin request
+                    // case 200: //good response
+                    // case 201: //object created
+                    // case 202: //good but processing is still happening. Poll to update process
+                    // case 204: //no record
+                    // case 205: //Email Already exist.
+                    // case 300: //record exists
+                    // case 404: //not found
+                    // case 406: //please register yourself
+                default:
 
                     return response;
 
@@ -185,7 +241,7 @@ gvtc.http
                 myHeaders[ "Content-Type" ] = "application/json";
             }
 
-            myHeaders[ "Accept" ] = "application/json, text/plain, */*";
+            myHeaders.Accept = "application/json, text/plain, */*";
 
             return myHeaders;
         },
@@ -204,8 +260,6 @@ gvtc.http
                 method: "GET"
                 //                ,mode: 'cors'
             }, options );
-
-            //            options.url = api.baseUrl + options.url;
 
             return fetch( options.url, options )
                 .then( function ( response ) {
@@ -264,39 +318,28 @@ gvtc.http
 
         authorized: function ( options ) {
 
-            var groups,
-                auth;
-
             var api = this;
 
-            return localforage.getItem( GROUP_KEY )
-                .then( function ( g ) {
-                    groups = JSON.stringify( g );
-
-                    //should only need to validate GET 
-                    //POST, PUT, DELETE requests should return 4xx Status codes when not authenticated
-                    return localforage.getItem( AUTH_KEY );
-
-                } )
+            return localforage.getItem( ID_KEY )
                 .then( function ( token ) {
 
                     if ( token ) {
                         //user/
                         options.headers = {
-                            "Groups": groups,
-                            "Authorization": "bearer " + token,
+                            //"Groups": groups,
+                            "Authorization": "Bearer " + token,
                             'Content-Type': 'application/json'
                         };
 
-                        return api.fetch( options )
-                            .then( function ( response ) {
+                        return api.fetch( options );
 
-                                if ( response.status === 403 ) {
-                                    location.href = "login/";
-                                }
+                    } else {
 
-                                return response;
-                            } );
+                        options.headers = {
+                            'Content-Type': 'application/json'
+                        };
+
+                        return api.fetch( options );
 
                     }
                     //deal with a logout process
@@ -307,21 +350,10 @@ gvtc.http
 
         },
 
-        getBody: function ( options ) {
-
-            if ( !options.ContentType || options.ContentType === "application/json" ) {
-
-                if ( options.body && typeof options.body === "object" ) {
-                    options.body = JSON.stringify( options.body );
-                }
-
-            }
-
-            return options;
-        }
+        getBody: getBody
 
     };
 
-    window.gvtc.http = gvtc.http;
+    love2dev.http = love2dev.http;
 
 }() );

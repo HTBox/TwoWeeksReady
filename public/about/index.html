@@ -126,7 +126,7 @@
                         alt="Two Week Ready - Humanitarian Toolbox" class="gvtc-logo">
                 </div>
             </nav>
-            <main class="main-content d-flex flex-row justify-content-center">
+            <main class="main-content d-flex flex-column justify-content-start">
                 <h1>About Two Week Ready - Humanitarian Toolbox</h1>
             </main>
         </section>
@@ -170,16 +170,48 @@
 
     </section>
 
+    <div class="modal-bg" role="dialog" aria-modal="true"></div>
+    <div class="mdc-snackbar snackbar-confirm animated fadeOut">
+        <div class="mdc-snackbar__surface">
+            <div class="mdc-snackbar__label" role="status" aria-live="polite"></div>
+            <div class="mdc-snackbar__actions">
+                <button type="button" class="mdc-button mdc-snackbar__action">OK</button>
+            </div>
+        </div>
+    </div>
+    <div class="gdpr-prompt py-3 px-4 d-none">
+
+        <p class="col-12 col-lg-7 col-xl-8 mr-1 pr-2">We use cookies to give you the best experience possible. By
+            continuing, we'll assume
+            you're
+            cool with our
+            cookie
+            policy.
+        </p>
+        <button class="btn btn-danger btn-gdpr-accept mr-2">Accept</button>
+    </div>
+
+    <div class="a2hs-prompt py-3 px-4 d-none">
+        <p class="col-6 mr-1">Install 2 Weeks Ready for quick, easy access from your homescreen or start menu.
+        </p>
+        <div class="col-6 d-flex justify-content-between align-items-center">
+            <button class="btn btn-link btn-a2hs-cancel mr-1">No Thanks</button>
+            <button class="btn btn-danger btn-a2hs-accept">Install?</button>
+        </div>
+    </div>
+
+
     <script src="js/libs/addtohomescreen.min.js" type="application/javascript"></script>
     <script src="js/libs/localforage.min.js" type="application/javascript"></script>
+    <script src="js/libs/mustache.min.js" type="application/javascript"></script>
     <script src="js/app/ui/component.base.js" type="application/javascript"></script>
     <script src="js/app/services/http.js" type="application/javascript"></script>
     <script src="js/app/services/utils.js" type="application/javascript"></script>
-    <script src="js/app/httoolbox.js" type="application/javascript"></script>
     <script src="js/app/services/auth.js" type="application/javascript"></script>
     <script src="js/app/services/data.js" type="application/javascript"></script>
     <script src="js/app/services/httoolbox.js" type="application/javascript"></script>
     <script src="js/app.js"></script>
+    <script src="js/app/controllers//about.js"></script>
 
 </body>
 

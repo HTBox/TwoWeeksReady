@@ -74,6 +74,7 @@ body {
 
 .main-content {
     min-height: calc(100vh - 80px);
+    padding: 2em;
 }
 
 
@@ -778,6 +779,11 @@ a.gvtc-record-row {
 .md-form input[type=url]:focus:not([readonly])+label,
 .md-form textarea.md-textarea:focus:not([readonly])+label {
     color: var(--site-purple);
+}
+
+a .row-title {
+    font-size: 2em;
+    color: var(--site-dark-darker);
 }
 
 @media screen and (max-width:991px) {

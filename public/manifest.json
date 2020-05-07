@@ -533,10 +533,10 @@
         "sizes": "50x50"
     } ],
     "name": "Two Week Ready",
-    "short_name": "Two Week Rea",
+    "short_name": "2W Ready",
     "lang": "en-US",
     "dir": "auto",
-    "theme_color": "#D51B31",
+    "theme_color": "##3C3C42",
     "background_color": "#363636",
     "description": "Humanitarian Toolbox Two Week Ready"
 }

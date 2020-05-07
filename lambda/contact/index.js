@@ -1,6 +1,6 @@
 const db = require( "../libs/docClient" ),
     aws = require( "../libs/aws-utils" ),
-    table_name = require( "../libs/aws-utils" ).table_name,
+    table_name = "twoDaysReady",
     assetType = "contact";
 
 

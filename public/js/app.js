@@ -1,9 +1,8 @@
 ( function () {
 
+    window.httoolbox = window.httoolbox || {};
 
-    window.gvtc = window.gvtc || {};
-
-    var self = gvtc.component;
+    var helpers = love2dev.component;
 
     function initialize() {
 
@@ -13,7 +12,7 @@
             path = "/";
         }
 
-        var navNode = self.qs( "a[href*='" +
+        var navNode = helpers.qs( "a[href*='" +
             path + "']" );
 
         if ( navNode ) {
@@ -24,38 +23,6 @@
 
         loadPage();
 
-        /*
-        gvtc.auth.isAuthenticated()
-            .then( function ( auth ) {
-
-                if ( !auth ) {
-
-                    gvtc.auth.refreshTokens()
-                        .then( function () {
-
-                            window.authorized = true;
-
-                            loadPage();
-
-                        } )
-                        .catch( function ( err ) {
-
-                            window.authorized = false;
-
-                            loadPage();
-
-                        } );
-
-                } else {
-
-                    window.authorized = true;
-
-                    loadPage();
-                }
-
-            } );
-*/
-
         registerServiceWorker();
 
         bindEvents();
@@ -64,7 +31,7 @@
 
     function bindEvents() {
 
-        self.on( ".btn-back", "click", function ( e ) {
+        helpers.on( ".btn-back", "click", function ( e ) {
             e.preventDefault();
 
             history.back();
@@ -78,16 +45,16 @@
 
         window.pageLoaded = true;
 
-        self.on( ".btn-navbar-toggle", gvtc.events.click, expandNavBarMenu );
-        self.on( ".navbar-toggle", gvtc.events.click, expandSidebar );
-        self.on( ".btn-logout", gvtc.events.click, logout );
+        helpers.on( ".btn-navbar-toggle", love2dev.events.click, expandNavBarMenu );
+        helpers.on( ".navbar-toggle", love2dev.events.click, expandSidebar );
+        helpers.on( ".btn-logout", love2dev.events.click, logout );
 
-        document.body.addEventListener( gvtc.events.click, toggleOverlaysOff );
+        document.body.addEventListener( love2dev.events.click, toggleOverlaysOff );
 
         if ( window.addToHomescreen ) {
 
             addToHomescreen( {
-                appID: "com.gvtc",
+                appID: "com.love2dev",
                 appName: "GVTC",
                 lifespan: 15,
                 startDelay: 5,
@@ -113,7 +80,7 @@
     function expandNavBarMenu( e ) {
         e.preventDefault();
 
-        var rightNavbar = self.qs( ".right-navbar" );
+        var rightNavbar = helpers.qs( ".right-navbar" );
 
         rightNavbar.classList.toggle( "show" );
 
@@ -124,7 +91,7 @@
         e.preventDefault();
         e.stopPropagation();
 
-        var $html = self.qs( "html" );
+        var $html = helpers.qs( "html" );
 
         $html.classList.toggle( "nav-open" );
 
@@ -136,7 +103,7 @@
 
         //        e.preventDefault();
 
-        var $html = self.qs( "html" );
+        var $html = helpers.qs( "html" );
 
         $html.classList.remove( "nav-open", "show-search-box" );
 
@@ -153,15 +120,15 @@
 
     function logout() {
 
-        gvtc.auth.signOut();
+        love2dev.auth.signOut();
 
     }
 
     function initAppBar() {
 
-        if ( self.qs( ".appbar-bottom" ) ) {
+        if ( helpers.qs( ".appbar-bottom" ) ) {
 
-            self.on( ".appbar-bottom li", "click", function ( e ) {
+            helpers.on( ".appbar-bottom li", "click", function ( e ) {
 
                 e.preventDefault();
 
