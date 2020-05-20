@@ -2,32 +2,28 @@
 
     "use strict";
 
-    window.gvtc = window.gvtc || {};
-
-    var self = window.gvtc.component;
+    var profile,
+        helpers = love2dev.component,
+        tableTarget = ".family-list",
+        $target = helpers.qs( tableTarget ),
+        family;
 
 
     function initialize() {
 
-        requestAnimationFrame( function () {
+        httoolbox.app.notAuthCallback( function () {
 
-            if ( window.pageLoaded ) {
-
-                if ( !window.authorized ) {
-
-                    location.href = "login/";
-
-                } else {
-
-                    bindEvents();
-
-                }
-
-            } else {
-                initialize();
-            }
+            admin.goToLogin();
 
         } );
+
+        httoolbox.app.authCallback( loadPage );
+
+    }
+
+    function loadPage() {
+
+        bindEvents();
 
     }
 

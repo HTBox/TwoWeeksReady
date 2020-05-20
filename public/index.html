@@ -62,7 +62,7 @@
     <link rel="icon" type="image/png" href="meta/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="meta/favicon-96x96.png" sizes="96x96">
 
-    <meta name="theme-color" content="#D51B31">
+    <meta name="theme-color" content="#064D80">
 
     <link rel="manifest" href="manifest.json">
     <meta name="generator" content="PWA Starter">
@@ -72,10 +72,11 @@
 
     <section class="wrapper">
 
-        <aside class="sidebar bg-black">
+        <aside class="sidebar bg-orange">
             <div class="logo">
                 <a href="/" class="simple-text">
-                    <img srcset="img/ht-logo.png 236w" src="img/ht-logo.png" sizes="236px"
+                    <img srcset="img/2-weeks-ready-rectangle-320x118.png 320w"
+                        src="img/2-weeks-ready-rectangle-320x118.png" sizes="236px"
                         alt="Two Week Ready - Humanitarian Toolbox" class="gvtc-logo">
                 </a></div>
             </div>
@@ -132,25 +133,49 @@
     <h2 class="text-center">Main Dashboard</h2>
 </header>
 
-<div class="row data-list display-list col-12 m-3 d-flex py-2 mt-5 d-none">
-    <a href="family/" class="col-12 col-md-6 col-xl-4 flex-shrink-1 my-2 text-white">
-        <div class="bg-primary-darker card flex-row align-items-center align-items-stretch border-0 mh-100">
-            <div
-                class=" col-4 d-flex align-items-center justify-content-center rounded-left bg-love2dev-red py-3 wh-100">
-                <em class="fas fa-users fa-3x"></em></div>
-            <div class="col-8 py-3 rounded-right">
-                <div class="h2 mt-0">family</div>
-            </div>
+<div class="row data-list display-list col-12 m-3 d-flex py-2 mt-5 d-none container">
+    <a href="family/" class="col-12 col-md-5 col-xl-3 flex-shrink-1 m-2 p-0 card card-custom bg-white border-white">
+        <div class="card-custom-img" style="background-image: url(img/water-fight-442257_1920.jpg);">
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Family</h4>
+            <p class="card-text">Your family and friends network</p>
         </div>
     </a>
-    <a href="resources/" class="col-12 col-md-6 col-xl-4 flex-shrink-1 my-2 text-white">
-        <div class="bg-primary-darker card flex-row align-items-center align-items-stretch border-0 mh-100">
-            <div
-                class=" col-4 d-flex align-items-center justify-content-center rounded-left bg-love2dev-red py-3 wh-100">
-                <em class="fas fa-cloud fa-3x"></em></div>
-            <div class="col-8 py-3 rounded-right">
-                <div class="h2 mt-0">Sites</div>
-            </div>
+    <a href="emergency/kits/"
+        class="col-12 col-md-5 col-xl-3 flex-shrink-1 m-2 p-0 card card-custom bg-white border-white">
+        <div class="card-custom-img" style="background-image: url(img/first-aid-908591_1920.jpg);">
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Emergency Kits</h4>
+            <p class="card-text">Do you have your emergency supplies ready?</p>
+        </div>
+    </a>
+    <a href="hazzard/hunt/"
+        class="col-12 col-md-5 col-xl-3 flex-shrink-1 m-2 p-0 card card-custom bg-white border-white">
+        <div class="card-custom-img" style="background-image: url(img/pipe-2445176_1920.jpg);">
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Hazzard Hunt</h4>
+            <p class="card-text">Identify your home hazzards and how to manage them</p>
+        </div>
+    </a>
+    <a href="hazzard/info/"
+        class="col-12 col-md-5 col-xl-3 flex-shrink-1 m-2 p-0 card card-custom bg-white border-white">
+        <div class="card-custom-img" style="background-image: url(img/writing-828911_1920.jpg);">
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Hazzard Resources</h4>
+            <p class="card-text">Information and Resources to help with common emergency situations</p>
+        </div>
+    </a>
+    <a href="events/" class="col-12 col-md-5 col-xl-3 flex-shrink-1 m-2 p-0 card card-custom bg-white border-white">
+        <div class="card-custom-img"
+            style="background-image: url(img/pacific-northwest-earthquake-map-last-20-years.jpg);">
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Emegency Events</h4>
+            <p class="card-text">The most recent natural emergency events in your area</p>
         </div>
     </a>
 </div>
@@ -237,7 +262,7 @@
     <script src="js/app/services/data.js" type="application/javascript"></script>
     <script src="js/app/services/httoolbox.js" type="application/javascript"></script>
     <script src="js/app.js"></script>
-    <script src="js/app/controllershome.js"></script>
+    <script src="js/app/controllers/home.js"></script>
 
 </body>
 

@@ -3,6 +3,19 @@
     window.httoolbox = window.httoolbox || {};
 
     var helpers = love2dev.component;
+    var ath,
+        _authCallback = [],
+        _notAuthCallback = [],
+        _pageLoadedCallback = [],
+        siteConfig = {
+            tennantId: "62274796-e691-46ae-aa31-c30cdafb3258",
+            siteId: "6bbc47ff-57b1-408e-99a0-16b4c470de03"
+        };
+
+    var UPDATE_USER_PROTOCOL_MEDIA = "update-user-protocol-media",
+        PREFERENCE_KEY = "user-prefernces",
+        SITE_CONFIG = "site-config",
+        A2HS_PROMPT = "a2hs-prompt";
 
     function initialize() {
 
@@ -143,6 +156,223 @@
 
     }
 
+    function initA2HSState() {
+
+        return localforage.getItem( A2HS_PROMPT )
+            .then( function ( state ) {
+
+                if ( state === undefined || state === null ) {
+                    return localforage.setItem( A2HS_PROMPT, true );
+                }
+
+            } );
+
+    }
+
+    function checkAddToHomeScreen() {
+
+        if ( window.addToHomescreen ) {
+
+            return localforage.getItem( A2HS_PROMPT )
+                .then( function ( state ) {
+
+                    if ( state ) {
+
+                        ath = addToHomescreen( {
+                            appID: "net.mehab",
+                            appName: "Mehab",
+                            lifespan: 15,
+                            autostart: false,
+                            skipFirstVisit: false,
+                            minSessions: 0,
+                            maxDisplayCount: 5,
+                            onCancel: handleA2HSCancel,
+                            onInstall: handleA2HSInstall,
+                            customCriteria: true,
+                            customPrompt: {
+                                title: "Install Mehab?",
+                                src: "meta/favicon-96x96.png",
+                                cancelMsg: "Cancel",
+                                installMsg: "Install"
+                            }
+                        } );
+
+                        ath.options.promptDlg.cancel = ".btn-close-a2hs";
+                        ath.options.promptDlg.install = ".btn-install-mehab";
+                        ath.options.logging = true;
+
+                        window.mehab.ath = ath;
+
+                    }
+
+                } );
+
+            /*            self.on( ".btn-install-mehab, .mobile-a2hs-btn", mehab.events.click, function ( e ) {
+                            e.preventDefault();
+
+                            ath.platform.handleInstall();
+
+                            return false;
+                        } );
+
+                        */
+
+        }
+
+    }
+
+    function handleA2HSCancel() {
+
+        return localforage.setItem( A2HS_PROMPT, false )
+            .then( function () {
+
+                var $prompt = self.qs( ".install-prompt" );
+
+                self.toggleFlexNone( $prompt );
+
+            } );
+
+    }
+
+    function handleA2HSInstall() {
+
+        return localforage.setItem( A2HS_PROMPT, false );
+
+        //should we trigger additional messaging?
+
+    }
+
+    function goToLogin() {
+        location.href = "login/";
+    }
+
+    function signout( e ) {
+
+        e.preventDefault();
+
+        mehab.auth.signOut()
+            .then( function () {
+                location.href = "/";
+            } );
+
+        return false;
+    }
+
+    function toggleModalBackground( show ) {
+
+        var action = "toggle";
+
+        if ( show === true ) {
+            action = "add";
+        } else if ( show === false ) {
+            action = "remove";
+        }
+
+        var $modalBackground = self.qs( ".modal-bg" );
+
+        if ( $modalBackground ) {
+
+            $modalBackground.classList[ action ]( mehab.cssClasses.show );
+
+        }
+
+    }
+
+    function toggleModal( modal, show ) {
+
+        toggleModalBackground( show );
+
+        var action = "toggle";
+
+        if ( show === true ) {
+            action = "add";
+        } else if ( show === false ) {
+            action = "remove";
+        }
+
+        var $modals = self.qsa( ".modal" ),
+            $modal = self.qs( modal );
+
+        modal = modal.replace( ".", "" );
+
+        for ( var index = 0; index < $modals.length; index++ ) {
+
+            var target = $modals[ index ];
+
+            if ( !target.classList.contains( modal ) ) {
+                target.classList.remove( mehab.cssClasses.show );
+            }
+
+        }
+
+        if ( $modal ) {
+
+            $modal.classList[ action ]( mehab.cssClasses.show );
+
+        }
+
+    }
+
+    function authCallback( func ) {
+
+        if ( window.authorized ) {
+            func();
+        } else {
+            _authCallback.push( func );
+        }
+
+    }
+
+    function notAuthCallback( func ) {
+
+        if ( window.notAuthorized ) {
+            func();
+        } else {
+            _notAuthCallback.push( func );
+        }
+
+    }
+
+    function pageLoadedCallback( func ) {
+
+        if ( window.pageLoaded ) {
+            func();
+        } else {
+            _pageLoadedCallback.push( func );
+        }
+
+    }
+
+    function executeCallbacks( targets, params ) {
+        for ( var index = 0; index < targets.length; index++ ) {
+
+            targets[ index ]( params );
+
+        }
+
+    }
+
+    function fetchAndInsert( src ) {
+
+        return fetch( src )
+            .then( function ( response ) {
+
+                if ( response.ok ) {
+                    return response.text();
+                }
+            } )
+            .then( function ( html ) {
+
+                if ( html ) {
+
+                    document.body.appendChild( self.createFragment( html ) );
+                }
+
+            } );
+
+    }
+
+
     function registerServiceWorker() {
 
         if ( "serviceWorker" in navigator ) {
@@ -212,5 +442,18 @@
         } );
 
     }
+
+    window.httoolbox.app = {
+        PREFERENCE_KEY: PREFERENCE_KEY,
+        goToLogin: goToLogin,
+        toggleModalBackground: toggleModalBackground,
+        toggleModal: toggleModal,
+        authCallback: authCallback,
+        pageLoadedCallback: pageLoadedCallback,
+        notAuthCallback: notAuthCallback,
+        fetchAndInsert: fetchAndInsert,
+        siteConfig: siteConfig
+    };
+
 
 } )();

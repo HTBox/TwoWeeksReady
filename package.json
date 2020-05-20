@@ -23,7 +23,8 @@
     "mustache": "*",
     "ncp": "*",
     "strip-bom": "*",
-    "watch": "*"
+    "watch": "*",
+    "http-server": "0.9.0"
   },
   "dependencies": {
     "gitlog": "^4.0.0"

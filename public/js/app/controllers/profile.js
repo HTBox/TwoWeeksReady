@@ -2,36 +2,28 @@
 
     "use strict";
 
-    window.gvtc = window.gvtc || {};
-
-    var self = window.gvtc.component;
-
-    var qs;
+    var profile,
+        helpers = love2dev.component,
+        tableTarget = ".family-list",
+        $target = helpers.qs( tableTarget ),
+        family;
 
 
     function initialize() {
 
-        requestAnimationFrame( function () {
+        httoolbox.app.notAuthCallback( function () {
 
-            if ( window.pageLoaded ) {
-
-                if ( !window.authorized ) {
-
-                    location.href = "login/";
-
-                } else {
-
-                    //verify logged in
-                    getProfile()
-                        .then( bindEvents );
-
-                }
-
-            } else {
-                initialize();
-            }
+            admin.goToLogin();
 
         } );
+
+        httoolbox.app.authCallback( loadPage );
+
+    }
+
+    function loadPage() {
+
+        bindEvents();
 
     }
 
@@ -40,31 +32,6 @@
 
 
     }
-
-    function getProfile() {
-
-        return gvtc.user_data.getUserProfileData()
-            .then( function ( data ) {
-
-                return data.Data.Profile;
-
-            } )
-            .then( function ( profile ) {
-
-                return self.fetchAndRenderTemplate(
-                    "src/templates/profile.html ", profile );
-
-            } )
-            .then( function ( html ) {
-
-                var target = self.qs( ".main-content" );
-
-                target.innerHTML = html;
-
-            } );
-
-    }
-
 
     initialize();
 

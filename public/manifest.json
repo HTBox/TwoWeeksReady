@@ -536,7 +536,7 @@
     "short_name": "2W Ready",
     "lang": "en-US",
     "dir": "auto",
-    "theme_color": "##3C3C42",
+    "theme_color": "#064D80",
     "background_color": "#363636",
     "description": "Humanitarian Toolbox Two Week Ready"
 }
