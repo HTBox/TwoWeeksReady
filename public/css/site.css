@@ -1019,18 +1019,12 @@ a .row-title {
     background-color: var(--site-dark);
   }
 
-  /* .toggled .bar1 {
-        top: 6px;
-        animation: topbar-x .5s 0s;
-        animation-fill-mode: forwards;
-    }
-
-    .navbar .toggled .navbar-toggler-bar+.navbar-toggler-bar {
-        margin-top: 5px;
-    } */
-
   .navbar.bg-white:not(.navbar-transparent) .navbar-toggler-bar {
     background-color: #888;
+  }
+
+  .nav-open .navbar.bg-white:not(.navbar-transparent) .navbar-toggler-bar {
+    background-color: transparent;
   }
 }
 
