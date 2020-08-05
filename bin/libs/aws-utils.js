@@ -1,6 +1,6 @@
 const AWS = require( "aws-sdk" ),
     zlib = require( "zlib" ),
-    utils = require( "./helpers" ),
+    helpers = require( "./helpers" ),
     utf8 = "utf-8",
     region = "us-east-1";
 
@@ -66,9 +66,9 @@ exports.publishMessage = options => {
 
 exports.parseSNSMessage = data => {
 
-    data = utils.parse( data );
+    data = helpers.parse( data );
 
-    return utils.parse( data.Records[ 0 ].Sns.Message );
+    return helpers.parse( data.Records[ 0 ].Sns.Message );
 
 };
 
@@ -88,11 +88,37 @@ exports.uploadFile = options => {
 
     return new Promise( ( resolve, reject ) => {
 
+        let mime;
+
+        if ( !options.ContentType ) {
+
+            mime = helpers.getMimeType( options.key );
+
+            if ( !mime ) {
+
+                if ( options.key.includes( ".manifest" ) ) {
+
+                    mime = "application/manifest";
+
+                } else {
+
+                    mime = "octet/stream";
+
+                }
+            }
+
+            if ( options.isString ) {
+                //don't want to append this to binary files
+                mime += "; charset=utf-8";
+            }
+
+        }
+
         let params = {
             Bucket: options.Bucket,
-            ContentType: utils.getMimeType( options.key ),
-            CacheControl: "private, max-age=864000, s-max-age=10800",
-            ACL: "public-read",
+            ContentType: options.ContentType || mime,
+            CacheControl: options.CacheControl || "private, max-age=604800, s-max-age=10800",
+            ACL: options.ACL || "public-read",
             Key: options.key
         };
 
@@ -102,7 +128,7 @@ exports.uploadFile = options => {
 
         if ( options.gzip ) {
 
-            let buf = Buffer.from( options.body, utf8 );
+            let buf = Buffer.from( options.Body, utf8 );
 
             params.Body = zlib.gzipSync( buf, {
                 level: 9
@@ -112,14 +138,11 @@ exports.uploadFile = options => {
 
         } else {
 
-            params.Body = options.body;
+            params.Body = options.Body;
 
         }
 
-        let s3 = new AWS.S3( {
-
-
-        } );
+        let s3 = new AWS.S3();
 
         s3.upload( params, function ( err, data ) {
 
@@ -132,9 +155,7 @@ exports.uploadFile = options => {
 
             } else {
 
-                console.log( "Successfully uploaded " + data.key + ". " );
-
-                data.page = options.body;
+                //                console.log( "Successfully uploaded " + data.key + ". " );
 
                 resolve( data );
 

@@ -16,7 +16,7 @@
         _userPool, _cognitoUser, _authDetails;
 
     var region = "us-east-1",
-        ClientId = "5jpl91qnv4l6qut3m1jau9nvd4",
+        ClientId = "1sl9un1pvpjc2aul4f1qlctbjb",
         cognitoEndpoint = "https://cognito-idp." + region + ".amazonaws.com/",
         awsTarget = "AWSCognitoIdentityProviderService.",
         amznContentType = "application/x-amz-json-1.1",

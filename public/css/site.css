@@ -63,6 +63,8 @@ body {
 .main-content {
   min-height: calc(100vh - 80px);
   padding: 2em;
+  top: 90px;
+  position: relative;
 }
 
 .bg-primary-darker {
@@ -233,11 +235,11 @@ nav .show a {
   opacity: 1;
 }
 
-.nav-toggle:checked ~ nav {
+.nav-toggle:checked~nav {
   transform: scale(1, 1);
 }
 
-.nav-toggle:checked ~ nav a {
+.nav-toggle:checked~nav a {
   opacity: 1;
   transition: opacity 250ms ease-in-out 250ms;
 }
@@ -268,11 +270,11 @@ nav .show a {
   color: #ccc;
 }
 
-.nav-toggle:checked ~ nav {
+.nav-toggle:checked~nav {
   transform: scale(1, 1);
 }
 
-.nav-toggle:checked ~ nav a {
+.nav-toggle:checked~nav a {
   opacity: 1;
   transition: opacity 250ms ease-in-out 250ms;
 }
@@ -288,50 +290,16 @@ nav .show a {
 .off-canvas-sidebar .logo a.logo-normal,
 .off-canvas-sidebar .navbar-minimize,
 .off-canvas-sidebar .nav p,
-.off-canvas-sidebar
-  .sidebar-wrapper
-  .user
-  .info
-  [data-toggle="collapse"]
-  ~ div
-  > ul
-  > li
-  > a
-  span,
-.off-canvas-sidebar
-  .sidebar-wrapper
-  > .nav
-  [data-toggle="collapse"]
-  ~ div
-  > ul
-  > li
-  > a
-  span,
+.off-canvas-sidebar .sidebar-wrapper .user .info [data-toggle="collapse"]~div>ul>li>a span,
+.off-canvas-sidebar .sidebar-wrapper>.nav [data-toggle="collapse"]~div>ul>li>a span,
 .sidebar .logo a.logo-mini,
 .sidebar .logo a.logo-normal,
 .sidebar .nav a,
 .sidebar .nav a i,
 .sidebar .navbar-minimize,
 .sidebar .nav p,
-.sidebar
-  .sidebar-wrapper
-  .user
-  .info
-  [data-toggle="collapse"]
-  ~ div
-  > ul
-  > li
-  > a
-  span,
-.sidebar
-  .sidebar-wrapper
-  > .nav
-  [data-toggle="collapse"]
-  ~ div
-  > ul
-  > li
-  > a
-  span {
+.sidebar .sidebar-wrapper .user .info [data-toggle="collapse"]~div>ul>li>a span,
+.sidebar .sidebar-wrapper>.nav [data-toggle="collapse"]~div>ul>li>a span {
   transition: all 0.3s ease 0s;
 }
 
@@ -340,8 +308,8 @@ nav .show a {
   z-index: 1030;
 }
 
-.off-canvas-sidebar .nav li.active > a,
-.sidebar .nav li.active > a {
+.off-canvas-sidebar .nav li.active>a,
+.sidebar .nav li.active>a {
   background-color: var(--site-white);
   box-shadow: 0 1px 15px 1px rgba(39, 39, 39, 0.1);
 }
@@ -396,85 +364,17 @@ nav .show a {
   border: none;
 }
 
-.off-canvas-sidebar
-  .sidebar-wrapper
-  .user
-  .info
-  [data-toggle="collapse"]
-  ~ div
-  > ul
-  > li
-  > a
-  span,
-.off-canvas-sidebar
-  .sidebar-wrapper
-  > .nav
-  [data-toggle="collapse"]
-  ~ div
-  > ul
-  > li
-  > a
-  span,
-.sidebar
-  .sidebar-wrapper
-  .user
-  .info
-  [data-toggle="collapse"]
-  ~ div
-  > ul
-  > li
-  > a
-  span,
-.sidebar
-  .sidebar-wrapper
-  > .nav
-  [data-toggle="collapse"]
-  ~ div
-  > ul
-  > li
-  > a
-  span {
+.off-canvas-sidebar .sidebar-wrapper .user .info [data-toggle="collapse"]~div>ul>li>a span,
+.off-canvas-sidebar .sidebar-wrapper>.nav [data-toggle="collapse"]~div>ul>li>a span,
+.sidebar .sidebar-wrapper .user .info [data-toggle="collapse"]~div>ul>li>a span,
+.sidebar .sidebar-wrapper>.nav [data-toggle="collapse"]~div>ul>li>a span {
   display: inline-block;
 }
 
-.off-canvas-sidebar
-  .sidebar-wrapper
-  .user
-  .info
-  [data-toggle="collapse"]
-  ~ div
-  > ul
-  > li
-  > a
-  i,
-.off-canvas-sidebar
-  .sidebar-wrapper
-  > .nav
-  [data-toggle="collapse"]
-  ~ div
-  > ul
-  > li
-  > a
-  i,
-.sidebar
-  .sidebar-wrapper
-  .user
-  .info
-  [data-toggle="collapse"]
-  ~ div
-  > ul
-  > li
-  > a
-  i,
-.sidebar
-  .sidebar-wrapper
-  > .nav
-  [data-toggle="collapse"]
-  ~ div
-  > ul
-  > li
-  > a
-  i {
+.off-canvas-sidebar .sidebar-wrapper .user .info [data-toggle="collapse"]~div>ul>li>a i,
+.off-canvas-sidebar .sidebar-wrapper>.nav [data-toggle="collapse"]~div>ul>li>a i,
+.sidebar .sidebar-wrapper .user .info [data-toggle="collapse"]~div>ul>li>a i,
+.sidebar .sidebar-wrapper>.nav [data-toggle="collapse"]~div>ul>li>a i {
   font-size: 17px;
   line-height: 20px;
   width: 26px;
@@ -505,18 +405,18 @@ nav .show a {
   right: 10px;
 }
 
-.off-canvas-sidebar .nav li > a + div .nav li > a,
-.sidebar .nav li > a + div .nav li > a {
+.off-canvas-sidebar .nav li>a+div .nav li>a,
+.sidebar .nav li>a+div .nav li>a {
   margin-top: 7px;
 }
 
-.off-canvas-sidebar .nav li > a,
-.off-canvas-sidebar .nav li > a:not([href]):not([tabindex]):focus,
-.off-canvas-sidebar .nav li > a:not([href]):not([tabindex]):hover,
-.sidebar .nav li > a,
-.sidebar .nav li > .nav-link,
-.sidebar .nav li > a:not([href]):not([tabindex]):focus,
-.sidebar .nav li > a:not([href]):not([tabindex]):hover {
+.off-canvas-sidebar .nav li>a,
+.off-canvas-sidebar .nav li>a:not([href]):not([tabindex]):focus,
+.off-canvas-sidebar .nav li>a:not([href]):not([tabindex]):hover,
+.sidebar .nav li>a,
+.sidebar .nav li>.nav-link,
+.sidebar .nav li>a:not([href]):not([tabindex]):focus,
+.sidebar .nav li>a:not([href]):not([tabindex]):hover {
   margin: 10px 15px 0;
   color: var(--site-white-lightest);
   display: block;
@@ -528,52 +428,45 @@ nav .show a {
   line-height: 1.625rem;
 }
 
-.off-canvas-sidebar .nav li:first-child > a,
-.sidebar .nav li:first-child > a {
+.off-canvas-sidebar .nav li:first-child>a,
+.sidebar .nav li:first-child>a {
   margin: 0 15px;
 }
 
-.off-canvas-sidebar .nav li:focus:not(.active) > a,
-.off-canvas-sidebar .nav li:hover:not(.active) > a,
-.sidebar .nav li:focus:not(.active) > a,
-.sidebar .nav li:hover:not(.active) > a {
+.off-canvas-sidebar .nav li:focus:not(.active)>a,
+.off-canvas-sidebar .nav li:hover:not(.active)>a,
+.sidebar .nav li:focus:not(.active)>a,
+.sidebar .nav li:hover:not(.active)>a {
   background-color: hsla(0, 0%, 100%, 0.1);
 }
 
-.off-canvas-sidebar .nav li:focus:not(.active) > a i,
-.off-canvas-sidebar .nav li:hover:not(.active) > a i,
-.sidebar .nav li:focus:not(.active) > a i,
-.sidebar .nav li:hover:not(.active) > a i {
+.off-canvas-sidebar .nav li:focus:not(.active)>a i,
+.off-canvas-sidebar .nav li:hover:not(.active)>a i,
+.sidebar .nav li:focus:not(.active)>a i,
+.sidebar .nav li:hover:not(.active)>a i {
   color: var(--site-white);
 }
 
-.off-canvas-sidebar .nav li.active > a:not([data-toggle="collapse"]),
-.sidebar .nav li.active > a:not([data-toggle="collapse"]) {
+.off-canvas-sidebar .nav li.active>a:not([data-toggle="collapse"]),
+.sidebar .nav li.active>a:not([data-toggle="collapse"]) {
   background-color: var(--site-white);
   box-shadow: 0 1px 15px 1px rgba(39, 39, 39, 0.1);
 }
 
-.off-canvas-sidebar .nav li.active > a[data-toggle="collapse"],
-.sidebar .nav li.active > a[data-toggle="collapse"] {
+.off-canvas-sidebar .nav li.active>a[data-toggle="collapse"],
+.sidebar .nav li.active>a[data-toggle="collapse"] {
   background-color: hsla(0, 0%, 100%, 0.1);
   box-shadow: none;
   color: var(--site-white);
 }
 
-.off-canvas-sidebar .nav li.active > a[data-toggle="collapse"] i,
-.sidebar .nav li.active > a[data-toggle="collapse"] i {
+.off-canvas-sidebar .nav li.active>a[data-toggle="collapse"] i,
+.sidebar .nav li.active>a[data-toggle="collapse"] i {
   color: var(--site-white);
 }
 
-.off-canvas-sidebar
-  .nav
-  li.active
-  > a[data-toggle="collapse"]
-  + div
-  .nav
-  .active
-  a:after,
-.sidebar .nav li.active > a[data-toggle="collapse"] + div .nav .active a:after {
+.off-canvas-sidebar .nav li.active>a[data-toggle="collapse"]+div .nav .active a:after,
+.sidebar .nav li.active>a[data-toggle="collapse"]+div .nav .active a:after {
   content: "";
   position: absolute;
   background-color: var(--site-white);
@@ -736,10 +629,10 @@ nav .show a {
   background: #2ca8ff;
 }
 
-.off-canvas-sidebar[data-color="blue"] .nav li.active > a,
-.off-canvas-sidebar[data-color="blue"] .nav li.active > a i,
-.sidebar[data-color="blue"] .nav li.active > a,
-.sidebar[data-color="blue"] .nav li.active > a i {
+.off-canvas-sidebar[data-color="blue"] .nav li.active>a,
+.off-canvas-sidebar[data-color="blue"] .nav li.active>a i,
+.sidebar[data-color="blue"] .nav li.active>a,
+.sidebar[data-color="blue"] .nav li.active>a i {
   color: #2ca8ff;
 }
 
@@ -748,10 +641,10 @@ nav .show a {
   background: #18ce0f;
 }
 
-.off-canvas-sidebar[data-color="green"] .nav li.active > a,
-.off-canvas-sidebar[data-color="green"] .nav li.active > a i,
-.sidebar[data-color="green"] .nav li.active > a,
-.sidebar[data-color="green"] .nav li.active > a i {
+.off-canvas-sidebar[data-color="green"] .nav li.active>a,
+.off-canvas-sidebar[data-color="green"] .nav li.active>a i,
+.sidebar[data-color="green"] .nav li.active>a,
+.sidebar[data-color="green"] .nav li.active>a i {
   color: #18ce0f;
 }
 
@@ -760,10 +653,10 @@ nav .show a {
   background: #f96332;
 }
 
-.off-canvas-sidebar[data-color="orange"] .nav li.active > a,
-.off-canvas-sidebar[data-color="orange"] .nav li.active > a i,
-.sidebar[data-color="orange"] .nav li.active > a,
-.sidebar[data-color="orange"] .nav li.active > a i {
+.off-canvas-sidebar[data-color="orange"] .nav li.active>a,
+.off-canvas-sidebar[data-color="orange"] .nav li.active>a i,
+.sidebar[data-color="orange"] .nav li.active>a,
+.sidebar[data-color="orange"] .nav li.active>a i {
   color: #f96332;
 }
 
@@ -772,10 +665,10 @@ nav .show a {
   background: #ff3636;
 }
 
-.off-canvas-sidebar[data-color="red"] .nav li.active > a,
-.off-canvas-sidebar[data-color="red"] .nav li.active > a i,
-.sidebar[data-color="red"] .nav li.active > a,
-.sidebar[data-color="red"] .nav li.active > a i {
+.off-canvas-sidebar[data-color="red"] .nav li.active>a,
+.off-canvas-sidebar[data-color="red"] .nav li.active>a i,
+.sidebar[data-color="red"] .nav li.active>a,
+.sidebar[data-color="red"] .nav li.active>a i {
   color: #ff3636;
 }
 
@@ -784,10 +677,10 @@ nav .show a {
   background: #ffb236;
 }
 
-.off-canvas-sidebar[data-color="yellow"] .nav li.active > a,
-.off-canvas-sidebar[data-color="yellow"] .nav li.active > a i,
-.sidebar[data-color="yellow"] .nav li.active > a,
-.sidebar[data-color="yellow"] .nav li.active > a i {
+.off-canvas-sidebar[data-color="yellow"] .nav li.active>a,
+.off-canvas-sidebar[data-color="yellow"] .nav li.active>a i,
+.sidebar[data-color="yellow"] .nav li.active>a,
+.sidebar[data-color="yellow"] .nav li.active>a i {
   color: #ffb236;
 }
 
@@ -841,10 +734,10 @@ a.gvtc-record-row {
   border-bottom: 1px solid var(--site-dark-darkest);
 }
 
-.md-form input:focus + label,
-.md-form textarea:focus + label,
-.md-form input:not([value=""]) + label,
-.md-form textarea:not([value=""]) + label {
+.md-form input:focus+label,
+.md-form textarea:focus+label,
+.md-form input:not([value=""])+label,
+.md-form textarea:not([value=""])+label {
   transform: translateY(-14px) scale(0.8);
 }
 
@@ -865,18 +758,18 @@ a.gvtc-record-row {
   border-bottom: 1px solid var(--site-purple);
 }
 
-.md-form input[type="date"]:focus:not([readonly]) + label,
-.md-form input[type="datetime-local"]:focus:not([readonly]) + label,
-.md-form input[type="email"]:focus:not([readonly]) + label,
-.md-form input[type="number"]:focus:not([readonly]) + label,
-.md-form input[type="password"]:focus:not([readonly]) + label,
-.md-form input[type="search-md"]:focus:not([readonly]) + label,
-.md-form input[type="search"]:focus:not([readonly]) + label,
-.md-form input[type="tel"]:focus:not([readonly]) + label,
-.md-form input[type="text"]:focus:not([readonly]) + label,
-.md-form input[type="time"]:focus:not([readonly]) + label,
-.md-form input[type="url"]:focus:not([readonly]) + label,
-.md-form textarea.md-textarea:focus:not([readonly]) + label {
+.md-form input[type="date"]:focus:not([readonly])+label,
+.md-form input[type="datetime-local"]:focus:not([readonly])+label,
+.md-form input[type="email"]:focus:not([readonly])+label,
+.md-form input[type="number"]:focus:not([readonly])+label,
+.md-form input[type="password"]:focus:not([readonly])+label,
+.md-form input[type="search-md"]:focus:not([readonly])+label,
+.md-form input[type="search"]:focus:not([readonly])+label,
+.md-form input[type="tel"]:focus:not([readonly])+label,
+.md-form input[type="text"]:focus:not([readonly])+label,
+.md-form input[type="time"]:focus:not([readonly])+label,
+.md-form input[type="url"]:focus:not([readonly])+label,
+.md-form textarea.md-textarea:focus:not([readonly])+label {
   color: var(--site-purple);
 }
 
@@ -996,7 +889,7 @@ a .row-title {
   .nav-open .main-panel,
   .nav-open .page-footer {
     right: 0;
-    transform: translate3d(var(--sidebar-width), 0, 0);
+    /* transform: translate3d(var(--sidebar-width), 0, 0); */
   }
 
   .nav-open .sidebar {
@@ -1109,7 +1002,7 @@ a .row-title {
   padding-left: 0;
 }
 
-.fa-ul > li {
+.fa-ul>li {
   position: relative;
 }
 
@@ -1255,7 +1148,9 @@ a .row-title {
 
 @media (min-width: 992px) {
   .main-content {
-    /* margin-top: 100px; */
+
+    top: 1em;
+
   }
 
   .main-panel,
@@ -1286,6 +1181,7 @@ a .row-title {
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+
   .bootstrap-navbar,
   .sidebar {
     position: fixed;
