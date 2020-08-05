@@ -3,21 +3,12 @@
     "use strict";
 
     var profile,
-        helpers = love2dev.component,
-        tableTarget = ".family-list",
-        $target = helpers.qs( tableTarget ),
-        family;
+        helpers = love2dev.component;
 
 
     function initialize() {
 
-        love2dev.app.notAuthCallback( function () {
-
-            admin.goToLogin();
-
-        } );
-
-        love2dev.app.authCallback( loadPage );
+        loadPage();
 
     }
 
@@ -32,6 +23,9 @@
 
 
     }
+
+
+
 
     initialize();
 

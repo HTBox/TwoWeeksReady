@@ -9,17 +9,24 @@
         family;
 
 
+    // function initialize() {
+
+    //     love2dev.app.notAuthCallback( function () {
+
+    //         admin.goToLogin();
+
+    //     } );
+
+    //     love2dev.app.authCallback( loadPage );
+
+    // }
+
     function initialize() {
 
-        love2dev.app.notAuthCallback( function () {
-
-            admin.goToLogin();
-
-        } );
-
-        love2dev.app.authCallback( loadPage );
+        loadPage();
 
     }
+
 
     function loadPage() {
 

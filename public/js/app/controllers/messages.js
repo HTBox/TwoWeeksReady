@@ -2,14 +2,17 @@
 
     "use strict";
 
-    window.gvtc = window.gvtc || {};
-
-    var self = window.gvtc.component;
+    var profile,
+        helpers = love2dev.component;
 
 
     function initialize() {
 
-        //verify logged in
+        loadPage();
+
+    }
+
+    function loadPage() {
 
         bindEvents();
 
