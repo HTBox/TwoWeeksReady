@@ -2,7 +2,7 @@ const glob = require( "glob" ),
     render = require( "./render-pages" );
 
 
-glob( "../public/src/pages/**/*.html", function ( er, files ) {
+glob( "./public/pages/**/*.json", function ( er, files ) {
 
     for ( let index = 0; index < files.length; index++ ) {
 

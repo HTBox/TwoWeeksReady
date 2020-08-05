@@ -367,6 +367,12 @@ module.exports = {
 
     },
 
+    render: function ( src, data ) {
+
+        return template.render( src, data );
+
+    },
+
     generateFile: function ( src, dest, data, override ) {
 
         override = override || false;

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <base href="/">
+
+    <link href="login/" rel="canonical">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <link href="css/mdc.snackbar.min.css" rel="stylesheet">
+    <link href="css/site.css" rel="stylesheet">
+    <link href="css/login.css" rel="stylesheet">
+
+    <title>Annum Login</title>
+    <meta name="description" content="Annum Login">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
+
+    <link href="favicon.ico" rel="shortcut icon">
+
+    <meta name="theme-color" content="#cc06c8">
+
+    <link rel="apple-touch-icon" href="app/meta/ios/ios-appicon-180-180.jpg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+
+    <meta name="application-name" content="Annum" />
+    <meta name="msapplication-config" content="IEconfig.xml" />
+
+    <meta name="msapplication-allowDomainMetaTags" content="true">
+    <meta name="msapplication-navbutton-color" content="#111">
+
+    <meta name="msapplication-starturl" content="app/">
+    <meta name="msapplication-tooltip" content="Annum">
+
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Annum">
+    <meta property="og:description" content="Annum">
+    <meta property="og:url" content="https://annumhousing.com/">
+    <meta property="og:site_name" content="Annum">
+    <meta property="og:image" content="https://annumhousing.com/meta/windows10/Square620x620Logo.scale-200.jpg">
+    <meta property="og:image:width" content="320">
+    <meta property="og:image:height" content="155">
+    <link rel="manifest" href="manifest.json">
+
+</head>
+
+<body>
+
+    <main class="px-2 py-0 d-flex justify-content-center align-items-center">
+        <div
+            class="z-depth-2 d-flex flex-column login-container shadow p-3 mb-5 login-form form-container bg-white text-dark">
+            <header class="text-center">
+                <div class="bg-white">
+                    <div class="col-12 mb-1">
+                        <img srcset="img/2-weeks-ready-rectangle-209x118.png 209w"
+                            src="img/2-weeks-ready-rectangle-209x118.png"
+                            sizes="(max-width: 480px) 60vw, (max-width: 1025px) 200px, 300px" alt="2 Weeks Ready">
+                    </div>
+                    <div class="col-12">
+                        <h1>Change Password</h1>
+                    </div>
+                </div>
+            </header>
+
+            <form class="col-12 change_password_form" method="post">
+                <div class="md-form login-form-error d-none">
+                    <h3 class="error_message text-danger"></h3>
+                </div>
+                <div class="md-form">
+                    <input type="password" class="form-control validate" name="Current_Password" tabindex="10" autofocus
+                        autocomplete="current-password" required>
+                    <label for="Current_Password">Current Password</label>
+                </div>
+                <div class="md-form">
+                    <input type="password" class="form-control validate" name="New_Password" tabindex="20"
+                        autocomplete="new-password" required>
+                    <label for="New_Password">New Password</label>
+                </div>
+                <div class="md-form text-center">
+                    <button type="submit" name="btn_change_password" tabindex="10" class="btn btn-large btn_change_password ripple btn-primary col-sm-12
+                        col-lg-6 mx-auto">Change Password</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="js/libs/localforage.min.js" type="application/javascript"></script>
+    <script src="js/app/ui/component.base.js" type="application/javascript"></script>
+    <script src="js/app/services/http.js" type="application/javascript"></script>
+
+
+    <script src="js/app/services/auth.js" type="application/javascript"></script>
+    <script src="js/app/services/data.js" type="application/javascript"></script>
+    <script src="js/app.js" type="application/javascript"></script>
+    <script src="js/app/controllers/change-password.js" type="application/javascript"></script>
+
+</body>
+
+</html>

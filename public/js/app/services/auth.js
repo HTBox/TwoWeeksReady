@@ -1,28 +1,22 @@
-( function () {
+( function ( window ) {
 
     "use strict";
-
-    gvtc.utils.nameSpace( "gvtc.auth" );
 
     var ACCESS_TOKEN = "access_token",
         REFRESH_TOKEN = "refresh_token",
         ID_TOKEN = "id_token",
         token_expires = "token_expires",
         cognitoGroups = "cognito:groups",
+        user_keys = [ "user",
+            "shopping_cart"
+        ],
         USER_ATTRIBUTES = "user-attributes",
         USER_DATA_KEY = "user-data",
         USER_PROFILE = "-user-profile",
-        api_url = "",
         _userPool, _cognitoUser, _authDetails;
 
-    /*
-    TODO: region & clientId should come from configuration
-        really should be part of a configuration object rendered & loaded
-        that identifies the application
-    */
-
     var region = "us-east-1",
-        ClientId = "g3s9sel4at838a6uv53pt2c14",
+        ClientId = "5jpl91qnv4l6qut3m1jau9nvd4",
         cognitoEndpoint = "https://cognito-idp." + region + ".amazonaws.com/",
         awsTarget = "AWSCognitoIdentityProviderService.",
         amznContentType = "application/x-amz-json-1.1",
@@ -105,16 +99,29 @@
 
     }
 
-    function refreshTokens() {
+    function refreshTokens( redirect ) {
+
+        if ( redirect === undefined ) {
+            redirect = true;
+        }
 
         return getRefreshToken()
             .then( function ( token ) {
 
                 if ( !token ) {
 
-                    throw {
-                        message: "no refresh token"
-                    };
+                    console.log( "refresh token has expired so force the user to login" );
+
+                    if ( !redirect ) {
+
+                        return removeAuthTokens( false );
+
+                    } else {
+
+                        return removeAuthTokens( location.pathname.indexOf( "login" ) === -1 &&
+                            location.pathname.indexOf( "signup" ) === -1 );
+
+                    }
 
                 }
 
@@ -136,33 +143,50 @@
             } )
             .then( function ( response ) {
 
-                if ( response.ok ) {
+                if ( response && !response.length ) {
 
-                    if ( response.status === 400 ||
-                        response.status === 403 ) {
+                    if ( response.ok ) {
 
-                        throw {
-                            message: "not authorized",
-                            status: response.status
-                        };
+                        if ( response.status === 400 ||
+                            response.status === 403 ) {
+
+                            return;
+
+                        }
+
+                        return response.json();
+
+                    } else {
+
+                        return;
+
                     }
-
-                    return response.json();
 
                 } else {
 
-                    throw {
-                        message: "authentication error",
-                        status: response.status
-                    };
+                    return;
 
                 }
 
             } )
             .then( function ( tokens ) {
 
-                return saveAuthTokens( tokens );
+                return saveAuthTokens( tokens )
+                    .then( function () {
+                        return;
+                    } );
 
+            } );
+
+    }
+
+    function signOutRedirect( redirect ) {
+        return signOut()
+            .then( function () {
+
+                if ( redirect || redirect === undefined ) {
+                    love2dev.app.goToLogin();
+                }
             } );
 
     }
@@ -172,7 +196,38 @@
     }
 
     function getIdToken() {
-        return localforage.getItem( ID_TOKEN );
+
+        return localforage.getItem( ID_TOKEN )
+            .then( function ( token ) {
+
+                if ( !token ) {
+                    return null;
+                }
+
+                return localforage.getItem( token_expires )
+                    .then( function ( expires ) {
+
+                        if ( !expires ) {
+                            return false;
+                        }
+
+                        if ( expires < new Date() ) {
+
+                            return refreshTokens()
+                                .then( function () {
+                                    return localforage.getItem( ID_TOKEN );
+                                } );
+
+                        } else {
+
+                            return token;
+
+                        }
+
+                    } );
+
+            } );
+
     }
 
     function getAccessToken() {
@@ -180,6 +235,10 @@
     }
 
     function saveAuthTokens( tokens ) {
+
+        if ( !tokens ) {
+            return Promise.resolve();
+        }
 
         tokens = tokens.AuthenticationResult;
 
@@ -328,8 +387,7 @@
 
     function setUserAttributes( value ) {
 
-        return localforage.setItem( USER_ATTRIBUTES,
-            value );
+        return localforage.setItem( USER_ATTRIBUTES, value );
 
     }
 
@@ -357,7 +415,7 @@
         return JSON.parse( result );
     }
 
-    function signOut() {
+    function removeAuthTokens( redirect ) {
 
         var saves = [];
 
@@ -365,66 +423,101 @@
         saves.push( localforage.removeItem( ACCESS_TOKEN ) );
         saves.push( localforage.removeItem( REFRESH_TOKEN ) );
         saves.push( localforage.removeItem( token_expires ) );
-        saves.push( localforage.removeItem( USER_PROFILE ) );
+        saves.push( localforage.removeItem( cognitoGroups ) );
 
         return Promise.all( saves )
             .then( function () {
-                window.location.href = "../login/";
+
+                if ( redirect || redirect === undefined ) {
+                    love2dev.app.goToLogin();
+                }
+
             } );
 
     }
 
-    function changePassword( oldUserPassword, newUserPassword ) {
+    function signOut() {
 
-        var resp,
-            responseJsonData;
+        return localforage.keys().then( function ( keys ) {
 
-        updateAuthentication()
-            .then( function ( auth ) {
+            var saves = [];
 
-                //access Token
-                return getAccessToken();
+            saves.push( localforage.removeItem( ID_TOKEN ) );
+            saves.push( localforage.removeItem( ACCESS_TOKEN ) );
+            saves.push( localforage.removeItem( REFRESH_TOKEN ) );
+            saves.push( localforage.removeItem( token_expires ) );
+            saves.push( localforage.removeItem( cognitoGroups ) );
 
-            } )
+            for ( var index = 0; index < keys.length; index++ ) {
+
+                for ( var k = 0; k < user_keys.length; k++ ) {
+
+                    if ( keys[ index ].indexOf( user_keys[ k ] ) > -1 ) {
+
+                        saves.push( localforage.removeItem( keys[ index ] ) );
+
+                    }
+
+                }
+
+            }
+
+            return Promise.all( saves );
+
+        } );
+
+    }
+
+    function changePassword( currentPassword, newUserPassword ) {
+
+        return getAccessToken()
             .then( function ( token ) {
 
-                var config = cognitoConfig;
+                if ( token ) {
 
-                config.headers[ amznTarget ] = awsTarget + "ChangePassword";
+                    var config = cognitoConfig;
 
-                config.body = JSON.stringify( {
-                    PreviousPassword: oldUserPassword,
-                    ProposedPassword: newUserPassword,
-                    AccessToken: token
-                } );
+                    config.headers[ amznTarget ] = awsTarget + "ChangePassword";
 
-                return fetch( cognitoEndpoint, config )
-                    .then( function ( response ) {
+                    config.body = JSON.stringify( {
+                        PreviousPassword: currentPassword,
+                        ProposedPassword: newUserPassword,
+                        AccessToken: token
+                    } );
 
-                        resp = response;
+                    return fetch( cognitoEndpoint, config )
+                        .then( function ( response ) {
 
-                        if ( response.ok ) {
+                            resp = response;
 
-                            if ( response.status === 400 ||
-                                response.status === 403 ) {
-                                window.location.href = "../login/";
+                            if ( response.ok ) {
+
+                                if ( response.status === 400 ||
+                                    response.status === 403 ) {
+                                    window.location.href = "../login/";
+                                }
+
+                                return response.json();
+
                             }
 
-                            return response.json();
+                        } )
+                        .then( function ( tokens ) {
 
-                        }
+                            return saveAuthTokens( tokens );
 
-                    } )
-                    .then( function ( tokens ) {
+                        } )
+                        .then( function ( token ) {
 
-                        return saveAuthTokens( tokens );
+                            return decodeJWT( token );
 
-                    } )
-                    .then( function ( token ) {
+                        } );
 
-                        return decodeJWT( token );
+                } else {
 
-                    } );
+                    love2dev.app.goToLogin();
+
+                }
 
             } )
             .catch( function ( error ) {
@@ -435,46 +528,12 @@
 
     }
 
-    function updateAuthentication() {
-
-        isAuthenticated()
-            .then( function ( auth ) {
-
-                if ( !auth ) {
-
-                    return refreshTokens();
-
-                }
-
-                return true;
-
-            } );
-
-    }
-
     function isAuthenticated() {
 
         return getIdToken()
             .then( function ( token ) {
 
-                return localforage.getItem( token_expires )
-                    .then( function ( expires ) {
-
-                        if ( !expires ) {
-                            return false;
-                        }
-
-                        if ( expires < new Date() ) {
-
-                            return false;
-
-                        } else {
-
-                            return !!token;
-
-                        }
-
-                    } );
+                return !!token;
 
             } );
 
@@ -524,13 +583,7 @@
         return fetch( cognitoEndpoint, config )
             .then( function ( response ) {
 
-                if ( response.ok ) {
-
-                    return response.json();
-
-                } else {
-                    throw response.status;
-                }
+                return response.json();
 
             } );
 
@@ -559,21 +612,29 @@
         return fetch( cognitoEndpoint, config )
             .then( function ( response ) {
 
-                if ( response.ok ) {
-
-                    return response.json();
-
-                } else {
+                if ( response.status === 400 ||
+                    response.status === 403 ) {
 
                     return response.json()
-                        .then( function ( message ) {
+                        .then( function ( err ) {
 
-                            throw {
-                                "status": response.status,
-                                "message": message
+                            if ( err.__type === "NotAuthorizedException" ) {
+
+                                return {};
+
+                            } else {
+
+                                err.status = err.status || response.status;
+
+                                throw err;
+
                             }
 
                         } );
+
+                } else if ( response.ok ) {
+
+                    return response.json();
 
                 }
 
@@ -595,13 +656,7 @@
         return fetch( cognitoEndpoint, config )
             .then( function ( response ) {
 
-                if ( response.ok ) {
-
-                    return response.json();
-
-                } else {
-                    throw response.status;
-                }
+                return response.json();
 
             } );
 
@@ -621,13 +676,7 @@
         return fetch( cognitoEndpoint, config )
             .then( function ( response ) {
 
-                if ( response.ok ) {
-
-                    return response.json();
-
-                } else {
-                    throw response.status;
-                }
+                return response.json();
 
             } );
 
@@ -679,29 +728,21 @@
                     return response.json();
 
                 } else {
-                    throw response.status;
+
+                    return response.text()
+                        .then( function ( error ) {
+
+                            throw {
+                                status: response.status,
+                                message: JSON.parse( error )
+                            };
+
+                        } );
+
+                    //400
+                    //{"__type":"UsernameExistsException","message":"User already exists"}
                 }
 
-            } )
-            .then( function ( cognito_data ) {
-
-                //post to OMP API to create user
-                /*
-                                return fetch( api_url + "user/", {
-                                    mode: "cors",
-                                    method: "POST",
-                                    body: JSON.stringify( {
-                                        given_name: options.given_name,
-                                        family_name: options.family_name,
-                                        email: options.email,
-                                        company_name: options.company_name,
-                                        Username: options.username,
-                                        Password: options.password,
-                                        UserAttributes: options.userAttributes,
-                                        groups: options.groups
-                                    } )
-                                } );
-                */
             } );
 
     }
@@ -739,7 +780,7 @@
 
                                         if ( response.status === 400 ||
                                             response.status === 403 ) {
-                                            window.location.href = "login/";
+                                            //             window.love2dev.app.goToLogin();
                                         }
 
                                         return response.json();
@@ -818,7 +859,7 @@
 
     }
 
-    gvtc.auth = {
+    love2dev.auth = {
 
         loginUser: loginUser,
         signOut: signOut,
@@ -861,8 +902,9 @@
 
         isAuthenticated: isAuthenticated,
 
-        isUserAuthorized: isUserAuthorized
+        isUserAuthorized: isUserAuthorized,
+        signOutRedirect: signOutRedirect
 
     };
 
-}() );
+}( this ) );

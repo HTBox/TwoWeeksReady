@@ -68,15 +68,15 @@
     <meta name="generator" content="PWA Starter">
 </head>
 
-<body class="grey lighten-3">
+<body class="grey lighten-3" ontouchstart="">
 
     <section class="wrapper">
 
         <aside class="sidebar bg-orange">
             <div class="logo">
                 <a href="/" class="simple-text">
-                    <img srcset="img/2-weeks-ready-rectangle-320x118.png 320w"
-                        src="img/2-weeks-ready-rectangle-320x118.png" sizes="236px"
+                    <img srcset="img/2-weeks-ready-rectangle-209x118.png 209w, img/2-weeks-ready-rectangle-273x155.png 273w, img/2-weeks-ready-rectangle-499x284.png 499w"
+                        src="img/2-weeks-ready-rectangle-209x118.png" sizes="236px"
                         alt="Two Week Ready - Humanitarian Toolbox" class="site-logo">
                 </a></div>
             </div>
@@ -123,8 +123,8 @@
                             </label>
                         </div>
                     </div>
-                    <img srcset="img/2-weeks-ready-rectangle-320x118.png 320w"
-                        src="img/2-weeks-ready-rectangle-320x118.png" sizes="320px"
+                    <img srcset="img/2-weeks-ready-rectangle-209x118.png 209w, img/2-weeks-ready-rectangle-273x155.png 273w, img/2-weeks-ready-rectangle-499x284.png 499w"
+                        src="img/2-weeks-ready-rectangle-209x118.png" sizes="(max-width: 375px) 150px, 209px"
                         alt="Two Week Ready - Humanitarian Toolbox" class="site-logo">
                 </div>
             </nav>
@@ -252,18 +252,36 @@
         </div>
     </div>
 
+    <div class="search-shelf-wrapper col-12 annimated slideInDown px-4 py-2">
+        <div class="md-form">
+            <input type="search" class="form-control" name="search-term" tabindex="999" placeholder="Search">
+        </div>
+        <div class="search-preview-wrapper d-flex flex-wrap"></div>
+        <div class="d-flex col-12 p-2 justify-content-end">
+            <a href="search/" class="btn btn-link text-black mr-2 btn-search-all">see all results</a>
+        </div>
+    </div>
 
-    <script src="js/libs/addtohomescreen.min.js" type="application/javascript"></script>
+
+    <!--Core Scripts-->
+    <script src="js/libs/addtohomescreen.js" type="application/javascript"></script>
     <script src="js/libs/localforage.min.js" type="application/javascript"></script>
     <script src="js/libs/mustache.min.js" type="application/javascript"></script>
+    <script src="js/libs/dollar-bill.js" type="application/javascript"></script>
     <script src="js/app/ui/component.base.js" type="application/javascript"></script>
+    <script src="js/libs/lazy.images.js" type="application/javascript"></script>
     <script src="js/app/services/http.js" type="application/javascript"></script>
-    <script src="js/app/services/utils.js" type="application/javascript"></script>
-    <script src="js/app/services/auth.js" type="application/javascript"></script>
     <script src="js/app/services/data.js" type="application/javascript"></script>
+    <script src="js/app/services/auth.js" type="application/javascript"></script>
+    <script src="js/app/services/user.js" type="application/javascript"></script>
+    <script src="js/app/services/site.js" type="application/javascript"></script>
     <script src="js/app/services/httoolbox.js" type="application/javascript"></script>
-    <script src="js/app.js"></script>
-    <script src="js/app/controllers/home.js"></script>
+    <!--Page Service Scripts-->
+    <!--Core App Scripts-->
+    <script src="js/app.js" type="application/javascript"></script>
+    <script src="js/app/ui/profile-nav.js" type="application/javascript"></script>
+    <!--Controllers Scripts-->
+    <script src="js/app/controllers/home.js" type="application/javascript"></script>
 
 </body>
 

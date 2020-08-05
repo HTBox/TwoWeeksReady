@@ -7,14 +7,12 @@ service worker and trigger the actions either via
 a URL request or a messaging routine
 */
 
-( function () {
+( function ( window ) {
 
     "use strict";
 
-    gvtc.utils.nameSpace( "gvtc.data" );
-
     var _STALE_KEY = "-expires",
-        MAX_LIST_CACHE = 15;
+        MAX_LIST_CACHE = 60 * 15;
 
     //actually get individual item from local cache rather than from cloud DB
     //this routine should keep the local cache fresh while reducing network traffic
@@ -36,37 +34,16 @@ a URL request or a messaging routine
         }
 
         //most likely coming from IDB
-        return getItems( options, apiURL, ITEM_KEY )
-            .then( function ( items ) {
+        return getLocalItems( options, ITEM_KEY )
+            .then( function ( item ) {
 
-                if ( !items.length ) {
+                if ( item ) {
 
-                    return items;
+                    return item;
 
                 } else {
 
-                    for ( var index = 0; index < items.length; index++ ) {
-
-                        var item = items[ index ];
-
-                        //custom object comparison routine
-                        if ( options.compare ) {
-
-                            if ( options.compare( item ) ) {
-                                return item;
-                            }
-
-                        } else {
-
-                            if ( options.id === item[ options.idName ] ) {
-
-                                return item;
-
-                            }
-
-                        }
-
-                    }
+                    return fetchFromCloud( apiURL, options, ITEM_KEY );
 
                 }
 
@@ -76,6 +53,8 @@ a URL request or a messaging routine
 
     function getItems( options, apiURL, ITEM_KEY ) {
 
+        options = options || {};
+
         return getLocalItems( options, ITEM_KEY )
             .then( function ( items ) {
 
@@ -83,38 +62,51 @@ a URL request or a messaging routine
                     return items;
                 } else {
 
-                    //the apiURL should be completed before this layer
-                    //should include all queryString parameters to drive the 
-                    //API request
-                    return gvtc.http.get( {
-                            "method": "GET",
-                            //       "mode": "cors",
-                            "url": apiURL
-                        } )
-                        .then( function ( response ) {
+                    return fetchFromCloud( apiURL, options, ITEM_KEY );
+                }
 
-                            if ( response.ok ) {
+            } );
 
-                                return response.json();
+    }
 
-                            }
+    function fetchFromCloud( apiURL, options, ITEM_KEY ) {
 
-                            throw response.status;
+        //the apiURL should be completed before this layer
+        //should include all queryString parameters to drive the 
+        //API request
+        return love2dev.http.authorized( {
+                "method": "GET",
+                "mode": "cors",
+                "url": apiURL
+            } )
+            .then( function ( response ) {
 
-                        } )
-                        .then( function ( items ) {
+                if ( response ) {
 
-                            if ( items.length && items.length > 0 ) {
+                    if ( response.ok ) {
 
-                                return saveLocalItems( items, ITEM_KEY );
+                        return response.json();
 
-                            } else {
+                    }
 
-                                return Promise.resolve( items );
+                    throw response.status;
 
-                            }
+                }
 
-                        } );
+                throw {
+                    "message": "no response"
+                };
+
+            } )
+            .then( function ( items ) {
+
+                if ( items ) {
+
+                    return saveLocalItems( items, ITEM_KEY, options.ttl );
+
+                } else {
+
+                    return Promise.resolve( items );
 
                 }
 
@@ -130,7 +122,7 @@ a URL request or a messaging routine
 
         options.body.date_updated = new Date().toISOString();
 
-        return gvtc.http.authorized( {
+        return love2dev.http.authorized( {
                 "method": "POST",
                 "mode": "cors",
                 "url": apiURL,
@@ -161,21 +153,12 @@ a URL request or a messaging routine
 
     }
 
-    function deleteItem( options, apiURL, ITEM_KEY ) {
+    function deleteItem( ITEM_KEY ) {
 
-        return gvtc.http.authorized( {
-                "method": "DELETE",
-                "mode": "cors",
-                "url": apiURL
-            } )
-            .then( function ( response ) {
+        return localforage.removeItem( ITEM_KEY )
+            .then( function () {
 
-                if ( response.ok ) {
-
-                    return response.json();
-
-                }
-
+                return localforage.removeItem( ITEM_KEY + _STALE_KEY );
             } );
 
     }
@@ -216,8 +199,7 @@ a URL request or a messaging routine
 
                 dt.setMinutes( dt.getMinutes() + expires );
 
-                return localforage
-                    .setItem( ITEM_KEY + _STALE_KEY, dt );
+                return localforage.setItem( ITEM_KEY + _STALE_KEY, dt );
 
             } )
             .then( function () {
@@ -225,21 +207,58 @@ a URL request or a messaging routine
             } );
     }
 
+    function sortData( src, sortRules ) {
+
+        var asc = "asc",
+            result = src;
+
+        //assume sort direction will either be ascending or descending
+
+        for ( var index = 0; index < sortRules.length; index++ ) {
+
+            var rule = sortRules[ index ];
+
+            result.sort( function ( a, b ) {
+
+                var aField = a[ rule.field ],
+                    bField = b[ rule.field ];
+
+                if ( typeof aField === "string" ) {
+                    aField = aField.toUpperCase();
+                    bField = bField.toUpperCase();
+                }
+
+                if ( aField === bField ) {
+                    return 0;
+                } else if ( rule.direction === asc ) {
+
+                    return ( aField > bField ) ? 1 : -1;
+
+                } else {
+
+                    return ( aField > bField ) ? -1 : 1;
+
+                }
+
+            } );
+
+        }
+
+        return result;
+
+    }
+
     //standard crud patterns & routines
-    gvtc.data = {
+    love2dev.data = {
 
         getItem: getItem,
-
         getItems: getItems,
-
         updateItem: updateItem,
-
         deleteItem: deleteItem,
-
         getLocalItems: getLocalItems,
-
-        saveLocalItems: saveLocalItems
+        saveLocalItems: saveLocalItems,
+        sortData: sortData
 
     };
 
-}() );
+} )( this );

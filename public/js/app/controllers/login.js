@@ -2,40 +2,74 @@
 
     "use strict";
 
-    window.gvtc = window.gvtc || {};
+    window.love2dev = window.love2dev || {};
 
-    var self = window.gvtc.component;
+    var self = window.love2dev.component;
 
     var cognitoGroups = "cognito:groups",
-        username = "",
-        dFlex = "d-flex",
-        dNone = "d-none",
         cognitoChallenge;
+
+    var $username = self.qs( "[name='Username']" ),
+        $password = self.qs( "[name='Password']" ),
+        $loginSubmit = self.qs( "[name='btn_login']" ),
+        $given_name = self.qs( "[name='given_name']" ),
+        $family_name = self.qs( "[name='family_name']" ),
+        $new_password = self.qs( "[name='new_password']" ),
+        $confirm_new_password = self.qs( "[name='confirm_new_assword']" ),
+        $newPasswordSubmit = self.qs( ".btn-new_password-submit" );
 
     function initialize() {
 
-        gvtc.auth.getIdToken()
-            .then( function ( token ) {
+        love2dev.app.authCallback( function () {
 
-                if ( token ) {
+            window.location.href = "/";
 
-                    window.location.href = "/";
+        } );
 
-                } else {
-
-                    bindEvents();
-
-                }
-
-            } );
+        love2dev.app.notAuthCallback( bindEvents );
 
     }
 
     function bindEvents() {
 
-        self.on( ".loginform", gvtc.events.submit, handleLogin, false );
+        self.on( ".loginform", love2dev.events.submit, handleLogin, false );
 
-        self.on( ".btn-challenge-change-password", gvtc.events.click, handleChallengePasswordChange, false );
+        self.on( ".btn-challenge-change-password", love2dev.events.click, handleChallengePasswordChange, false );
+
+        self.on( ".loginform input", love2dev.events.keyup, validateLoginForm );
+        self.on( ".loginform input", love2dev.events.blur, validateLoginForm );
+
+        self.on( ".modal-new-password-challenge input", love2dev.events.keyup, validatePasswordChallengeForm );
+        self.on( ".modal-new-password-challenge input", love2dev.events.blur, validatePasswordChallengeForm );
+
+        self.on( ".btn-new_password-submit", love2dev.events.click, handleChallengePasswordChange );
+
+        self.on( ".btn-cancel",
+            love2dev.events.click,
+            function ( e ) {
+
+                e.preventDefault();
+
+                history.back();
+
+                return false;
+
+            } );
+
+    }
+
+    function validateLoginForm( e ) {
+
+        e.preventDefault();
+
+        if ( $username.value !== "" && $password.value !== "" ) {
+
+            $loginSubmit.disabled = false;
+            $loginSubmit.setAttribute( "aria-disabled", false );
+
+        }
+
+        return false;
 
     }
 
@@ -45,8 +79,6 @@
 
         var $username = self.qs( "[name='Username']" ),
             $password = self.qs( "[name='Password']" );
-
-        username = $username.value;
 
         loginUser( $username.value, $password.value );
 
@@ -75,7 +107,28 @@
 
     function loginUser( username, password ) {
 
-        return gvtc.auth.loginUser( username, password )
+        return love2dev.auth.loginUser( username, password )
+            .then( function ( token ) {
+
+                return love2dev.auth
+                    .setUserAttributes( token )
+                    .then( function () {
+                        return token;
+                    } )
+                    .catch( handleRejection );
+
+            } )
+            .then( function ( token ) {
+
+                return love2dev.auth
+                    .setCognitoGroups( token[ cognitoGroups ] );
+
+            } )
+            .then( function () {
+
+                return love2dev.auth.getUserData( true );
+
+            } )
             .then( function () {
 
                 location.href = "/";
@@ -85,22 +138,29 @@
 
     }
 
-    function toggleForms( newForm ) {
+    function validatePasswordChallengeForm( e ) {
 
-        var $newForm = self.qs( newForm ),
-            $formContainers = self.qsa( ".form-container" );
+        e.preventDefault();
 
-        for ( var index = 0; index < $formContainers.length; index++ ) {
+        if ( $new_password.value !== "" && $confirm_new_password.value !== "" &&
+            $new_password.value === $confirm_new_password.value ) {
 
-            $formContainers[ index ].classList.remove( dFlex );
-            $formContainers[ index ].classList.add( dNone );
+            $newPasswordSubmit.disabled = false;
+            $newPasswordSubmit.setAttribute( "aria-disabled", false );
 
         }
 
-        $newForm.classList.add( dFlex );
-        $newForm.classList.remove( dNone );
+        return false;
 
     }
+
+    function toggleChallengeModal() {
+
+        self.qs( ".challenge-background" ).classList.toggle( "show" );
+        self.qs( ".modal-new-password-challenge" ).classList.toggle( "show" );
+
+    }
+
 
     function handleChallenge( challenge ) {
 
@@ -109,7 +169,7 @@
         switch ( challenge.ChallengeName ) {
             case "NEW_PASSWORD_REQUIRED":
 
-                toggleForms( ".challenge-change-password-container" );
+                toggleChallengeModal();
 
                 break;
 
@@ -139,25 +199,23 @@
 
         e.preventDefault();
 
-        var $ChallengePassword = self.qs( "[name=ChallengePassword]" ),
-            $PasswordConfirm = self.qs( "[name=PasswordConfirm]" ),
-            $given_name = self.qs( "[name=given_name]" ),
-            $family_name = self.qs( "[name=family_name]" );
-
         var requiredValues = {
             "given_name": $given_name.value,
             "family_name": $family_name.value
         };
 
-        if ( $PasswordConfirm.value === $ChallengePassword.value ) {
+        if ( $new_password.value === $confirm_new_password.value ) {
 
             //submit
-            gvtc.auth
-                .completeNewPasswordChallenge( $PasswordConfirm.value,
+            love2dev.auth
+                .completeNewPasswordChallenge( $new_password.value,
                     cognitoChallenge, requiredValues )
                 .then( function ( result ) {
 
-                    console.log( "done" );
+                    location.href = "/";
+                } )
+                .catch( function ( err ) {
+                    console.error( err );
                 } );
 
         } else {

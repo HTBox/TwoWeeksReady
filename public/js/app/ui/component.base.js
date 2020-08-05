@@ -35,6 +35,72 @@
             } ).join( '&' );
     }
 
+    function generatePassword( pattern, length, options ) {
+
+        if ( typeof pattern === 'undefined' ) {
+            throw new Error( 'randomatic expects a string or number.' );
+        }
+
+        var custom = false;
+
+        if ( arguments.length === 1 ) {
+            if ( typeof pattern === 'string' ) {
+                length = pattern.length;
+
+            } else if ( isNumeric( pattern ) ) {
+                options = {};
+                length = pattern;
+                pattern = '*';
+            }
+        }
+
+        if ( typeof length === 'object' &&
+            length.hasOwnProperty( 'chars' ) ) {
+
+            options = length;
+            pattern = options.chars;
+            length = pattern.length;
+            custom = true;
+        }
+
+        var opts = options || {};
+        var mask = '';
+        var res = '';
+
+        // Characters to be used
+        if ( pattern.indexOf( '?' ) !== -1 ) mask += opts.chars;
+        if ( pattern.indexOf( 'a' ) !== -1 ) mask += type.lower;
+        if ( pattern.indexOf( 'A' ) !== -1 ) mask += type.upper;
+        if ( pattern.indexOf( '0' ) !== -1 ) mask += type.number;
+        if ( pattern.indexOf( '!' ) !== -1 ) mask += type.special;
+        if ( pattern.indexOf( '*' ) !== -1 ) mask += type.all;
+        if ( custom ) mask += pattern;
+
+        // Characters to exclude
+        if ( opts.exclude ) {
+
+            let exclude = typeof opts.exclude === 'string' ?
+                opts.exclude : opts.exclude.join( '' );
+
+            exclude = exclude.replace( new RegExp( '[\\]]+', 'g' ), '' );
+            mask = mask.replace( new RegExp( '[' + exclude + ']+', 'g' ), '' );
+
+            if ( opts.exclude.indexOf( ']' ) !== -1 ) {
+
+                mask = mask.replace( new RegExp( '[\\]]+', 'g' ), '' );
+
+            }
+        }
+
+        while ( length-- ) {
+            res += mask.charAt( parseInt( Math.random() * mask.length, 10 ) );
+        }
+
+        return res;
+
+    }
+
+
     var type = {
         lower: 'abcdefghijklmnopqrstuvwxyz',
         upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -95,7 +161,6 @@
         return keyIsTopNumber( e ) || keyIsKeypadNumber( e );
     }
 
-
     /**
      * Is the event a top keyboard number key.
      *
@@ -106,7 +171,6 @@
         var keyCode = keyCodeFromEvent( e );
         return keyCode >= KEYS[ "0" ] && keyCode <= KEYS[ "9" ];
     }
-
 
     /**
      * Is the event a keypad number key.
@@ -119,7 +183,6 @@
         return keyCode >= KEYS[ "NUMPAD_0" ] && keyCode <= KEYS[ "NUMPAD_9" ];
     }
 
-
     /**
      * Is the event a delete key.
      *
@@ -129,7 +192,6 @@
     function keyIsDelete( e ) {
         return keyCodeFromEvent( e ) == KEYS[ "DELETE" ];
     }
-
 
     /**
      * Is the event a backspace key.
@@ -141,7 +203,6 @@
         return keyCodeFromEvent( e ) == KEYS[ "BACKSPACE" ];
     }
 
-
     /**
      * Is the event a deletion key (delete or backspace)
      *
@@ -151,7 +212,6 @@
     function keyIsDeletion( e ) {
         return keyIsDelete( e ) || keyIsBackspace( e );
     }
-
 
     /**
      * Is the event an arrow key.
@@ -164,7 +224,6 @@
         return keyCode >= KEYS[ "ARROW_LEFT" ] && keyCode <= KEYS[ "ARROW_DOWN" ];
     }
 
-
     /**
      * Is the event a navigation key.
      *
@@ -175,7 +234,6 @@
         var keyCode = keyCodeFromEvent( e );
         return keyCode == KEYS[ "HOME" ] || keyCode == KEYS[ "END" ];
     }
-
 
     /**
      * Is the event a keyboard command (copy, paste, cut, highlight all)
@@ -195,7 +253,6 @@
                 keyCode == KEYS[ "V" ]
             );
     }
-
 
     /**
      * Is the event the tab key?
@@ -485,8 +542,8 @@
         }
 
         value = d.getFullYear() + "-" +
-            pad( d.getMonth() + 1, 2 ) + "-" +
-            pad( d.getDate(), 2 );
+            zeroPad( d.getMonth() + 1, 2 ) + "-" +
+            zeroPad( d.getDate(), 2 );
 
         return value;
 
@@ -555,18 +612,18 @@
 
     }
 
-    function qs( s ) {
+    function normalizeTarget( target ) {
 
-        if ( typeof s === "string" ) {
-            return document.querySelector( s );
-        } else {
-            return s;
+        if ( typeof target === "string" ) {
+            target = qsa( target );
         }
 
-    }
+        if ( target.length === undefined ) {
+            target = [ target ];
+        }
 
-    function qsa( s ) {
-        return document.querySelectorAll( s );
+        return target;
+
     }
 
     function verifySlug( slug ) {
@@ -623,66 +680,6 @@
         return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test( value );
     }
 
-    function wordCount( src ) {
-
-        if ( src ) {
-
-            var cleaned = src.replace( /(<([^>]+)>)/ig, " " ).replace( /  /g, " " );
-
-            cleaned = cleaned.split( " " );
-
-            return cleaned.length;
-
-        } else {
-            return 0;
-        }
-
-    }
-
-    function characterCount( target, maxCount ) {
-
-        if ( target && maxCount ) {
-
-            var value = target.value.trim(),
-                exceededClass = "exceeded-suggested-length";
-
-            target.classList.remove( exceededClass );
-
-            if ( value.length > maxCount ) {
-
-                target.classList.add( exceededClass );
-
-            } else {
-
-                if ( value.length > ( maxCount * 0.9 ) ) {
-
-                    var length = 0,
-                        words = value.split( " " );
-
-                    for ( var index = 0; index < words.length; index++ ) {
-
-                        length += words[ index ].length + 1;
-
-                        if ( length > maxCount ) {
-
-                            target.classList.add( exceededClass );
-
-                            index = words.length;
-
-                        }
-
-                    }
-
-                }
-
-            }
-
-            return value.length;
-
-        }
-
-    }
-
     function convertRadio( src ) {
 
         var $src = qs( "[name='" + src + "']" );
@@ -691,48 +688,6 @@
             return $src.checked;
         } else {
             return false;
-        }
-
-    }
-
-    function updateCharacterCountRecord( src, target, maxCount ) {
-
-        var bodyEle = qs( src ),
-            wCount = qs( target ),
-            count = parseInt( characterCount( bodyEle, maxCount ), 10 );
-
-        wCount.innerText = count;
-
-        wCount.classList.remove( "text-danger" );
-        wCount.classList.remove( "text-warning" );
-        wCount.classList.remove( "text-success" );
-        wCount.classList.remove( "text-primary" );
-
-        switch ( true ) {
-            case count >= 4000:
-
-                wCount.classList.add( "text-primary" );
-
-                break;
-
-            case count >= 2000:
-
-                wCount.classList.add( "text-success" );
-
-                break;
-
-            case count >= 500:
-
-                wCount.classList.add( "text-warning" );
-
-                break;
-
-            default:
-
-                wCount.classList.add( "text-danger" );
-
-                break;
-
         }
 
     }
@@ -774,14 +729,20 @@
         return n;
     }
 
-    function hashCode( s ) {
+    function qs( s ) {
 
-        return s.split( "" ).reduce( function ( a, b ) {
-            a = ( ( a << 5 ) - a ) + b.charCodeAt( 0 );
-            return a & a;
-        }, 0 );
+        if ( typeof s === "string" ) {
+            return document.querySelector( s );
+        } else {
+            return s;
+        }
 
     }
+
+    function qsa( s ) {
+        return document.querySelectorAll( s );
+    }
+
 
     /**
      * contains common methods used to manage UI
@@ -789,17 +750,106 @@
      */
     love2dev.component = {
 
-        fetchAndRenderTemplate: fetchAndRenderTemplate,
-        fetchTemplate: fetchTemplate,
-        renderTemplate: renderTemplate,
+        qs: qs,
+        qsa: qsa,
 
-        convertRadio: convertRadio,
-        wordCount: wordCount,
-        characterCount: characterCount,
-        makeSlug: makeSlug,
-        validateUrl: validateUrl,
-        verifySlug: verifySlug,
-        updateCharacterCountRecord: updateCharacterCountRecord,
+        gei: function ( s ) {
+            return document.getElementById( s );
+        },
+        gen: function ( s ) {
+            return document.getElementsByName( s );
+        },
+
+        /**
+         * Event handler method
+         * abstracts addEventListener binding
+         */
+        on: function ( target, evt, fn, bubble ) {
+
+            if ( !target || !evt || !fn ) {
+                return;
+            }
+
+            if ( typeof target === "string" ) {
+                target = this.qsa( target );
+            }
+
+            if ( target.length === undefined ) {
+                target = [ target ];
+            }
+
+            bubble = ( bubble === true ) ? true : false;
+
+            evt = evt.split( " " );
+
+            for ( var i = 0; i < target.length; i++ ) {
+
+                for ( let j = 0; j < evt.length; j++ ) {
+
+                    target[ i ].addEventListener( evt[ j ], fn, bubble );
+
+                }
+
+            }
+
+        },
+        off: function ( target, evt, fn, bubble ) {
+
+            if ( typeof target === "string" ) {
+                target = this.qsa( target );
+            }
+
+            if ( target.length === undefined ) {
+                target = [ target ];
+            }
+
+            for ( var i = 0; i < target.length; i++ ) {
+                target[ i ].removeEventListener( evt, fn, bubble );
+            }
+
+        },
+
+        setFocus: function ( target ) {
+
+            var $target = document.querySelector( target );
+
+            if ( $target ) {
+                $target.focus();
+            }
+
+        },
+
+        removeClass: function ( target, className ) {
+
+            if ( !target || !className ) {
+                return;
+            }
+
+            target = normalizeTarget( target );
+
+            for ( var i = 0; i < target.length; i++ ) {
+
+                target[ i ].classList.remove( className );
+
+            }
+
+        },
+
+        addClass: function ( target, className ) {
+
+            if ( !target || !className ) {
+                return;
+            }
+
+            target = normalizeTarget( target );
+
+            for ( var i = 0; i < target.length; i++ ) {
+
+                target[ i ].classList.add( className );
+
+            }
+
+        },
 
         /**
          * Converts a string to its html characters completely.
@@ -894,12 +944,6 @@
 
         },
 
-        init: function ( config ) {
-
-            //todo: merge external depenendencies into the core
-
-        },
-
         parse: function ( src ) {
 
             if ( typeof src === "string" ) {
@@ -946,7 +990,6 @@
 
         },
 
-
         parentAttributeValue: function ( target, attrName, level ) {
 
             var value = target.parentElement.getAttribute( attrName );
@@ -967,75 +1010,6 @@
 
                 return this.parentAttributeValue( target.parentElement, attrName, ++level );
 
-            }
-
-        },
-
-        qs: qs,
-        qsa: qsa,
-
-        gei: function ( s ) {
-            return document.getElementById( s );
-        },
-        gen: function ( s ) {
-            return document.getElementsByName( s );
-        },
-
-        /**
-         * Event handler method
-         * abstracts addEventListener binding
-         */
-        on: function ( target, evt, fn, bubble ) {
-
-            if ( !target || !evt || !fn ) {
-                return;
-            }
-
-            if ( typeof target === "string" ) {
-                target = this.qsa( target );
-            }
-
-            if ( target.length === undefined ) {
-                target = [ target ];
-            }
-
-            bubble = ( bubble === true ) ? true : false;
-
-            evt = evt.split( " " );
-
-            for ( var i = 0; i < target.length; i++ ) {
-
-                for ( let j = 0; j < evt.length; j++ ) {
-
-                    target[ i ].addEventListener( evt[ j ], fn, bubble );
-
-                }
-
-            }
-
-        },
-        off: function ( target, evt, fn, bubble ) {
-
-            if ( typeof target === "string" ) {
-                target = this.qsa( target );
-            }
-
-            if ( target.length === undefined ) {
-                target = [ target ];
-            }
-
-            for ( var i = 0; i < target.length; i++ ) {
-                target[ i ].removeEventListener( evt, fn, bubble );
-            }
-
-        },
-
-        setFocus: function ( target ) {
-
-            var $target = document.querySelector( target );
-
-            if ( $target ) {
-                $target.focus();
             }
 
         },
@@ -1090,58 +1064,16 @@
 
         },
 
-        setupChips: function ( opts ) {
+        generatePassword: generatePassword,
 
-            var tags = [],
-                autoComplete = {
-                    data: {},
-                    minLength: 1
-                },
-                index = 0;
+        fetchAndRenderTemplate: fetchAndRenderTemplate,
+        fetchTemplate: fetchTemplate,
+        renderTemplate: renderTemplate,
 
-            if ( opts.tags ) {
-
-                for ( index = 0; index < opts.tags.length; index++ ) {
-
-                    tags.push( {
-                        tag: opts.tags[ index ],
-                    } );
-
-                }
-
-            }
-
-            for ( index = 0; index < opts.autoComplete.length; index++ ) {
-
-                autoComplete.data[ opts.autoComplete[ index ].tag ] = null;
-
-            }
-
-            return $( ".tag-chips" ).material_chip( {
-                placeholder: "Article Tags",
-                data: tags,
-                autocompleteOptions: autoComplete,
-                onChipAdd: opts.onChipAdd,
-                onChipSelect: opts.onChipSelect,
-                onChipDelete: opts.onChipDelete
-            } );
-
-        },
-
-        getChips: function ( selector ) {
-
-            var $chips = this.qsa( selector + " .chip" ),
-                chips = [];
-
-            for ( var index = 0; index < $chips.length; index++ ) {
-
-                chips.push( $chips[ index ].innerText );
-
-            }
-
-            return chips;
-
-        },
+        convertRadio: convertRadio,
+        makeSlug: makeSlug,
+        validateUrl: validateUrl,
+        verifySlug: verifySlug,
 
         toggleModalBackground: toggleModalBackground,
         toggleModal: toggleModal,
@@ -1176,8 +1108,7 @@
         jsonToQueryString: jsonToQueryString,
         queryStringtoJSON: queryStringtoJSON,
         getSrcMime: getSrcMime,
-        appendLeadingZeroes: appendLeadingZeroes,
-        hashCode: hashCode
+        appendLeadingZeroes: appendLeadingZeroes
     };
 
     love2dev.cssClasses = {

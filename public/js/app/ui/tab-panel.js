@@ -2,16 +2,16 @@
 
     "use strict";
 
-    var self = mehab.component;
-
-    mehab.utils.nameSpace( "mehab.tab_panel" );
+    var self = love2dev.component;
 
     var defaults = {
             wrapper: ".tab-container",
             tab: ".tab-tab",
             panel: ".tab-pane"
         },
-        settings;
+        settings,
+        tabCount,
+        tabWidth = 200;
 
     var wrapper;
 
@@ -23,9 +23,12 @@
 
         if ( !wrapper ) {
             console.error( "no tab components available" );
-        }
+        } else {
 
-        bindEvents();
+            bindEvents();
+            setStyles();
+
+        }
 
     }
 
@@ -36,6 +39,8 @@
         for ( var i = 0; i < tabs.length; i++ ) {
             tabs[ i ].addEventListener( "click", toggleTabs, false );
         }
+
+        tabCount = tabs.length;
 
         return;
     }
@@ -76,6 +81,31 @@
         }
 
     }
+
+    function setStyles() {
+
+        var $tabSliderContainer = self.qs( ".tab-pill-slider-container" );
+
+        if ( $tabSliderContainer ) {
+
+            var $pillContainer = $tabSliderContainer.querySelector( ".nav-pills" ),
+                $tabs = $tabSliderContainer.querySelectorAll( ".tab-tab" );
+
+            var sliderWidth = 0;
+
+            for ( var index = 0; index < $tabs.length; index++ ) {
+
+                sliderWidth += parseInt( $tabs[ index ].clientWidth, 10 );
+
+            }
+
+            $pillContainer.style.width = sliderWidth + "px";
+
+        }
+
+    }
+
+
 
     window.tab_panel = {
         initialize: initialize

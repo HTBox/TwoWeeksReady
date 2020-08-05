@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "http-server public/ -p 51001 -c -i",
-    "start-admin": "http-server admin/ -p 51002 -c -i"
+    "start-admin": "http-server admin/ -p 51002 -c -i",
+    "build": "node bin/render-site.js"
   },
   "author": "Humanitarian Toolbox",
   "private": true,

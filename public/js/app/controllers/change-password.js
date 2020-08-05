@@ -2,11 +2,9 @@
 
     "use strict";
 
-    window.gvtc = window.gvtc || {};
+    window.love2dev = window.love2dev || {};
 
-    var self = window.gvtc.component;
-
-    var cognitoGroups = "cognito:groups";
+    var self = window.love2dev.component;
 
     function initialize() {
 
@@ -16,80 +14,67 @@
 
     function bindEvents() {
 
-        self.on( ".loginform", gvtc.events.submit, handlePasswordChange, false );
+        self.on( ".loginform", love2dev.events.submit, handleLogin, false );
 
     }
 
-    function handlePasswordChange( e ) {
+    function handleLogin( e ) {
 
         e.preventDefault();
 
-        var $oldPassword = self.qs( "[name='oldPassword']" ),
-            $password = self.qs( "[name='Password']" ),
-            $ConfirmPassword = self.qs( "[name='ConfirmPassword']" );
+        var $username = self.qs( "[name='Username']" ),
+            $password = self.qs( "[name='Password']" );
 
-        if ( $ConfirmPassword.value === $password.value ) {
+        loginUser( $username.value, $password.value );
 
-            return gvtc.auth.changePassword( $oldPassword.value, $password.value )
-                .then( handleResponse )
-                .catch( handleRejection );
-
-        } else {
-
-            displayError( "Sorry, your new password does not match. Reenter it and confirm it again." );
-        }
-
+        return false;
     }
 
     function handleRejection( reject ) {
 
-        displayError( "Sorry your request could not be processed. Possibly because a connection to the server could not be established. Make sure you have a connection and try again later." );
-    }
+        if ( reject.__type ) {
 
-    function displaySuccess() {
+            if ( reject.__type === "UserNotFoundException" ) {
 
-        var $success = self.qs( ".action-confirmation" ),
-            $form = self.qs( ".loginform" );
+            } else if ( reject.ChallengeName ) {
 
-        $form.classList.add( "d-none" );
 
-        $success.classList.remove( "d-none" );
-        $success.classList.add( "d-flex" );
-    }
+            }
 
-    function displayError( msg ) {
-
-        var $errorMessage = self.qs( ".error-message" ),
-            $messageTxt = self.qs( ".error-message-text" );
-
-        $messageTxt.innerHTML = msg;
-
-        $errorMessage.classList.remove( "d-none" );
-
-    }
-
-    function handleResponse( response ) {
-
-        var errorMessage = "";
-
-        switch ( response.status ) {
-
-            case 200:
-
-                displaySuccess();
-
-                break;
-
-            case 400:
-            case 500:
-
-                displayError( "There is a problem with your password. Please check them to make sure your old password is correct and you entered a valid new password." );
-
-                break;
-
-            default:
-                break;
         }
+
+    }
+
+    function loginUser( username, password ) {
+
+        return love2dev.auth.loginUser( username, password )
+            .then( function ( token ) {
+
+                return love2dev.auth
+                    .setUserAttributes( token )
+                    .then( function () {
+                        return token;
+                    } );
+
+            } )
+            .then( function ( token ) {
+
+                return love2dev.auth
+                    .setCognitoGroups( token[ cognitoGroups ] );
+
+            } )
+            .then( function () {
+
+                return love2dev.auth.getUserData( true );
+
+            } )
+            .then( function () {
+
+                location.href = "profile/";
+
+            } )
+            .catch( handleRejection );
+
     }
 
     initialize();

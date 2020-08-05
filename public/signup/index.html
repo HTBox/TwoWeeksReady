@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <base href="/">
+
+    <title>Sign Up - 2 Weeks Ready</title>
+    <meta name="description" content="2 Weeks Ready">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/all.min.css" rel="stylesheet">
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/site.css" rel="stylesheet">
+
+    <link href="css/addtohomescreen.css" rel="stylesheet">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Annum">
+    <meta name="apple-mobile-web-app-title" content="Annum">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="apple-touch-icon" href="meta/ios/ios-appicon-120-120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="meta/ios/ios-appicon-152-152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="meta/ios/ios-appicon-180-180.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="meta/ios/ios-appicon-120-120.png">
+    <link href="meta/ios/apple-touch-startup-image-320x460.png" media="(device-width: 320px)"
+        rel="apple-touch-startup-image">
+    <!-- iPhone (Retina) SPLASHSCREEN-->
+    <link href="meta/ios/apple-touch-startup-image-640x920.png"
+        media="(device-width: 320px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+    <!-- iPad (portrait) SPLASHSCREEN-->
+    <link href="meta/ios/apple-touch-startup-image-768x1004.png"
+        media="(device-width: 768px) and (orientation: portrait)" rel="apple-touch-startup-image">
+    <!-- iPad (landscape) SPLASHSCREEN-->
+    <link href="meta/ios/apple-touch-startup-image-748x1024.png"
+        media="(device-width: 768px) and (orientation: landscape)" rel="apple-touch-startup-image">
+    <!-- iPad (Retina, portrait) SPLASHSCREEN-->
+    <link href="meta/ios/apple-touch-startup-image-1536x2008.png"
+        media="(device-width: 1536px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image">
+    <!-- iPad (Retina, landscape) SPLASHSCREEN-->
+    <link href="meta/ios/apple-touch-startup-image-2048x1496.png"
+        media="(device-width: 1536px)  and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image">
+    <!-- iPhone 6/7/8 -->
+    <link href="/meta/ios/apple-touch-startup-image-750x1334.png"
+        media="(device-width: 375px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <!-- iPhone 6 Plus/7 Plus/8 Plus -->
+    <link href="/meta/ios/apple-touch-startup-image-1242x2208.png"
+        media="(device-width: 414px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link rel="icon" type="image/png" href="meta/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="meta/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="meta/favicon-96x96.png" sizes="96x96">
+
+    <meta name="theme-color" content="#5e17eb">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="generator" content="PWA Starter">
+</head>
+
+<body ontouchstart="">
+
+    <div class="cover-container relative">
+        <header class="bg-white d-flex col-12 d-lg-none text-dark pt-3 pr-0 fixed-top align-items-center">
+            <span class="fas fa-arrow-left btn-go-back text-site-purple"></span>
+            <span class="navbar-toggler">
+                <span class="navbar-toggler-icon"></span>
+            </span>
+            <span class="navbar-brand col-4"><img src="img/annum_logo_purple_sm.jpg" class="img-fluid"
+                    alt="Annum"></span>
+            <div class="d-flex mobile-actions col-6 justify-content-center px-0 ">
+                <div class="py-2 px-0 d-flex align-items-center justify-content-center btn-search-toggle mr-1">
+                    <i class="fas fa-search" aria-label="Search"></i>
+                </div>
+                <a href="profile/" class="py-2 px-0 mr-1 align-items-center justify-content-center btn-user-profile d-none
+                    text-dark">
+                    <i class="fas fa-user" aria-label="Profile"></i>
+                </a>
+                <a href="cart/" role="button" class="py-2 px-0 mr-0 btn-shopping-cart d-flex align-items-center justify-content-center
+                    text-dark"><i class="fas fa-shopping-cart" aria-label="Shopping Cart"></i>
+                    <span class="badge badge-pill badge-cart bg-danger d-none"></span>
+                </a>
+            </div>
+        </header>
+        <header class="bg-purple-gradient main-header-lg fixed-top d-none d-lg-flex">
+            <nav class="navbar text-white fixed-top navbar-expand-md navbar-dark bg-transparent col-12">
+                <div class="container mx-1 col-12">
+                    <span class="fas fa-left-big btn-go-back text-dark"></span>
+                    <a class="navbar-brand" href=""><img src="img/annum_logo_white_sm.png"
+                            class="currency-icon img-fluid" alt="Annum House"></a>
+                    <div class="navbar-collapse collapse col-10" id="navbarsExampleDefault">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="businesses/">Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="nonprofits/">Non-Profits</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="contact/">Contact Us</a>
+                            </li>
+                        </ul>
+                        <div class="col-12 col-lg-6 mb-0 mt-0 mr-0 align-self-right pt-0 d-flex align-items-center">
+                            <div
+                                class="py-2 px-0 d-flex align-items-center justify-content-center btn-search-toggle mr-1">
+                                <i class="fas fa-search" aria-label="Search"></i>
+                            </div>
+                            <a href="cart/" role="button" class="p-2 m-2 btn-shopping-cart"><i
+                                    class="fas fa-shopping-cart text-light " aria-label="Shopping Cart"></i>
+                                <span class="badge badge-pill badge-cart bg-danger d-none"></span>
+                            </a>
+                            <a href="settings/" role="button" class="p-2 m-1 btn-settings align-items-center d-none"><i
+                                    class="fas fa-cog text-light" aria-label="Settings"></i>
+                            </a>
+                            <a href="login/" class="btn-user-login btn btn-link btn-nav text-white p-2 m-2 align-items-center d-none
+                                    align-items-center" aria-label="Sign In"><i class="mr-1 fas fa-lock"></i>Login</a>
+                            <span class="btn-user-logout btn btn-link btn-nav text-white p-2 m-1 align-items-center d-none
+                                    align-items-center">
+                                <i class="mr-1 fas fa-sign-out-alt"></i></span>
+                            <a href="profile/"
+                                class="btn btn-link btn-nav btn-user-profile text-white p-2 m-1 d-none align-items-center"
+                                aria-label="User Profile Button"><i class="fas fa-user"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main role="main" class="main-container p-0">
+
+            <div class="container d-flex flex-column registration-container justify-content-center flex-column col-12 col-md-8
+    col-lg-6 col-xl-5 form-container my-5">
+                <header class="text-center">
+                    <div class="bg-white">
+                        <h1>Registration</h1>
+                    </div>
+                </header>
+
+                <form class="col-12 registration-form" method="post">
+                    <div class="md-form invalid-feedback d-none">
+                        <h3 class="error_message text-danger"></h3>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" class="form-control validate" name="given_name" tabindex="210" required
+                            autocomplete="given-name" autofocus>
+                        <label for="given_name">First Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" class="form-control validate" name="family_name" tabindex="220" required
+                            autocomplete="family-name">
+                        <label for="family_name">Last Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" class="form-control validate" name="username" tabindex="225"
+                            spellcheck="false" pattern=".{7,}" required autocomplete="username">
+                        <label for="username">Username</label>
+                        <ul>
+                            <li>must contain at least 7 characters</li>
+                        </ul>
+                        <div class="invalid-feedback">
+                            username is required, must be at least 7 characters and cannot be an email address
+                        </div>
+                    </div>
+                    <div class="md-form">
+                        <input type="email" class="form-control validate" name="user_email" tabindex="230" required
+                            autocomplete="email">
+                        <label for="user_email">Email</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="password" class="form-control validate" name="user_password" tabindex="260"
+                            required>
+                        <label for="ChallengePassword">Password</label>
+                        <ul>
+                            <li>must contain at least 8 characters</li>
+                            <li>must have one or more capital letters</li>
+                            <li>must have one or more numbers</li>
+                            <li>must have a special character ex: !@#$%^&*()</li>
+                        </ul>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center py-3 mb-5 flex-wrap">
+                        <a href="login/" tabindex="300" class="col-12 col-xl-6 btn btn-lg border-purple btn-login ripple
+                    mr-2">Login</a>
+                        <button type="submit" name="btn-save-registration" tabindex="290"
+                            class="col-12 col-lg-5 btn btn-lg bg-purple text-white btn-save-registration ripple"
+                            disabled aria-disabled="true">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal fade modal-registration-confirm" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row d-flex justify-content-center py-3">
+                                <h2>Verification</h2>
+                            </div>
+                            <div class="row d-flex justify-content-center px-5 py-3 md-form">
+                                <p>Thank you for registering. We have sent a verfication email to the address you
+                                    provided.
+                                    Please click the link in that email, or copy the code to the field on the next page
+                                    to complete
+                                    your verification. Annum</p>
+                            </div>
+                            <div class="col-12 d-flex justify-content-center py-3 mb-5">
+                                <button
+                                    class="col-12 col-lg-6 btn btn-lg bg-purple btn-verification-submit mr-2">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        <footer class="footer-area mt-2 d-none d-lg-flex flex-column">
+            <div class="bg-purple-darker text-white mt-5">
+                <div class="container">
+                    <div class="row section-gap">
+                        <div class="col-lg-4  col-md-6 col-sm-6">
+                            <div class="single-footer-widget">
+                                <ul class="hr-list">
+                                    <li class="d-flex justify-content-between">
+                                        <a class="text-white" href="businesses/">Products</a>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <a class="text-white" href="nonprofits/">Non-Profits</a>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <a class="text-white" href="contact/">Contact</a>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <a class="text-white" href="about/">About Us</a>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <a class="text-white" href="terms/">Terms & Conditions</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-4  col-md-6 col-sm-6">
+                            <div class="single-footer-widget">
+                                <h4>Contact Us</h4>
+                                <p>
+                                    56/8, los angeles, rochy beach, Santa monica, United states of america - 1205
+                                </p>
+                                <p class="number">
+                                    012-6532-568-9746 <br>
+                                    012-6532-569-9748
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4  col-md-6 col-sm-6">
+                            <div class="single-footer-widget">
+                                <h4>Newsletter</h4>
+                                <p>You can trust us. we only send promo offers, not a single spam.</p>
+                                <div class="d-flex flex-row" id="mc_embed_signup">
+                                    <form class="navbar-form" action="" method="post">
+                                        <div class="input-group add-on align-items-center d-flex">
+                                            <input class="form-control" name="EMAIL" placeholder="Your Email address"
+                                                onfocus="this.placeholder = ''"
+                                                onblur="this.placeholder = 'Your Email address'" required=""
+                                                type="email">
+                                            <div style="position: absolute; left: -5000px;">
+                                                <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1"
+                                                    value="" type="text">
+                                            </div>
+                                            <div class="input-group-btn">
+                                                <button class="genric-btn"><span
+                                                        class="fas fa-arrow-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="info mt-20"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom-wrap bg-dark text-white py-2">
+                <div class="container">
+                    <div class="row footer-bottom d-flex justify-content-between align-items-center">
+                        <p class="col-lg-8 col-mdcol-sm-6 -6 footer-text m-0">
+                            Copyright &copy;<script>
+                                document.write( new Date().getFullYear() );
+                            </script> All rights reserved | 2 Weeks Ready
+                        </p>
+                        <ul class="col-lg-4 col-mdcol-sm-6 -6 d-flex justify-content-center align-items-center">
+                            <li><a href="#"><i class="fab fa-facebook mr-3 text-white"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter mr-3 text-white"></i></a></li>
+                            <li><a href="#"><i class="fab fa-linkedin mr-3 text-white"></i></a></li>
+                            <li><a href="#"><i class="fab fa-instagram mr-3 text-white"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <nav class="appbar appbar-bottom bg-white">
+        <div class="wrapper">
+            <a href="/" class="nav-btn-home">
+                <span class="appbar-icon" title="Annum Home">
+                    <i class="fas fa-home" aria-label="Home"></i>
+                </span>
+                <span class="appbar-btn-text">Home</span>
+            </a>
+            <a href="businesses/" class="nav-btn-products">
+                <span class="appbar-icon" title="Products">
+                    <i class="fas fa-tags" aria-label="Products"></i>
+                </span>
+                <span class="appbar-btn-text">Shop</span>
+            </a>
+            <a href="cart/" class="nav-btn-cart">
+                <span class="appbar-icon" title="Cart">
+                    <i class="fas fa-shopping-cart" aria-label="Shopping Cart"></i>
+                    <span class="badge badge-pill badge-cart bg-danger d-none"></span>
+                </span>
+                <span class="appbar-btn-text">Cart</span>
+            </a>
+            <a href="profile/" class="nav-btn-profile">
+                <span class="appbar-icon" title="Settings">
+                    <i class="fas fa-user" aria-label="Profile"></i>
+                </span>
+                <span class="appbar-btn-text">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="modal-bg" role="dialog" aria-modal="true"></div>
+
+    <div class="mobile-menu p-2">
+        <div class="col-12 m-0 p-0 d-flex flex-column sidebar-container">
+            <a class="navbar-brand col-4 flex-shrink-1"><img src="img/annum_logo_purple_sm.jpg"
+                    class="currency-icon img-fluid" alt="Annum"></a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item btn-user-profile d-none">
+                    <a class="nav-link" href="profile/">
+                        <i class="mr-1 fas fa-user"></i>Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="businesses/">
+                        <i class="mr-1 fas fa-box"></i>Shop</a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link btn-search">
+                        <i class="mr-1 fas fa-search"></i>Search</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="wishlist/">
+                        <i class="mr-1 far fa-heart"></i>Wishlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="cart/">
+                        <i class="mr-1 fas fa-shopping-cart"></i>Shopping Cart</a>
+                </li>
+                <li class="nav-item btn-settings d-none">
+                    <a class="nav-link" href="settings/">
+                        <i class="mr-1 fas fa-cog"></i>Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about/">
+                        <i class="mr-1 fas fa-book-open"></i>About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact/">
+                        <i class="mr-1 far fa-envelope"></i>Contact Us</a>
+                </li>
+                <li class="nav-item btn-mobile-login">
+                    <a class="nav-link" href="login/" aria-label="Sign In">
+                        <i class="mr-1 fas fa-sign-in-alt"></i>Sign In</a>
+                </li>
+                <li class="nav-item btn-mobile-logout">
+                    <span class="nav-link btn-user-logout" title="sign-out">
+                        <i class="mr-1 fas fa-sign-out-alt"></i>Sign-Out</span>
+                </li>
+            </ul>
+            <div class="col-12 align-self-end border-top flex-shrink-1 align-items-end bottom-sidebar">
+                <ul class="navbar-nav mr-auto ml-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="privacy/">Privacy Policy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="terms/">Terms & Conditions</a>
+                    </li>
+                </ul>
+                <p class="mb-0">Copyright &copy; 2020 Annum,</p>
+                <p class="mb-0">All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-shelf-wrapper col-12 annimated slideInDown px-4 py-2">
+        <div class="md-form">
+            <input type="search" class="form-control" name="search-term" tabindex="999" placeholder="Search">
+        </div>
+        <div class="search-preview-wrapper d-flex flex-wrap"></div>
+        <div class="d-none col-12 p-2 justify-content-end search-all-wrapper">
+            <a href="search/" class="btn btn-link text-black mr-2 btn-search-all">see all results</a>
+        </div>
+    </div>
+
+
+    <!--Core Scripts-->
+    <script src="js/libs/addtohomescreen.js" type="application/javascript"></script>
+    <script src="js/libs/localforage.min.js" type="application/javascript"></script>
+    <script src="js/libs/mustache.min.js" type="application/javascript"></script>
+    <script src="js/libs/dollar-bill.js" type="application/javascript"></script>
+    <script src="js/app/ui/component.base.js" type="application/javascript"></script>
+    <script src="js/app/services/http.js" type="application/javascript"></script>
+    <script src="js/app/services/data.js" type="application/javascript"></script>
+    <script src="js/app/services/auth.js" type="application/javascript"></script>
+    <script src="js/app/services/user.js" type="application/javascript"></script>
+    <script src="js/app/services/site.js" type="application/javascript"></script>
+    <script src="js/app/services/business.js" type="application/javascript"></script>
+    <script src="js/libs/lazy.images.js" type="application/javascript"></script>
+    <!--Page Service Scripts-->
+    <!--Core App Scripts-->
+    <script src="js/app.js" type="application/javascript"></script>
+    <script src="js/app/services/shop.js" type="application/javascript"></script>
+    <script src="js/libs/ui/cart-shelf.js" type="application/javascript"></script>
+    <script src="js/libs/ui/search-shelf.js" type="application/javascript"></script>
+    <script src="js/app/ui/profile-nav.js" type="application/javascript"></script>
+    <!--Controllers Scripts-->
+    <script src="js/app/controllers/signup.js" type="application/javascript"></script>
+
+</body>
+
+</html>

@@ -2,9 +2,9 @@
 
     "use strict";
 
-    window.gvtc = window.gvtc || {};
+    window.love2dev = window.love2dev || {};
 
-    var self = window.gvtc.component;
+    var self = window.love2dev.component;
 
     var username = "",
         txtUser = "[name='Username']";
@@ -12,7 +12,7 @@
     function initialize() {
 
         // get username from queryString
-        var qs = gvtc.utils.queryStringtoJSON();
+        var qs = self.queryStringtoJSON();
 
         if ( qs && qs.username ) {
 
@@ -39,10 +39,10 @@
 
         }
 
-        $username.addEventListener( gvtc.events.keyup, toggleEnable );
-        $username.addEventListener( gvtc.events.blur, toggleEnable );
+        $username.addEventListener( love2dev.events.keyup, toggleEnable );
+        $username.addEventListener( love2dev.events.blur, toggleEnable );
 
-        self.on( ".btn-forgot-password", gvtc.events.click, handleRequest );
+        self.on( ".btn-forgot-password", love2dev.events.click, handleRequest );
     }
 
     function toggleEnable( e ) {
@@ -51,9 +51,7 @@
 
         var btn = self.qs( ".btn-forgot-password" );
 
-        btn.disabled = e.target.value === "";
-
-        btn.setAttribute( "aria-disabled", btn.disabled );
+        self.toggleDisabled( btn, e.target.value === "" );
 
         return false;
 
@@ -67,16 +65,29 @@
 
         if ( $username.checkValidity() ) {
 
-            return gvtc.auth.forgotPassword( {
-                    "username": $username.value
-                } )
-                .then( function () {
-                    location.href = "login/forgot-password/confirm/";
+            return love2dev.auth.forgotPassword(  $username.value )
+                .then( function ( response ) {
+
+                    var $confirmMsg = self.qs( ".error-message" );
+
+                    $confirmMsg.classList.remove( "text-danger" );
+
+                    if ( !response.message ) {
+
+                        location.href = "login/forgot-password/confirm/?username=" + username;
+
+                    } else {
+
+                        $errorMessage.innerText = response.message;
+                        $confirmMsg.classList.add( "text-danger show" );
+
+                    }
+
                 } );
 
         } else {
             //display error response
-            console.log( "broken" );
+            console.log( "invalid form" );
         }
 
         return false;

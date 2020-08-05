@@ -11,13 +11,13 @@
 
     function initialize() {
 
-        httoolbox.app.notAuthCallback( function () {
+        love2dev.app.notAuthCallback( function () {
 
-            admin.goToLogin();
+            love2dev.app.goToLogin();
 
         } );
 
-        httoolbox.app.authCallback( loadPage );
+        love2dev.app.authCallback( loadPage );
 
     }
 

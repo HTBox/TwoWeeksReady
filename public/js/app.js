@@ -6,7 +6,9 @@
     var ath,
         _authCallback = [],
         _notAuthCallback = [],
-        _pageLoadedCallback = [],
+        _loadPageCallback = [],
+        _canPromptCallback = [],
+        platform, ath,
         siteConfig = {
             tennantId: "62274796-e691-46ae-aa31-c30cdafb3258",
             siteId: "6bbc47ff-57b1-408e-99a0-16b4c470de03"
@@ -19,26 +21,28 @@
 
     function initialize() {
 
-        var path = location.pathname.replace( /\//, "" );
+        love2dev.auth.isAuthenticated()
+            .then( function ( auth ) {
 
-        if ( path === "" ) {
-            path = "/";
-        }
+                if ( !auth ) {
 
-        var navNode = helpers.qs( "a[href*='" +
-            path + "']" );
+                    executeCallbacks( _notAuthCallback );
 
-        if ( navNode ) {
-            navNode.classList.add( "active" );
-        }
+                    loadPage();
 
-        window.authorized = true;
+                } else {
 
-        loadPage();
+                    window.authorized = true;
+
+                    executeCallbacks( _authCallback );
+
+                    loadPage();
+
+                }
+
+            } );
 
         registerServiceWorker();
-
-        bindEvents();
 
     }
 
@@ -333,17 +337,29 @@
 
     }
 
-    function pageLoadedCallback( func ) {
+    function loadPageCallback( func ) {
 
-        if ( window.pageLoaded ) {
+        if ( window.loadPage ) {
             func();
         } else {
-            _pageLoadedCallback.push( func );
+            _loadPageCallback.push( func );
         }
 
     }
 
+    function canPromptCallback( func ) {
+
+        if ( window.canPrompt ) {
+            func();
+        } else {
+            _loadPageCallback.push( func );
+        }
+
+
+    }
+
     function executeCallbacks( targets, params ) {
+
         for ( var index = 0; index < targets.length; index++ ) {
 
             targets[ index ]( params );
@@ -351,6 +367,7 @@
         }
 
     }
+
 
     function fetchAndInsert( src ) {
 
@@ -384,6 +401,8 @@
                     send_message_to_sw( "precache-update" );
 
                 }
+
+                a2hsCheck();
 
                 console.log( "ServiceWorker registration successful with scope: ", registration.scope );
             } ).catch( function ( err ) { // registration failed :(
@@ -443,16 +462,18 @@
 
     }
 
-    window.httoolbox.app = {
+    window.love2dev.app = {
         PREFERENCE_KEY: PREFERENCE_KEY,
         goToLogin: goToLogin,
         toggleModalBackground: toggleModalBackground,
         toggleModal: toggleModal,
         authCallback: authCallback,
-        pageLoadedCallback: pageLoadedCallback,
         notAuthCallback: notAuthCallback,
+        loadPageCallback: loadPageCallback,
+        canPromptCallback: canPromptCallback,
         fetchAndInsert: fetchAndInsert,
-        siteConfig: siteConfig
+        siteConfig: siteConfig,
+        apiBase: "https://rj6n0jgrvg.execute-api.us-east-1.amazonaws.com/dev"
     };
 
 

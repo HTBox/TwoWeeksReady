@@ -137,6 +137,10 @@ _TeamCity*
 .axoCover/*
 !.axoCover/settings.json
 
+# Node environment variables
+*.env
+
+
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml
