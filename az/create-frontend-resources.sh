@@ -22,8 +22,9 @@ echo "Creating static site Storage Account ${ENV_PREFIX}storage"
 STORAGE_ACCOUNT=${ENV_PREFIX}storage
 az storage account create -n $STORAGE_ACCOUNT
 az storage blob service-properties update --account-name $STORAGE_ACCOUNT --static-website --404-document 404.html --index-document index.html
-STORAGE_WEB_ENDPOINT=$(az storage account show -n twrdavestorage --query secondaryEndpoints.web -o tsv)
-
+STORAGE_WEB_ENDPOINT=$(az storage account show -n twrdavestorage --query primaryEndpoints.web -o tsv)
+STORAGE_WEB_ENDPOINT=${STORAGE_WEB_ENDPOINT/#https\:\/\/}
+STORAGE_WEB_ENDPOINT=${STORAGE_WEB_ENDPOINT/\/} #trim the trailing slash
 echo "Storage endpoint for static site hosting: $STORAGE_WEB_ENDPOINT"
 
 CDN_PROFILE_NAME=${ENV_PREFIX}
