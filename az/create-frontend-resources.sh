@@ -22,7 +22,7 @@ echo "Creating static site Storage Account ${ENV_PREFIX}storage"
 STORAGE_ACCOUNT=${ENV_PREFIX}storage
 az storage account create -n $STORAGE_ACCOUNT
 az storage blob service-properties update --account-name $STORAGE_ACCOUNT --static-website --404-document 404.html --index-document index.html
-STORAGE_WEB_ENDPOINT=$(az storage account show -n twrdavestorage --query primaryEndpoints.web -o tsv | awk -F "/" '{ print $3 }')
+STORAGE_WEB_ENDPOINT=$(az storage account show -n $STORAGE_ACCOUNT --query primaryEndpoints.web -o tsv | awk -F "/" '{ print $3 }')
 
 echo "Storage endpoint for static site hosting: $STORAGE_WEB_ENDPOINT"
 
