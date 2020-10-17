@@ -1,0 +1,40 @@
+name: 2wr-app CI/CD
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+      working-directory: ./2wr-app
+    - run: npm run build
+      working-directory: ./2wr-app
+ #   TODO: Need to create an azure service principla and set the AZURE_CREDENTIALS secret
+ #   - name: Azure Login
+ #     if: github.event_name != 'pull_request'
+ #     uses: azure/login@v1
+ #     with:
+ #       creds: ${{ secrets.AZURE_CREDENTIALS }}
+ #   - name: Azure Deploy Resources
+ #     if: github.event_name != 'pull_request'
+ #     uses: Azure/cli@v1.0.0
+ #     with:
+ #       inlineScript: |
+ #         chmod +x $GITHUB_WORKSPACE/az/deploy-frontend.sh
+ #         $GITHUB_WORKSPACE/az/deploy-frontend.sh
