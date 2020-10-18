@@ -19,13 +19,13 @@ namespace TwoWeeksReady.FamilyMembers
         public static async Task<IActionResult> GetList(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]
             HttpRequest req,
-            [CosmosDB( databaseName: "twr", collectionName: "familymembers", ConnectionStringSetting = "CosmosDBConnection")] 
+            [CosmosDB( databaseName: "2wr", collectionName: "familymembers", ConnectionStringSetting = "CosmosDBConnection")] 
             DocumentClient client,
                 ILogger log)
         {
             log.LogInformation($"Getting list of family members");
             
-            Uri collectionUri = UriFactory.CreateDocumentCollectionUri("twr", "familymembers");
+            Uri collectionUri = UriFactory.CreateDocumentCollectionUri("2wr", "familymembers");
 
             var query = client.CreateDocumentQuery<FamilyMember>(collectionUri).AsDocumentQuery();
             var familyMembers = new List<FamilyMember>();
