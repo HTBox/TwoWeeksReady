@@ -1,0 +1,45 @@
+name: Api CI/CD
+
+on:
+  push:
+    paths:
+      - 'api/**'
+      - '.github/workflows/api.yml'
+    branches: [ master ]
+  pull_request:
+    paths:
+      - 'api/**'
+      - '.github/workflows/api.yml'
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+    - name: Build
+      run: dotnet build -c Release
+      working-directory: ./api
+    - name: Publish
+      run: dotnet publish -c Release
+      working-directory: ./api
+    - name: Zip Functions Package
+      run: zip -r ../deploy.zip ./
+      working-directory: ./api/bin/Release/netcoreapp3.1/publish/
+    #- name: Azure Login
+    #  if: github.event_name != 'pull_request'
+    #  uses: azure/login@v1
+    #  with:
+    #    creds: ${{ secrets.AZURE_CREDENTIALS }}
+    #- name: Azure Deploy Resources
+    #  if: github.event_name != 'pull_request'
+    #  uses: Azure/cli@v1.0.0
+    #  with:
+    #    # Specify the script here
+    #    inlineScript: |
+    #      chmod +x $GITHUB_WORKSPACE/az/deploy_backend.sh
+    #      $GITHUB_WORKSPACE/az/deploy_backend.sh -z $GITHUB_WORKSPACE/api/bin/Release/netcoreapp3.1/deploy.zip
