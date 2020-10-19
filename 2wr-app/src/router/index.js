@@ -1,11 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import Prepare from '../views/prepare/Prepare.vue';
-import EmergencyKitListing from '../views/prepare/EmergencyKits/List.vue';
-
-import Recent from '../views/recent/Recent.vue';
-import Settings from '../views/settings/Settings.vue';
+import Prepare from '../views/prepare/prepare.vue';
+import EmergencyKitListing from '../views/prepare/emergency-kits/emergency-kit-listing.vue';
+import Recent from '../views/recent/recent.vue';
+import Settings from '../views/settings/settings.vue';
 
 Vue.use(VueRouter);
 

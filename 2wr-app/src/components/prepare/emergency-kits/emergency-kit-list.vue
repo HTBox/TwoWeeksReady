@@ -32,6 +32,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   export default {
     name: 'EmergencyKitList',
     data: () => ({
@@ -40,37 +42,10 @@
           text: 'Kit name',
           value: 'name'
         }
-      ],
-      listing: [
-        {
-          id: 1,
-          name: 'Emergency Kit 1',
-          color: 'cyan darken-3'
-        },
-        {
-          id: 2,
-          name: 'Emergency Kit 2',
-          color: 'teal darken-3'
-        },
-
-        {
-          id: 3,
-          name: 'Emergency Kit 3',
-          color: 'cyan darken-3'
-        },
-
-        {
-          id: 4,
-          name: 'Emergency Kit 4',
-          color: 'teal darken-3'
-        },
-
-        {
-          id: 5,
-          name: 'Emergency Kit 5',
-          color: 'blue-grey darken-1'
-        }
-      ]
+      ]      
+    }),
+    computed:  mapState({
+      listing: state => state.emergencyKitStore.list
     }),
     methods: {
       goBack() {
