@@ -42,5 +42,4 @@ jobs:
       with:
         inlineScript: |
           chmod +x ./deploy-frontend.sh
-          ./deploy-frontend.sh
-        working-directory: $GITHUB_WORKSPACE/az
+          ./deploy-frontend.sh -s $GITHUB_WORKSPACE/2wr-app/dist/
