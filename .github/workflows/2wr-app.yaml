@@ -31,16 +31,15 @@ jobs:
       working-directory: ./2wr-app
     - run: npm run build
       working-directory: ./2wr-app
- #   TODO: Need to create an azure service principla and set the AZURE_CREDENTIALS secret
- #   - name: Azure Login
- #     if: github.event_name != 'pull_request'
- #     uses: azure/login@v1
- #     with:
- #       creds: ${{ secrets.AZURE_CREDENTIALS }}
- #   - name: Azure Deploy Resources
- #     if: github.event_name != 'pull_request'
- #     uses: Azure/cli@v1.0.0
- #     with:
- #       inlineScript: |
- #         chmod +x $GITHUB_WORKSPACE/az/deploy-frontend.sh
- #         $GITHUB_WORKSPACE/az/deploy-frontend.sh
+    - name: Azure Login
+      if: github.event_name != 'pull_request'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Azure Deploy Resources
+      if: github.event_name != 'pull_request'
+      uses: Azure/cli@v1.0.0
+      with:
+        inlineScript: |
+          chmod +x $GITHUB_WORKSPACE/az/deploy-frontend.sh
+          $GITHUB_WORKSPACE/az/deploy-frontend.sh
