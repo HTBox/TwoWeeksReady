@@ -41,5 +41,5 @@ jobs:
       uses: Azure/cli@v1.0.0
       with:
         inlineScript: |
-          chmod +x ./deploy-frontend.sh
-          ./deploy-frontend.sh -s $GITHUB_WORKSPACE/2wr-app/dist/
+          chmod +x $GITHUB_WORKSPACE/az/deploy-frontend.sh
+          $GITHUB_WORKSPACE/az/deploy-frontend.sh -s $GITHUB_WORKSPACE/2wr-app/dist/
