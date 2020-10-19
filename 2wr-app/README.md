@@ -1,5 +1,7 @@
 # 2wr-app
 
+![Build Status](https://github.com/HTBox/TwoWeeksReady/workflows/2wr-app%20CI%2FCD/badge.svg)
+
 ## Application wireframes
 
 See [Application wireframes](https://xd.adobe.com/view/5bc4d9d7-cfb8-40aa-4f14-286bffd40f5c-2df5/grid)
