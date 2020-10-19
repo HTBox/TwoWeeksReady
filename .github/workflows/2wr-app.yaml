@@ -3,13 +3,13 @@ name: 2wr-app CI/CD
 on:
   push:
     paths:
-      - './2wr-app/**'
-      - './.github/workflows/2wr-app.yml'
+      - '2wr-app/**'
+      - '.github/workflows/2wr-app.yml'
     branches: [ master ]
   pull_request:
     paths:
-      - './2wr-app/**'
-      - './.github/workflows/2wr-app.yml'
+      - '2wr-app/**'
+      - '.github/workflows/2wr-app.yml'
     branches: [ master ]
 
 jobs:
