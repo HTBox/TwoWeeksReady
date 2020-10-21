@@ -25,6 +25,17 @@ npm run serve
 npm run build
 ```
 
+### Run production files after build
+
+First line you only ever need to execute once.
+Second line, execute every time prior to the third. (this is for the Powershell terminal, node terminal switch this to `export NODE_ENV=production` or `SET NODE_ENV=production`)
+
+```Powershell
+npm install -g serve
+$env:NODE_ENV="production"
+serve -s dist
+```
+
 ### Lints and fixes files
 ```
 npm run lint

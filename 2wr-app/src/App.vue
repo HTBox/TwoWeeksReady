@@ -21,11 +21,12 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
-  data: () => ({
-    //
-  }),
+  computed: {
+    isOnline(){
+      return this.$store.getters['globalStore/isOnline'];
+    }
+  }  
 };
 </script>
