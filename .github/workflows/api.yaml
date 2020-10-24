@@ -11,6 +11,7 @@ on:
       - 'api/**'
       - '.github/workflows/api.yml'
     branches: [ master ]
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -40,5 +41,5 @@ jobs:
       uses: Azure/cli@v1.0.0
       with:
         inlineScript: |
-          chmod +x $GITHUB_WORKSPACE/az/deploy_backend.sh
-          $GITHUB_WORKSPACE/az/deploy_backend.sh -z $GITHUB_WORKSPACE/api/bin/Release/netcoreapp3.1/deploy.zip
+          chmod +x $GITHUB_WORKSPACE/az/deploy-backend.sh
+          $GITHUB_WORKSPACE/az/deploy-backend.sh -z $GITHUB_WORKSPACE/api/bin/Release/netcoreapp3.1/deploy.zip
