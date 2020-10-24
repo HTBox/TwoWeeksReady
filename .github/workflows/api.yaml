@@ -30,16 +30,15 @@ jobs:
     - name: Zip Functions Package
       run: zip -r ../deploy.zip ./
       working-directory: ./api/bin/Release/netcoreapp3.1/publish/
-    #- name: Azure Login
-    #  if: github.event_name != 'pull_request'
-    #  uses: azure/login@v1
-    #  with:
-    #    creds: ${{ secrets.AZURE_CREDENTIALS }}
-    #- name: Azure Deploy Resources
-    #  if: github.event_name != 'pull_request'
-    #  uses: Azure/cli@v1.0.0
-    #  with:
-    #    # Specify the script here
-    #    inlineScript: |
-    #      chmod +x $GITHUB_WORKSPACE/az/deploy_backend.sh
-    #      $GITHUB_WORKSPACE/az/deploy_backend.sh -z $GITHUB_WORKSPACE/api/bin/Release/netcoreapp3.1/deploy.zip
+    - name: Azure Login
+      if: github.event_name != 'pull_request'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Azure Deploy Resources
+      if: github.event_name != 'pull_request'
+      uses: Azure/cli@v1.0.0
+      with:
+        inlineScript: |
+          chmod +x $GITHUB_WORKSPACE/az/deploy_backend.sh
+          $GITHUB_WORKSPACE/az/deploy_backend.sh -z $GITHUB_WORKSPACE/api/bin/Release/netcoreapp3.1/deploy.zip
