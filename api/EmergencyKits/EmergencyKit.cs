@@ -1,12 +1,16 @@
-using System;
+using Newtonsoft.Json;
 
 namespace TwoWeeksReady.EmergencyKits
 {
     public class EmergencyKit
-    {
-        public string id {get; set;}
-        public string name {get; set;}
-        public string color {get;set;}
-        public string partitionKey {get;set;}
+    {        
+        [JsonProperty(PropertyName = "id")]
+        public string Id {get; set;}
+
+        [JsonProperty(PropertyName = "name")]
+        public string Name {get; set;}
+        
+         [JsonProperty(PropertyName = "color")]
+        public string Color {get;set;}
     }
 }

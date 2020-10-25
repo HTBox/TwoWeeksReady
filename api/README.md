@@ -25,3 +25,16 @@ func start --build
 ### Run from VS Code menu
 
 F5
+
+
+### Example local.settings.json
+
+```Javascript
+{
+  "IsEncrypted": false,
+  "Values": {
+    "CosmosDBConnection": "<<COSMOSDB CONNECTION STRING>>",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  }
+}
+```
