@@ -1,3 +1,5 @@
+const Dotenv = require('dotenv-webpack');
+
 module.exports = {
    pwa: {
      workboxPluginMode: "InjectManifest",
@@ -8,6 +10,11 @@ module.exports = {
        start_url: "/index.html"
      }
    },
+   configureWebpack: {
+    plugins: [
+      new Dotenv()
+    ]
+  },
   "transpileDependencies": [
     "vuetify"
   ]

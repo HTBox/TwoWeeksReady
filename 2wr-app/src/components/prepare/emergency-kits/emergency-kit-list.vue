@@ -47,6 +47,9 @@
     computed:  mapState({
       listing: state => state.emergencyKitStore.list
     }),
+    created() {
+      this.$store.dispatch('emergencyKitStore/getEmergencyKitListAsync');
+    },
     methods: {
       goBack() {
          window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
