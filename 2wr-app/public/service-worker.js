@@ -21,7 +21,7 @@ if (workbox) {
         new workbox.strategies.StaleWhileRevalidate({
             cacheName: 'google-fonts-stylesheets',
         })
-    )
+    );
 
     workbox.routing.registerRoute(
         /^https:\/\/fonts\.gstatic\.com/,
@@ -39,6 +39,9 @@ if (workbox) {
         })
     );
 }
+
+//attempted api call regex: /^http[s]?(.*)\/api\/(.*)/
+
 
 // This code listens for the user's confirmation to update the app.
 // self.addEventListener('message', (e) => {
