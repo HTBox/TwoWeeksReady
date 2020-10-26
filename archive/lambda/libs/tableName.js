@@ -1,1 +1,0 @@
-exports.table_name = "twoDaysReady";

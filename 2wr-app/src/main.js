@@ -8,7 +8,7 @@ import store from './store';
 Vue.config.productionTip = false
 
 new Vue({
-  vuetify,
+  vuetify,  
   router,
   store, 
   render: h => h(App),
