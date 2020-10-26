@@ -30,7 +30,7 @@ jobs:
       working-directory: ./api
     - name: Zip Functions Package
       run: zip -r ../deploy.zip ./
-      working-directory: ./api/bin/Release/netcoreapp3.1/publish/
+      working-directory: ./api/TwoWeeksReady/bin/Release/netcoreapp3.1/publish/
     - name: Azure Login
       if: github.event_name != 'pull_request'
       uses: azure/login@v1
@@ -42,4 +42,4 @@ jobs:
       with:
         inlineScript: |
           chmod +x $GITHUB_WORKSPACE/az/deploy-backend.sh
-          $GITHUB_WORKSPACE/az/deploy-backend.sh -z $GITHUB_WORKSPACE/api/bin/Release/netcoreapp3.1/deploy.zip
+          $GITHUB_WORKSPACE/az/deploy-backend.sh -z $GITHUB_WORKSPACE/api/TwoWeeksReady/bin/Release/netcoreapp3.1/deploy.zip
