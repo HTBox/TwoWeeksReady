@@ -22,10 +22,9 @@ dotnet build
 func start --build
 ```
 
-### Run from VS Code menu
+### Debug from VS Code menu
 
 F5
-
 
 ### Example local.settings.json
 
@@ -35,6 +34,9 @@ F5
   "Values": {
     "CosmosDBConnection": "<<COSMOSDB CONNECTION STRING>>",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  },
+  "Host":{
+    "CORS": "*"
   }
 }
 ```

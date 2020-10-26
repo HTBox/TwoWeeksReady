@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
+    "localforage": "^1.9.0",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
@@ -24,6 +25,7 @@
     "@vue/cli-plugin-router": "^4.5.7",
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
+    "dotenv-webpack": "^4.0.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.19.0",
