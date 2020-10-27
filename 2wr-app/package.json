@@ -8,9 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "localforage": "^1.9.0",
+    "redaxios": "^0.3.0",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
