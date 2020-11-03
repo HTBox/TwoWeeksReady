@@ -1,10 +1,13 @@
 import axios from 'axios';
-
+import  { getAuthInstance } from '../auth';
 const baseApiInstance = {
-    getInstance() {
+    async getInstance() {
         const options = {};        
         options.baseURL = process.env.VUE_APP_APIROOT;        
-        //options.headers.Authorization = "Bearer asdfjljaslfkjasldf";
+        const token = await getAuthInstance().getTokenSilently();
+        options.headers = {
+            Authorization: `Bearer ${token}`
+        };
         return axios.create(options);
     }
 }

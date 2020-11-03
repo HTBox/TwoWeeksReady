@@ -4,8 +4,22 @@ import './register-service-worker';
 import vuetify from './plugins/vuetify';
 import router from './router';
 import store from './store';
+import { Auth0Plugin } from "./auth";
 
 Vue.config.productionTip = false
+
+Vue.use(Auth0Plugin, {
+  domain: process.env.VUE_APP_AUTH0_DOMAIN,
+  clientId: process.env.VUE_APP_AUTH0_CLIENTID,  
+  audience: process.env.VUE_APP_AUTH0_AUDIENCE,
+  onRedirectCallback: appState => {
+    router.push(
+      appState && appState.targetUrl
+        ? appState.targetUrl
+        : window.location.pathname
+    );
+  }
+});
 
 new Vue({
   vuetify,  
@@ -15,7 +29,7 @@ new Vue({
   methods: {
     isOnlineChanged(){      
       this.$store.commit('globalStore/SET_ONLINE_STATUS', navigator.onLine);
-    }
+    },
   },
   mounted() {
     this.$store.commit('globalStore/SET_ONLINE_STATUS', navigator.onLine);

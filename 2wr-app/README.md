@@ -54,4 +54,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ```text
 NODE_ENV=development
 VUE_APP_APIROOT=http://localhost:7071/api
+VUE_APP_AUTH0_DOMAIN=********
+VUE_APP_AUTH0_CLIENTID=********
+VUE_APP_AUTH0_AUDIENCE=********
 ```
