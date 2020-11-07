@@ -10,9 +10,9 @@
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.13.0",
     "auth0-js": "^9.14.0",
-    "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "localforage": "^1.9.0",
+    "redaxios": "^0.3.0",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
