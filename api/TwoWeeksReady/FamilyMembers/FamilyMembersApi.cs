@@ -13,10 +13,11 @@ using Microsoft.Extensions.Logging;
 
 namespace TwoWeeksReady.FamilyMembers
 {
-    public static class FamilyMembersApi
+    public class FamilyMembersApi
     {
+
         [FunctionName("familymembers")]
-        public static async Task<IActionResult> GetList(
+        public async Task<IActionResult> GetList(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]
             HttpRequest req,
             [CosmosDB( databaseName: "2wr", collectionName: "familymembers", ConnectionStringSetting = "CosmosDBConnection")] 

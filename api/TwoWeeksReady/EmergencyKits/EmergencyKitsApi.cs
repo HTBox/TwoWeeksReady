@@ -10,13 +10,22 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
+using OidcApiAuthorization.Abstractions;
+using OidcApiAuthorization.Models;
 
 namespace TwoWeeksReady.EmergencyKits
 {
-    public static class EmergencyKitsApi
+    public class EmergencyKitsApi
     {
+        private readonly IApiAuthorization _apiAuthorization;
+
+        public EmergencyKitsApi(IApiAuthorization apiAuthorization)
+        {
+            _apiAuthorization = apiAuthorization;
+        }
+
         [FunctionName("emergencykits")]
-        public static async Task<IActionResult> GetList(
+        public async Task<IActionResult> GetList(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]
             HttpRequest req,
             [CosmosDB( databaseName: "2wr", collectionName: "emergencykits", ConnectionStringSetting = "CosmosDBConnection")]
@@ -24,7 +33,13 @@ namespace TwoWeeksReady.EmergencyKits
             ILogger log)
         {
           
-            log.LogInformation($"Getting list of emergency kits");            
+            log.LogInformation($"Getting list of emergency kits");      
+            var authorizationResult = await _apiAuthorization.AuthorizeAsync(req.Headers);
+            if (authorizationResult.Failed)
+            {
+                log.LogWarning(authorizationResult.FailureReason);
+                return new UnauthorizedResult();
+            }      
             Uri collectionUri = UriFactory.CreateDocumentCollectionUri("2wr", "emergencykits");
             var query = client.CreateDocumentQuery<EmergencyKit>(collectionUri).AsDocumentQuery();
             var emergencyKits = new List<EmergencyKit>();

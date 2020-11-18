@@ -1,11 +1,13 @@
 import axios from 'redaxios';
-
+import { getAuthInstance } from '../auth';
 const baseApiInstance = {
-    getInstance() {
-        const options = {};        
-        options.baseURL = process.env.VUE_APP_APIROOT;     
-        console.log(options);
-        //options.headers.Authorization = "Bearer asdfjljaslfkjasldf";
+    async getInstance() {
+        const options = {};
+        options.baseURL = process.env.VUE_APP_APIROOT;
+        const token = await getAuthInstance().getTokenSilently();
+        options.headers = {
+            Authorization: `Bearer ${token}`
+        };
         return axios.create(options);
     }
 }
