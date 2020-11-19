@@ -31,7 +31,10 @@ jobs:
     - run: npm ci
       working-directory: ./2wr-app
     - name: Write env file
-      run: echo $DEV_ENV >> ./2wr-app/.env
+      run: 'echo "$DEV_ENV" > ./2wr-app/.env'
+      shell: bash
+      env:
+        SSH_KEY: ${{secrets.DEV_ENV}}
     - run: npm run build
       working-directory: ./2wr-app
     - name: Azure Login
