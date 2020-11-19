@@ -4,7 +4,7 @@
       <router-view></router-view>
     </v-main>
     <!-- Check that the SDK client is not currently loading before accessing is methods -->
-    <div v-if="!$auth.loading">
+    <div>
       <!-- show login when not authenticated -->
    
       <!-- show logout when authenticated -->
