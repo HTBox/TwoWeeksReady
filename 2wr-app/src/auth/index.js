@@ -64,30 +64,30 @@ export const useAuth0 = ({
       },
       /** Authenticates the user using the redirect method */
       loginWithRedirect(o) {
-        return this.auth0Client.loginWithRedirect(o);
+        return this.auth0ClientPromise.then((client) => client.loginWithRedirect(o));
       },
       /** Returns all the claims present in the ID token */
       getIdTokenClaims(o) {
-        return this.auth0Client.getIdTokenClaims(o);
+        return this.auth0ClientPromise.then((client) => client.getIdTokenClaims(o));
       },
       /** Returns the access token. If the token is invalid or missing, a new one is retrieved */
       getTokenSilently(o) {
-        return this.auth0Client.getTokenSilently(o);
+        return this.auth0ClientPromise.then((client) => client.getTokenSilently(o));
       },
       /** Gets the access token using a popup window */
 
       getTokenWithPopup(o) {
-        return this.auth0Client.getTokenWithPopup(o);
+        return this.auth0ClientPromise.then((client) => client.getTokenWithPopup(o));
       },
       /** Logs the user out and removes their session on the authorization server */
       logout(o) {
-        return this.auth0Client.logout(o);
+        return this.auth0ClientPromise.then((client) => client.logout(o));
       }
     },
     /** Use this lifecycle method to instantiate the SDK client */
     async created() {
       // Create a new instance of the SDK client using members of the given options object
-      this.auth0Client = await createAuth0Client({
+      this.auth0ClientPromise = createAuth0Client({
         domain: options.domain,
         client_id: options.clientId,
         cacheLocation: 'localstorage',
@@ -96,7 +96,8 @@ export const useAuth0 = ({
         audience: options.audience,
         redirect_uri: redirectUri
       });
-      console.log("In here!");
+      this.auth0Client = await this.auth0ClientPromise;
+      
       try {
         // If the user is returning to the app after authentication..
         if (
