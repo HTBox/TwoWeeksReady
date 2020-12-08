@@ -58,7 +58,7 @@ namespace TwoWeeksReady.EmergencyKits
             return new OkObjectResult(emergencyKits);
         }
 
-        [FunctionName("emergencykits")]
+        [FunctionName("emergencykits-add")]
         public async Task<IActionResult> Add(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)]
             HttpRequest req,
