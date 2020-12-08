@@ -1,4 +1,6 @@
-﻿namespace OidcApiAuthorization.Models
+﻿using System.Security.Claims;
+
+namespace OidcApiAuthorization.Models
 {
     /// <summary>
     /// Encapsulates the results of an API authorization.
@@ -8,8 +10,9 @@
         /// <summary>
         /// Constructs a success authorization.
         /// </summary>
-        public ApiAuthorizationResult()
+        public ApiAuthorizationResult(ClaimsPrincipal principal)
         {
+            User = principal;
         }
 
         /// <summary>
@@ -18,8 +21,9 @@
         /// <param name="failureReason">
         /// Describes the reason for the authorization failure.
         /// </param>
-        public ApiAuthorizationResult(string failureReason)
+        public ApiAuthorizationResult(ClaimsPrincipal principal, string failureReason)
         {
+            User = principal;
             FailureReason = failureReason;
         }
 
@@ -32,6 +36,8 @@
         /// String describing the reason for the authorization failure.
         /// </summary>
         public string FailureReason { get; }
+
+        public ClaimsPrincipal User {get;}
 
         /// <summary>
         /// True if authorization was successful.
