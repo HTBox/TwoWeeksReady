@@ -44,7 +44,7 @@ namespace TwoWeeksReady.EmergencyKits
                 return new UnauthorizedResult();
             }      
             Uri collectionUri = UriFactory.CreateDocumentCollectionUri("2wr", "emergencykits");
-            var query = client.CreateDocumentQuery<EmergencyKit>(collectionUri)
+            var query = client.CreateDocumentQuery<EmergencyKit>(collectionUri, new FeedOptions{EnableCrossPartitionQuery = true}) // REVIEW: Why is this required when my where clause includes the partition id?
                                 .Where(e => e.UserId == authorizationResult.User.Identity.Name)
                                 .AsDocumentQuery();
 
@@ -81,7 +81,7 @@ namespace TwoWeeksReady.EmergencyKits
             newEmergencyKit.UserId = authorizationResult.User.Identity.Name;
 
             Uri collectionUri = UriFactory.CreateDocumentCollectionUri("2wr", "emergencykits");
-            Document document = await client.CreateDocumentAsync(collectionUri.AbsolutePath, newEmergencyKit);
+            Document document = await client.CreateDocumentAsync(collectionUri, newEmergencyKit);
       
            
             return new OkObjectResult(newEmergencyKit);

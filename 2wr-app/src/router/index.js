@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 import Prepare from '../views/prepare/prepare.vue';
 import EmergencyKitListing from '../views/prepare/emergency-kits/emergency-kit-listing.vue';
+import EmergencyKitCreatePage from '../views/prepare/emergency-kits/emergency-kit-create.vue';
 import Recent from '../views/recent/recent.vue';
 import Settings from '../views/settings/settings.vue';
 
@@ -22,6 +23,11 @@ const routes = [
       path: '/prepare/emergencykits',
       name: 'emergencykits',
       component: EmergencyKitListing
+    },
+    {
+      path: '/prepare/emergencykits/create',
+      name: 'emergencykitcreate',
+      component: EmergencyKitCreatePage
     },
     {
       path: '/recent',
