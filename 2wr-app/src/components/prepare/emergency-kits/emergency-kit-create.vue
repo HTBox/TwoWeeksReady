@@ -27,7 +27,6 @@ export default {
   }),
   computed: mapState({
     isSaving: (state) => state.emergencyKitStore.isSaving,
-    isSaveSuccess: (state) => state.emergencyKitStore.isSaveSuccess,
     saveErrorMessage: (state) => state.emergencyKitStore.saveErrorMessage
   }),
   methods: {
@@ -39,7 +38,6 @@ export default {
         name: this.name,
         color: this.color,
       });
-      console.log(success);
       if (success) { 
         this. goBack();
       }
