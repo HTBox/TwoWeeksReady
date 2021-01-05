@@ -7,6 +7,9 @@ namespace TwoWeeksReady.EmergencyKits
         [JsonProperty(PropertyName = "id")]
         public string Id {get; set;}
 
+        [JsonProperty(PropertyName = "userId")]
+        public string UserId {get; set;}
+
         [JsonProperty(PropertyName = "name")]
         public string Name {get; set;}
         

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -51,15 +52,16 @@ namespace OidcApiAuthorization
         public async Task<ApiAuthorizationResult> AuthorizeAsync(
             IHeaderDictionary httpRequestHeaders)
         {
+            bool isTokenValid = false;
+            ClaimsPrincipal principal = new ClaimsPrincipal();
+            
             string authorizationBearerToken = _authorizationHeaderBearerTokenExractor.GetToken(
                 httpRequestHeaders);
             if (authorizationBearerToken == null)
             {
-                return new ApiAuthorizationResult(
+                return new ApiAuthorizationResult(principal,
                     "Authorization header is missing, invalid format, or is not a Bearer token.");
             }
-
-            bool isTokenValid = false;
 
             int validationRetryCount = 0;
 
@@ -77,7 +79,7 @@ namespace OidcApiAuthorization
                 }
                 catch (Exception ex)
                 {
-                    return new ApiAuthorizationResult(
+                    return new ApiAuthorizationResult(principal, 
                         "Problem getting signing keys from Open ID Connect provider (issuer)."
                         + $" ConfigurationManager threw {ex.GetType()} Message: {ex.Message}");
                 }
@@ -95,11 +97,12 @@ namespace OidcApiAuthorization
                         ValidateIssuer = true,
                         ValidateIssuerSigningKey = true,
                         ValidateLifetime = true,
-                        IssuerSigningKeys = isserSigningKeys
+                        IssuerSigningKeys = isserSigningKeys,
+                        NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
                     };
 
                     // Throws if the the token cannot be validated.
-                    _jwtSecurityTokenHandlerWrapper.ValidateToken(
+                    principal = _jwtSecurityTokenHandlerWrapper.ValidateToken(
                         authorizationBearerToken,
                         tokenValidationParameters);
 
@@ -121,7 +124,7 @@ namespace OidcApiAuthorization
                 }
                 catch (Exception ex)
                 {
-                    return new ApiAuthorizationResult(
+                    return new ApiAuthorizationResult(principal, 
                         $"Authorization Failed. {ex.GetType()} caught while validating JWT token."
                         + $"Message: {ex.Message}");
                 }
@@ -129,7 +132,7 @@ namespace OidcApiAuthorization
             } while (!isTokenValid && validationRetryCount <= 1);
 
             // Success result.
-            return new ApiAuthorizationResult();
+            return new ApiAuthorizationResult(principal);
         }
 
         public async Task<HealthCheckResult> HealthCheckAsync()
