@@ -22,8 +22,8 @@ Create a `local.settings.json` file in the TwoWeeksReady project folder. You wil
   "IsEncrypted": false,
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    "OidcApiAuthorizationSettings:Audience": "https://2wrdev.azurewebsites.net",
-    "OidcApiAuthorizationSettings:IssuerUrl": "https://dev-3y6ze-l0.us.auth0.com/"
+    "OidcApiAuthSettings:Audience": "https://2wrdev.azurewebsites.net",
+    "OidcApiAuthSettings:IssuerUrl": "https://dev-3y6ze-l0.us.auth0.com/"
   },
   "ConnectionStrings": {
     "CosmosDBConnection": "AccountEndpoint=https://localhost:8081/;AccountKey=YOURLOCALACCOUNTKEY"

@@ -1,6 +1,6 @@
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using OidcApiAuthorization;
+using AzureFunctions.OidcAuthentication;
 
 [assembly: FunctionsStartup(typeof(TwoWeeksReady.Startup))]
 

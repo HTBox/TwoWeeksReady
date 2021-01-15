@@ -13,18 +13,17 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using OidcApiAuthorization.Abstractions;
-using OidcApiAuthorization.Models;
+using AzureFunctions.OidcAuthentication;
 
 namespace TwoWeeksReady.EmergencyKits
 {
     public class EmergencyKitsApi
     {
-        private readonly IApiAuthorization _apiAuthorization;
+        private readonly IApiAuthentication _apiAuthentication;
 
-        public EmergencyKitsApi(IApiAuthorization apiAuthorization)
+        public EmergencyKitsApi(IApiAuthentication apiAuthentication)
         {
-            _apiAuthorization = apiAuthorization;
+            _apiAuthentication = apiAuthentication;
         }
 
         [FunctionName("emergencykits")]
@@ -37,7 +36,7 @@ namespace TwoWeeksReady.EmergencyKits
         {
           
             log.LogInformation($"Getting list of emergency kits");      
-            var authorizationResult = await _apiAuthorization.AuthorizeAsync(req.Headers);
+            var authorizationResult = await _apiAuthentication.AuthenticateAsync(req.Headers);
             if (authorizationResult.Failed)
             {
                 log.LogWarning(authorizationResult.FailureReason);
@@ -68,7 +67,7 @@ namespace TwoWeeksReady.EmergencyKits
         {
           
             log.LogInformation($"Getting list of emergency kits");      
-            var authorizationResult = await _apiAuthorization.AuthorizeAsync(req.Headers);
+            var authorizationResult = await _apiAuthentication.AuthenticateAsync(req.Headers);
             if (authorizationResult.Failed)
             {
                 log.LogWarning(authorizationResult.FailureReason);
