@@ -5,9 +5,10 @@
       <v-icon class="mr-2">mdi-medical-bag</v-icon>
       <v-toolbar-title>Emergency Kit Create</v-toolbar-title>
     </v-app-bar>
-    <v-form>
-      <v-text-field v-model="name" required />
-      <v-text-field v-model="color" required />
+    <v-form>      
+      <v-text-field label="Kit name" v-model="name" required/>
+      Color:
+      <v-color-picker v-model="color" flat></v-color-picker>
       <v-alert v-if="saveErrorMessage"
       type="error"
       >{{saveErrorMessage}}</v-alert>
@@ -23,7 +24,8 @@ export default {
   name: "EmergencyKitCreate",
   data: () => ({
     name: "",
-    color: "blue",
+    color: "#0000FF",
+    items: ""
   }),
   computed: mapState({
     isSaving: (state) => state.emergencyKitStore.isSaving,
@@ -41,7 +43,6 @@ export default {
       if (success) { 
         this. goBack();
       }
-
     },
   },
 };

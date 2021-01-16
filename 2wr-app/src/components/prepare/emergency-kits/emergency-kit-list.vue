@@ -4,17 +4,8 @@
           <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
           <v-icon class="mr-2">mdi-medical-bag</v-icon>
           <v-toolbar-title>Emergency Kit List</v-toolbar-title>
-                  <v-fab-transition>
-              <v-btn
-                v-show="!hidden"
-                color="green"
-                dark
-                absolute
-                bottom
-                right
-                fab
-                to="/prepare/emergencykits/create"
-              >
+            <v-fab-transition>
+              <v-btn color="green" dark absolute bottom right fab to="/prepare/emergencykits/create">
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-fab-transition>
@@ -42,7 +33,6 @@
             </v-card>
           </template>
         </v-data-iterator>
-
     </v-container>
 </template>
 
