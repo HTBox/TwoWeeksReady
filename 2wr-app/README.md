@@ -10,6 +10,12 @@ See [Application wireframes](https://xd.adobe.com/view/5bc4d9d7-cfb8-40aa-4f14-2
 
 See [Material design icons](https://materialdesignicons.com/)
 
+## CodeTour Onboarding
+
+In VSCode, you can get a walk-through of the code via the [CodeTour](https://marketplace.visualstudio.com/items?itemName=vsls-contrib.codetour) extension. Install this extension, and review tours available in the 'CodeTour' folder.
+
+![CodeTour API file and panel with the Open tour file selected.](../assets/images/codetour_ui.png "CodeTour panel")
+
 ## Project setup
 
 ```console

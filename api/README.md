@@ -34,6 +34,11 @@ Create a `local.settings.json` file in the TwoWeeksReady project folder. You wil
 }
 ```
 
+## CodeTour Onboarding
+
+In VSCode, you can get a walk-through of the code via the [CodeTour](https://marketplace.visualstudio.com/items?itemName=vsls-contrib.codetour) extension. Install this extension, and review tours available in the 'CodeTour' folder.
+
+![CodeTour API file and panel with the Open tour file selected.](../assets/images/codetour_api.png "CodeTour panel")
 
 ## Development Workflow
 
