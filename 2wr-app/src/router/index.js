@@ -6,6 +6,7 @@ import EmergencyKitListing from '../views/prepare/emergency-kits/emergency-kit-l
 import EmergencyKitCreatePage from '../views/prepare/emergency-kits/emergency-kit-create.vue';
 import Recent from '../views/recent/recent.vue';
 import Settings from '../views/settings/settings.vue';
+import { getAuthInstance } from '../auth';
 
 Vue.use(VueRouter);
 
@@ -22,12 +23,14 @@ const routes = [
     {
       path: '/prepare/emergencykits',
       name: 'emergencykits',
-      component: EmergencyKitListing
+      component: EmergencyKitListing,
+      meta: { requiresAuth: true }
     },
     {
       path: '/prepare/emergencykits/create',
       name: 'emergencykitcreate',
-      component: EmergencyKitCreatePage
+      component: EmergencyKitCreatePage,
+      meta: { requiresAuth: true }
     },
     {
       path: '/recent',
@@ -37,7 +40,8 @@ const routes = [
     {
       path: '/settings',
       name: 'settings',
-      component: Settings
+      component: Settings,
+      meta: { requiresAuth: true }
     },
     {
       path: '*',
@@ -49,5 +53,20 @@ const router = new VueRouter({
   mode: 'history',
   routes
 });
+
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    const auth = getAuthInstance();
+    if (!await auth.getIsAuthenticated()) {
+      auth.loginWithRedirect();
+    } else {
+      next()
+    }
+  } else {
+    next() // make sure to always call next()!
+  }
+})
 
 export default router;
