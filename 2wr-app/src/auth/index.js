@@ -82,6 +82,9 @@ export const useAuth0 = ({
       /** Logs the user out and removes their session on the authorization server */
       logout(o) {
         return this.auth0ClientPromise.then((client) => client.logout(o));
+      },
+      getIsAuthenticated() {
+        return this.auth0ClientPromise.then((client) => client.isAuthenticated());
       }
     },
     /** Use this lifecycle method to instantiate the SDK client */
