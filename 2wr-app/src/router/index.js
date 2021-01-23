@@ -60,7 +60,7 @@ router.beforeEach(async (to, from, next) => {
     // if not, redirect to login page.
     const auth = getAuthInstance();
     if (!await auth.getIsAuthenticated()) {
-      auth.loginWithRedirect();
+      auth.loginWithRedirect(to.path);
     } else {
       next()
     }

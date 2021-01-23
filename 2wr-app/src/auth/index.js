@@ -2,9 +2,8 @@ import Vue from "vue";
 import createAuth0Client from "@auth0/auth0-spa-js";
 
 /** Define a default action to perform after authentication */
-const DEFAULT_REDIRECT_CALLBACK = () =>
-  {
-  window.history.replaceState({}, document.title, window.location.pathname);
+const DEFAULT_REDIRECT_CALLBACK = () => {
+    window.history.replaceState({}, document.title, window.location.pathname);
   }
 
 let instance;
@@ -63,8 +62,14 @@ export const useAuth0 = ({
         }
       },
       /** Authenticates the user using the redirect method */
-      loginWithRedirect(o) {
-        return this.auth0ClientPromise.then((client) => client.loginWithRedirect(o));
+      loginWithRedirect(routePath) {
+        let options = {};
+        if (routePath) {
+         options.appState = {
+            targetUrl: routePath
+          }
+        }
+        return this.auth0ClientPromise.then((client) => client.loginWithRedirect(options));
       },
       /** Returns all the claims present in the ID token */
       getIdTokenClaims(o) {
@@ -100,7 +105,7 @@ export const useAuth0 = ({
         redirect_uri: redirectUri
       });
       this.auth0Client = await this.auth0ClientPromise;
-      
+
       try {
         // If the user is returning to the app after authentication..
         if (
