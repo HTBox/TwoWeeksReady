@@ -1,6 +1,6 @@
 # 2 Weeks Ready
 
-Try the live app: [2 Weeks Ready - Dev](https://2wrdev.azureedge.net/)
+Try the live test version of app: [2 Weeks Ready - Dev](https://2wrdev.azureedge.net/)
 
 ![2 Weeks Ready Logo.](assets/images/twoweeksready.png)
 
