@@ -6,7 +6,10 @@
     <!-- Check that the SDK client is not currently loading before accessing is methods -->
     <div>
       <!-- show login when not authenticated -->
-   
+
+     <div v-if="isDevVersion">
+       This is the dev version
+     </div>
       <!-- show logout when authenticated -->
       <v-bottom-navigation
        
@@ -46,7 +49,7 @@ export default {
   computed: {
     isOnline() {
       return this.$store.getters["globalStore/isOnline"];
-    },
+    }
   },
   methods: {
     login() {
