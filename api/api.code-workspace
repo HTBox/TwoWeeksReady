@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\TwoWeeksReady.Common"
+		}
+	],
+	"settings": {
+		"debug.internalConsoleOptions": "neverOpen"
+	}
+}
