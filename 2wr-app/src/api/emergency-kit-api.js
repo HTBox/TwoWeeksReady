@@ -5,7 +5,7 @@ const emergencyKitApi = {
         return (await baseApiInstance.getInstance()).get('emergencykits');
     },
     async create(newKit) {
-        return (await baseApiInstance.getInstance()).post('emergencykits-create', newKit);
+        return (await baseApiInstance.getInstance()).post('emergencykit-create', newKit);
     }
 }
 

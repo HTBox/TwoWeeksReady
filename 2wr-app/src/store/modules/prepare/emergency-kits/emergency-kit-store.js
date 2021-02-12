@@ -28,25 +28,25 @@ const emergencyKitStore = {
         }
     },
     actions: {
-        async getEmergencyKitListAsync({commit, rootState}){
-            if(rootState.globalStore.online){
+        async getEmergencyKitListAsync({ commit, rootState }) {
+            if (rootState.globalStore.online) {
                 let response = await emergencyKitApi.getAll();
                 commit('SET_LIST', response.data);
                 await localForage.setItem('getEmergencyKitListAsync', response.data);
             } else {
                 var data = await localForage.getItem('getEmergencyKitListAsync')
-                if(data){
+                if (data) {
                     console.log("Serving from cache");
                     commit('SET_LIST', data);
                 } else {
                     console.log("Offline without data");
                 }
-                
+
             }
-            
+
         },
-        async createEmergencyKitAsync({commit, rootState}, newKit) {
-            if(rootState.globalStore.online){
+        async createEmergencyKitAsync({ commit, rootState }, newKit) {
+            if (rootState.globalStore.online) {
                 try {
                     commit('ADD_START');
                     let response = await emergencyKitApi.create(newKit);
@@ -56,7 +56,7 @@ const emergencyKitStore = {
                     console.error(err);
                     commit('ADD_ERROR', 'Error creating emergency kit');
                 }
-                
+
             }
             else {
                 commit('ADD_ERROR', 'Kit could not be created because you are currently offline');
