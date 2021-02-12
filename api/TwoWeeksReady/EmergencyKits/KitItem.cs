@@ -19,7 +19,7 @@ namespace TwoWeeksReady.EmergencyKits
         [JsonProperty(PropertyName = "quantity")]
         public int Quantity {get;set;}
 
-        [JsonProperty(PropertyName = "unit")]
+        [JsonProperty(PropertyName = "quantityUnit")]
         public string QuantityUnit {get;set;}
 
         [JsonProperty(PropertyName = "photo")]

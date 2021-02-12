@@ -6,14 +6,11 @@ namespace TwoWeeksReady.EmergencyKits
     {        
         [JsonProperty(PropertyName = "baseKitId")]
         public string BaseKitId {get; set;}
-        
-        [JsonProperty(PropertyName = "kit")]
-        public Kit Kit {get; set;}
+
+        [JsonProperty(PropertyName="name")]
+        public string Name {get;set;}
         
         [JsonProperty(PropertyName = "count")]
         public int Count {get;set;}
-
-        [JsonProperty(PropertyName = "unit")]
-        public string Unit {get;set;}
     }
 }

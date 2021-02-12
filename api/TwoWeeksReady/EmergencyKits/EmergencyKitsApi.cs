@@ -149,7 +149,7 @@ namespace TwoWeeksReady.EmergencyKits
             
             var content = await new StreamReader(req.Body).ReadToEndAsync();
             var request = JsonConvert.DeserializeObject<CreateKitFromBaseRequest>(content);
-            var kit = request.Kit;
+            var kit = new Kit();
             kit.Id = Guid.NewGuid().ToString();
             kit.UserId = authorizationResult.User.Identity.Name;
 
@@ -168,12 +168,7 @@ namespace TwoWeeksReady.EmergencyKits
                     return new BadRequestObjectResult("Base Kit not found.");
                 }
             }
-             
-            if(kit.Items.Count > 0)
-            {
-                kit.Items.ForEach(ki => {ki.Id=Guid.NewGuid().ToString(); ki.UserId = authorizationResult.User.Identity.Name;});
-            }
-           
+                       
             baseKit.Items.ForEach(bki => kit.Items.Add(new KitItem{
                 Id = Guid.NewGuid().ToString(),
                 UserId = authorizationResult.User.Identity.Name,
