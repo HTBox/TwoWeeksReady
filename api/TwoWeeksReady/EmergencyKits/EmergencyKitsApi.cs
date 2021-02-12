@@ -13,6 +13,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using AzureFunctions.OidcAuthentication;
+using TwoWeeksReady.Common.EmergencyKits;
 
 namespace TwoWeeksReady.EmergencyKits
 {
