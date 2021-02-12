@@ -5,7 +5,7 @@
       <v-toolbar-title>Prepare</v-toolbar-title>
     </v-app-bar>
     <v-alert v-if="isDevVersion" dismissible type="warning">
-      You are using the Development version of 2 Weeks Ready. This version is for testing purposes only!
+      You are using the Development version of 2 Weeks Ready. This version is for testing purposes only.
     </v-alert>
 
     <v-row class="text-center">
