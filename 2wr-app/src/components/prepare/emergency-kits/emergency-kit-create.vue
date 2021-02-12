@@ -39,6 +39,7 @@ export default {
       const success = await this.$store.dispatch("emergencyKitStore/createEmergencyKitAsync", {
         name: this.name,
         color: this.color,
+        icon: 'mdi-medical-bag'
       });
       if (success) { 
         this. goBack();
