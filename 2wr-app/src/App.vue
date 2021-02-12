@@ -7,9 +7,6 @@
     <div>
       <!-- show login when not authenticated -->
 
-     <div v-if="isDevVersion">
-       This is the dev version
-     </div>
       <!-- show logout when authenticated -->
       <v-bottom-navigation
        

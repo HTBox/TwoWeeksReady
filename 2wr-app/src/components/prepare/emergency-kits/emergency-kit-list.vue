@@ -24,7 +24,7 @@
             <v-card v-for="item in props.items" :key="item.id" :color="item.color" class="my-4" ripple>
               <v-card-title class="white--text">
                 <v-col class="col-9">
-                  {{ item.name }}
+                  <v-icon class="mr-2 white--text">{{item.icon}}</v-icon> {{ item.name }}
                 </v-col>
                 <v-col class="text-right">
                   <v-icon class="mr-2 white--text" @click="deleteKit(item.id)">mdi-trash-can-outline</v-icon>
@@ -53,7 +53,7 @@
       listing: state => state.emergencyKitStore.list
     }),
     created() {
-      this.$store.dispatch('emergencyKitStore/getEmergencyKitListAsync');
+      this.$store.dispatch(`emergencyKitStore/getEmergencyKitListAsync`);
     },
     methods: {
       goBack() {
