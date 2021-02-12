@@ -10,6 +10,13 @@
 
   `npm i -g azure-functions-core-tools@3 --unsafe-perm true`
 
+### Using VS Code
+Open the `api.code-workspace` in VS Code.
+
+### Using Visual Studio 2019
+Open the `api.sln` in Visual Studio 2019.
+
+
 ### Setup Azure CosmosDB
 For local development, you can run the [Azure Cosmos DB Emulator](https://docs.microsoft.com/azure/cosmos-db/local-emulator) if you are developing on Windows. If not, you will need to create a CosmosDB instance in your own Azure account. You can use the [Azure ComsoDB Free Tier](https://docs.microsoft.com/azure/cosmos-db/optimize-dev-test#azure-cosmos-db-free-tier)
 
