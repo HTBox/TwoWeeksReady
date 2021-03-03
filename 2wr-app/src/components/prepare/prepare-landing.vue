@@ -37,7 +37,12 @@
           </v-card-text>
         </v-card>
 
-        <v-card color="yellow darken-4" class="my-4" ripple>
+        <v-card 
+            to="prepare/hazardhunt"
+            color="yellow darken-4" 
+            class="my-4" 
+            ripple
+          >
           <v-card-title class="white--text">
             <v-icon color="white" class="mr-2">mdi-shield-search</v-icon>
             Hazard Hunt
@@ -48,7 +53,12 @@
           </v-card-text>
         </v-card>
 
-        <v-card color="teal darken-3" class="my-4" ripple>
+        <v-card 
+          to="prepare/hazardinfo"
+          color="teal darken-3" 
+          class="my-4" 
+          ripple
+          >
           <v-card-title class="white--text">
             <v-icon color="white" class="mr-2">mdi-shield-alert-outline</v-icon>
             Hazard Information

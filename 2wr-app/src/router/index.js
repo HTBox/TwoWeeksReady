@@ -4,6 +4,8 @@ import VueRouter from 'vue-router';
 import Prepare from '../views/prepare/prepare.vue';
 import EmergencyKitListing from '../views/prepare/emergency-kits/emergency-kit-listing.vue';
 import EmergencyKitCreatePage from '../views/prepare/emergency-kits/emergency-kit-create.vue';
+import HazardHuntListing from '../views/prepare/hazards/hazard-hunt-list-view.vue';
+import HazardInfoListing from '../views/prepare/hazards/hazard-info-list-view.vue';
 import Recent from '../views/recent/recent.vue';
 import Settings from '../views/settings/settings.vue';
 import { getAuthInstance } from '../auth';
@@ -31,6 +33,17 @@ const routes = [
       name: 'emergencykitcreate',
       component: EmergencyKitCreatePage,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/prepare/hazardhunt',
+      name: 'hazardhunt',
+      component: HazardHuntListing,
+      meta: { requiresAuth: false }
+    },    {
+    path: '/prepare/hazardinfo',
+      name: 'hazardinfo',
+      component: HazardInfoListing,
+      meta: { requiresAuth: false }
     },
     {
       path: '/recent',
