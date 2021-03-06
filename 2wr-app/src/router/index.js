@@ -38,12 +38,12 @@ const routes = [
       path: '/prepare/hazardhunt',
       name: 'hazardhunt',
       component: HazardHuntListing,
-      meta: { requiresAuth: false }
+      meta: { requiresAuth: true }
     },    {
     path: '/prepare/hazardinfo',
       name: 'hazardinfo',
       component: HazardInfoListing,
-      meta: { requiresAuth: false }
+      meta: { requiresAuth: true }
     },
     {
       path: '/recent',
