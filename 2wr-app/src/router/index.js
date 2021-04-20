@@ -6,60 +6,99 @@ import EmergencyKitListing from '../views/prepare/emergency-kits/emergency-kit-l
 import EmergencyKitCreatePage from '../views/prepare/emergency-kits/emergency-kit-create.vue';
 import HazardHuntListing from '../views/prepare/hazards/hazard-hunt-list-view.vue';
 import HazardInfoListing from '../views/prepare/hazards/hazard-info-list-view.vue';
+import FamilyPlanLanding from '../views/prepare/family-plans/landing.vue';
+import FamilyPlanCreate from '../views/prepare/family-plans/create.vue';
+import FamilyPlanView from '../views/prepare/family-plans/view.vue';
 import Recent from '../views/recent/recent.vue';
 import Settings from '../views/settings/settings.vue';
-import { getAuthInstance } from '../auth';
+import {
+  getAuthInstance
+} from '../auth';
 
 Vue.use(VueRouter);
 
-const routes = [
-    {
-      path: '/',
-      redirect: '/prepare'
-    },
-    {
-      path: '/prepare',
-      name: 'prepare',
-      component: Prepare
-    },
-    {
-      path: '/prepare/emergencykits',
-      name: 'emergencykits',
-      component: EmergencyKitListing,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/prepare/emergencykits/create',
-      name: 'emergencykitcreate',
-      component: EmergencyKitCreatePage,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/prepare/hazardhunt',
-      name: 'hazardhunt',
-      component: HazardHuntListing,
-      meta: { requiresAuth: true }
-    },    {
-    path: '/prepare/hazardinfo',
-      name: 'hazardinfo',
-      component: HazardInfoListing,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/recent',
-      name: 'recent',
-      component: Recent
-    },
-    {
-      path: '/settings',
-      name: 'settings',
-      component: Settings,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '*',
-      redirect: '/prepare'
+const routes = [{
+    path: '/',
+    redirect: '/prepare'
+  },
+  {
+    path: '/prepare',
+    name: 'prepare',
+    component: Prepare
+  },
+  {
+    path: '/prepare/emergencykits',
+    name: 'emergencykits',
+    component: EmergencyKitListing,
+    meta: {
+      requiresAuth: true
     }
+  },
+  {
+    path: '/prepare/emergencykits/create',
+    name: 'emergencykitcreate',
+    component: EmergencyKitCreatePage,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/prepare/hazardhunt',
+    name: 'hazardhunt',
+    component: HazardHuntListing,
+    meta: {
+      requiresAuth: true
+    }
+  }, {
+    path: '/prepare/hazardinfo',
+    name: 'hazardinfo',
+    component: HazardInfoListing,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/prepare/familyplan',
+    name: 'familyplan',
+    component: FamilyPlanLanding,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/prepare/familyplan/create',
+    name: 'familyplan-create',
+    component: FamilyPlanCreate,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/prepare/familyplan/view/:planId',
+    name: 'familyplan-view',
+    component: FamilyPlanView,
+    props: true,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/recent',
+    name: 'recent',
+    component: Recent
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: Settings,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '*',
+    redirect: '/prepare'
+  }
 ];
 
 const router = new VueRouter({

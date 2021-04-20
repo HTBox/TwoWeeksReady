@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.13.6",
+    "@vue/composition-api": "^1.0.0-rc.7",
     "auth0-js": "^9.14.2",
     "core-js": "^3.8.2",
     "localforage": "^1.9.0",

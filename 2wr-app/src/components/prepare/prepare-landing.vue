@@ -5,12 +5,18 @@
       <v-toolbar-title>Prepare</v-toolbar-title>
     </v-app-bar>
     <v-alert v-if="isDevVersion" dismissible type="warning">
-      You are using the Development version of 2 Weeks Ready. This version is for testing purposes only!
+      You are using the Development version of 2 Weeks Ready. This version is
+      for testing purposes only!
     </v-alert>
 
     <v-row class="text-center">
       <v-col cols="12">
-        <v-card color="cyan darken-3" class="my-4" ripple>
+        <v-card
+          to="/prepare/familyplan"
+          color="cyan darken-3"
+          class="my-4"
+          ripple
+        >
           <v-card-title class="white--text">
             <v-icon color="white" class="mr-2">mdi-notebook-multiple</v-icon>
             My Family Plan
@@ -37,12 +43,12 @@
           </v-card-text>
         </v-card>
 
-        <v-card 
-            to="prepare/hazardhunt"
-            color="yellow darken-4" 
-            class="my-4" 
-            ripple
-          >
+        <v-card
+          to="prepare/hazardhunt"
+          color="yellow darken-4"
+          class="my-4"
+          ripple
+        >
           <v-card-title class="white--text">
             <v-icon color="white" class="mr-2">mdi-shield-search</v-icon>
             Hazard Hunt
@@ -53,12 +59,12 @@
           </v-card-text>
         </v-card>
 
-        <v-card 
+        <v-card
           to="prepare/hazardinfo"
-          color="teal darken-3" 
-          class="my-4" 
+          color="teal darken-3"
+          class="my-4"
           ripple
-          >
+        >
           <v-card-title class="white--text">
             <v-icon color="white" class="mr-2">mdi-shield-alert-outline</v-icon>
             Hazard Information

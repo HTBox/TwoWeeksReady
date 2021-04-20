@@ -4,10 +4,11 @@ import emergencyKitStore from './modules/prepare/emergency-kits/emergency-kit-st
 import hazardHuntStore from './modules/prepare/hazards/hazard-hunt-store';
 import hazardInfoStore from './modules/prepare/hazards/hazard-info-store';
 import globalStore from './modules/global/global-store';
+import familyPlansStore from './modules/prepare/family-plans';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
     // state: {
 
     // },
@@ -21,6 +22,10 @@ export default new Vuex.Store({
         globalStore,
         emergencyKitStore,
         hazardHuntStore,
-        hazardInfoStore
+        hazardInfoStore,
+        familyPlansStore
     }
-})
+});
+
+export default store;
+
