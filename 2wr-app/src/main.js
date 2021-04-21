@@ -5,6 +5,7 @@ import vuetify from './plugins/vuetify';
 import router from './router';
 import store from './store';
 import { Auth0Plugin } from "./auth";
+import VueCompositionAPI from '@vue/composition-api'
 
 Vue.config.productionTip = false
 
@@ -20,6 +21,9 @@ Vue.use(Auth0Plugin, {
     );
   }
 });
+
+// Enable Composition API 
+Vue.use(VueCompositionAPI)
 
 new Vue({
   vuetify,  
