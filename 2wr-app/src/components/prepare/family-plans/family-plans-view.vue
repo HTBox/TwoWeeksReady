@@ -7,6 +7,7 @@
     <EditableTextBlock
       label="Plan Name"
       v-model="plan.title"
+      isTitle
       @save="updatePlan"
     ></EditableTextBlock>
     <v-spacer class="my-4" />
@@ -17,12 +18,16 @@
       </v-row>
     </v-card>
     <v-spacer class="my-4" />
-    <v-card v-if="plan.address">
-      <v-card-subtitle><strong>Home Address</strong></v-card-subtitle>
-      <v-card-text v-html="formattedAddress" />
-    </v-card>
+    <Address @save="updatePlan" v-model="plan.address"></Address>
     <v-spacer class="my-4" />
-    <v-card v-if="plan.phoneNumber">
+    <EditableTextBlock
+      icon="mdi-phone"
+      label="Phone Number"
+      v-model="plan.phoneNumber"
+      @save="updatePlan"
+    ></EditableTextBlock>
+
+    <!-- <v-card v-if="plan.phoneNumber">
       <v-card-subtitle><strong>Home Phone</strong></v-card-subtitle>
       <v-card-text
         ><v-icon size="sm" class="mr-2">mdi-phone</v-icon
@@ -30,7 +35,7 @@
           plan.phoneNumber
         }}</a></v-card-text
       >
-    </v-card>
+    </v-card> -->
     <v-spacer class="my-4" />
     <v-card to="" class="mx-2 my-2" color="#eee" ripple>
       <v-flex class="d-flex justify-space-between px-2 py-2">
@@ -64,13 +69,12 @@
         </div>
       </v-flex>
     </v-card>
-    <pre class="caption">{{ plan }}</pre>
+    <!-- <pre class="caption">{{ plan }}</pre> -->
   </v-container>
 </template>
 
 <script>
 import {
-  computed,
   defineComponent,
   onMounted,
   reactive,
@@ -81,20 +85,14 @@ import goBack from "@/functions/goBack";
 import FamilyPlan from "@/components/models/family-plans/FamilyPlan";
 import EditableTextBlock from "@/components/common/EditableTextBlock.vue";
 import _ from "lodash";
+import Address from "./address";
 
 export default defineComponent({
   name: "family-plan-view",
-  components: { EditableTextBlock },
+  components: { EditableTextBlock, Address },
   props: { planId: { required: true } },
   setup(props) {
     const plan = ref(null);
-    const formattedAddress = computed(() => {
-      const address = plan?.value.address;
-      if (!address) return "";
-      return [address.address1, address.address2, address.address3]
-        .filter(Boolean)
-        .join("<br/>");
-    });
 
     onMounted(() => {
       // Determine which plan to use
@@ -121,7 +119,6 @@ export default defineComponent({
       plan,
       updatePlan,
       goBack,
-      formattedAddress,
     };
   },
 });
