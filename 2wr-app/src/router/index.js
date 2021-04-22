@@ -7,7 +7,6 @@ import EmergencyKitCreatePage from '../views/prepare/emergency-kits/emergency-ki
 import HazardHuntListing from '../views/prepare/hazards/hazard-hunt-list-view.vue';
 import HazardInfoListing from '../views/prepare/hazards/hazard-info-list-view.vue';
 import FamilyPlanLanding from '../views/prepare/family-plans/landing.vue';
-import FamilyPlanCreate from '../views/prepare/family-plans/create.vue';
 import FamilyPlanView from '../views/prepare/family-plans/view.vue';
 import Recent from '../views/recent/recent.vue';
 import Settings from '../views/settings/settings.vue';
@@ -61,14 +60,6 @@ const routes = [{
     path: '/prepare/familyplan',
     name: 'familyplan',
     component: FamilyPlanLanding,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/prepare/familyplan/create',
-    name: 'familyplan-create',
-    component: FamilyPlanCreate,
     meta: {
       requiresAuth: true
     }
