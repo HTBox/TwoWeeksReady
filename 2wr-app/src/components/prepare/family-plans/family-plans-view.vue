@@ -112,7 +112,11 @@ export default defineComponent({
     });
 
     async function updatePlan() {
-      await store.dispatch("familyPlansStore/updatePlanAsync", plan.value);
+      const updated = await store.dispatch("familyPlansStore/updatePlanAsync", plan.value);
+      if (updated.id !== plan.value.id) {
+        // Replace it
+        plan.value = _.cloneDeep(updated);
+      }
     }
 
     return {

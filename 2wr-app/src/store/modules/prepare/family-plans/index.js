@@ -29,9 +29,11 @@ export default {
 
         if (response.status === 200) {
           // Existing Plan - nothing to do
+          return response.data;
         } else if (response.status === 201) {
           // New Plan
           commit("addToFamilyPlans", response.data);
+          return response.data;
         } else {
           // Show Error
           commit("setError", "Failed to save changes.");
