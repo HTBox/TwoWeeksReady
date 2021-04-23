@@ -44,14 +44,14 @@
                 ripple
                 :to="`/prepare/familyplan/view/${item.id}`"
               >
-                <v-flex class="d-flex justify-space-between px-2 py-2">
+                <v-card-title class="d-flex justify-space-between px-2 py-2">
                   <div>
                     {{ item.title }}
                   </div>
                   <div>
-                    <v-icon class="mr-2">mdi-pencil</v-icon>
+                    <v-icon class="mr-2">mdi-chevron-right</v-icon>
                   </div>
-                </v-flex>
+                </v-card-title>
               </v-card>
             </div>
           </template>

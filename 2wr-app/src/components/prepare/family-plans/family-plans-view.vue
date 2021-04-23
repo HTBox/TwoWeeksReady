@@ -29,38 +29,45 @@
       :rules="rules.phone"
     ></EditableTextBlock>
     <v-spacer class="my-4" />
-    <v-card to="" class="mx-2 my-2" color="#eee" ripple>
-      <v-flex class="d-flex justify-space-between px-2 py-2">
-        <div>Emergency Contacts</div>
-        <div>
-          <v-icon class="mr-2">mdi-chevron-right</v-icon>
-        </div>
-      </v-flex>
-    </v-card>
-    <v-card to="" class="mx-2 my-2" color="#eee" ripple>
-      <v-flex class="d-flex justify-space-between px-2 py-2">
-        <div>Routes and Locations</div>
-        <div>
-          <v-icon class="mr-2">mdi-chevron-right</v-icon>
-        </div>
-      </v-flex>
-    </v-card>
-    <v-card to="" class="mx-2 my-2" color="#eee" ripple>
-      <v-flex class="d-flex justify-space-between px-2 py-2">
-        <div>Children</div>
-        <div>
-          <v-icon class="mr-2">mdi-chevron-right</v-icon>
-        </div>
-      </v-flex>
-    </v-card>
-    <v-card to="" class="mx-2 my-2" color="#eee" ripple>
-      <v-flex class="d-flex justify-space-between px-2 py-2">
-        <div>Pets</div>
-        <div>
-          <v-icon class="mr-2">mdi-chevron-right</v-icon>
-        </div>
-      </v-flex>
-    </v-card>
+    <div class="info-table">
+      <v-card
+        class="mx-2 my-2"
+        color="#eee"
+        ripple
+        :to="`/prepare/familyplan/emergencycontacts/${plan.id}`"
+      >
+        <v-flex class="d-flex justify-space-between px-2 py-2">
+          <div>Emergency Contacts</div>
+          <div>
+            <v-icon class="mr-2">mdi-chevron-right</v-icon>
+          </div>
+        </v-flex>
+      </v-card>
+      <v-card to="" class="mx-2 my-2" color="#eee" ripple>
+        <v-flex class="d-flex justify-space-between px-2 py-2">
+          <div>Routes and Locations</div>
+          <div>
+            <v-icon class="mr-2">mdi-chevron-right</v-icon>
+          </div>
+        </v-flex>
+      </v-card>
+      <v-card to="" class="mx-2 my-2" color="#eee" ripple>
+        <v-flex class="d-flex justify-space-between px-2 py-2">
+          <div>Children</div>
+          <div>
+            <v-icon class="mr-2">mdi-chevron-right</v-icon>
+          </div>
+        </v-flex>
+      </v-card>
+      <v-card to="" class="mx-2 my-2" color="#eee" ripple>
+        <v-flex class="d-flex justify-space-between px-2 py-2">
+          <div>Pets</div>
+          <div>
+            <v-icon class="mr-2">mdi-chevron-right</v-icon>
+          </div>
+        </v-flex>
+      </v-card>
+    </div>
     <!-- <pre class="caption">{{ plan }}</pre> -->
   </v-container>
 </template>
@@ -104,7 +111,10 @@ export default defineComponent({
     });
 
     async function updatePlan() {
-      const updated = await store.dispatch("familyPlansStore/updatePlanAsync", plan.value);
+      const updated = await store.dispatch(
+        "familyPlansStore/updatePlanAsync",
+        plan.value
+      );
       if (updated.id !== plan.value.id) {
         // Replace it
         plan.value = _.cloneDeep(updated);
@@ -113,20 +123,22 @@ export default defineComponent({
 
     const rules = {
       title: [
-        v => !!v || "Title is required.",
-        v => v.length >= 3 || "Title must be more than three characters."
+        (v) => !!v || "Title is required.",
+        (v) => v.length >= 3 || "Title must be more than three characters.",
       ],
       phone: [
-        v => !!v || "Phone is required.",
-        v => /^(\([0-9]{3}\)\s?|[0-9]{3}-)[0-9]{3}-[0-9]{4}$/.test(v) || "Must be a valid phone number. (e.g. (404) 555-1212, 404-555-1212)"
-      ]
+        (v) => !!v || "Phone is required.",
+        (v) =>
+          /^(\([0-9]{3}\)\s?|[0-9]{3}-)[0-9]{3}-[0-9]{4}$/.test(v) ||
+          "Must be a valid phone number. (e.g. (404) 555-1212, 404-555-1212)",
+      ],
     };
 
     return {
       plan,
       updatePlan,
       goBack,
-      rules
+      rules,
     };
   },
 });

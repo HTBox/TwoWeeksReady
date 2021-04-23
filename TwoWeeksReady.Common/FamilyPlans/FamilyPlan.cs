@@ -20,7 +20,7 @@ namespace TwoWeeksReady.Common.FamilyPlans
     [JsonProperty("phoneNumber")]
     public string PhoneNumber { get; set; }
 
-    //public List<Contact> EmergencyContacts { get; set; }
+    public List<Contact> EmergencyContacts { get; set; }
     //public List<RouteLocation> RouteLocations { get; set; }
     //public List<Person> Children { get; set; }
     //public List<Pet> Pets { get; set; }
