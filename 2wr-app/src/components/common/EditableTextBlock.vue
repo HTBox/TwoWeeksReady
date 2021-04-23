@@ -16,6 +16,7 @@
       v-if="isEditing"
       :label="label"
       v-model="theText"
+      :rules="rules"
       outlined
     >
       <template v-slot:append>
@@ -44,7 +45,8 @@ export default defineComponent({
     value: { type: String, required: true },
     label: {},
     icon: { type: String },
-    isTitle: { type: Boolean }
+    isTitle: { type: Boolean },
+    rules: {}
   },
   setup(props, { emit, refs }) {
     const isEditing = ref(false);

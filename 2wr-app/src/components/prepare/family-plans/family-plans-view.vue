@@ -8,6 +8,7 @@
       label="Plan Name"
       v-model="plan.title"
       isTitle
+      :rules="rules.title"
       @save="updatePlan"
     ></EditableTextBlock>
     <v-spacer class="my-4" />
@@ -25,17 +26,8 @@
       label="Phone Number"
       v-model="plan.phoneNumber"
       @save="updatePlan"
+      :rules="rules.phone"
     ></EditableTextBlock>
-
-    <!-- <v-card v-if="plan.phoneNumber">
-      <v-card-subtitle><strong>Home Phone</strong></v-card-subtitle>
-      <v-card-text
-        ><v-icon size="sm" class="mr-2">mdi-phone</v-icon
-        ><a :href="`tel:${plan.phoneNumber}`">{{
-          plan.phoneNumber
-        }}</a></v-card-text
-      >
-    </v-card> -->
     <v-spacer class="my-4" />
     <v-card to="" class="mx-2 my-2" color="#eee" ripple>
       <v-flex class="d-flex justify-space-between px-2 py-2">
@@ -82,7 +74,7 @@ import {
 } from "@vue/composition-api";
 import store from "@/store";
 import goBack from "@/functions/goBack";
-import FamilyPlan from "@/components/models/family-plans/FamilyPlan";
+import FamilyPlan from "@/models/family-plans/FamilyPlan";
 import EditableTextBlock from "@/components/common/EditableTextBlock.vue";
 import _ from "lodash";
 import Address from "./address";
@@ -119,10 +111,22 @@ export default defineComponent({
       }
     }
 
+    const rules = {
+      title: [
+        v => !!v || "Title is required.",
+        v => v.length >= 3 || "Title must be more than three characters."
+      ],
+      phone: [
+        v => !!v || "Phone is required.",
+        v => /^(\([0-9]{3}\)\s?|[0-9]{3}-)[0-9]{3}-[0-9]{4}$/.test(v) || "Must be a valid phone number. (e.g. (404) 555-1212, 404-555-1212)"
+      ]
+    };
+
     return {
       plan,
       updatePlan,
       goBack,
+      rules
     };
   },
 });

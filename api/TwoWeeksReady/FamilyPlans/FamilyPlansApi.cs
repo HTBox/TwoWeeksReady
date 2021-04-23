@@ -34,7 +34,7 @@ namespace TwoWeeksReady.FamilyPlans
     }
 
 
-    [FunctionName("familyplans-get")]
+    [FunctionName("familyplans-getall")]
     public async Task<IActionResult> GetList(
       [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]
       HttpRequest req,
@@ -71,8 +71,8 @@ namespace TwoWeeksReady.FamilyPlans
       return new OkObjectResult(familyPlans);
     }
 
-    [FunctionName("familyplans-update")]
-    public async Task<IActionResult> CreateFamilyPlans(
+    [FunctionName("familyplans-upsert")]
+    public async Task<IActionResult> UpsertFamilyPlan(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)]
         HttpRequest req,
         [CosmosDB(databaseName: DatabaseName, collectionName: CollectionName, ConnectionStringSetting = CosmoseDbConnection)]
@@ -82,7 +82,7 @@ namespace TwoWeeksReady.FamilyPlans
 
       if (!(await Authorized(req, log))) return new UnauthorizedResult();
 
-      log.LogInformation($"Creating a Family Plan");
+      log.LogInformation($"Upserting a Family Plan");
 
       try
       {
@@ -122,11 +122,47 @@ namespace TwoWeeksReady.FamilyPlans
       }
       catch (Exception ex)
       {
-        log.LogCritical($"Failed to create the new Family Plan: {ex}");
+        log.LogCritical($"Failed to upsert the new Family Plan: {ex}");
       }
 
       return new BadRequestResult();
     }
+
+    [FunctionName("familyplans-delete")]
+    public async Task<IActionResult> DeleteFamilyPlan(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = null)]
+        HttpRequest req,
+        [CosmosDB(databaseName: DatabaseName, collectionName: CollectionName, ConnectionStringSetting = CosmoseDbConnection)]
+        DocumentClient client,
+        ILogger log)
+    {
+
+      if (!(await Authorized(req, log))) return new UnauthorizedResult();
+
+      log.LogInformation($"Deleting a Family Plan");
+
+      try
+      {
+        var content = await new StreamReader(req.Body).ReadToEndAsync();
+        var thePlan = JsonConvert.DeserializeObject<FamilyPlan>(content);
+
+        Uri collectionUri = UriFactory.CreateDocumentCollectionUri(DatabaseName, CollectionName);
+
+        // Update Plan
+        var docUri = UriFactory.CreateDocumentUri(DatabaseName, CollectionName, thePlan.Id);
+        Document document = await client.DeleteDocumentAsync(docUri);
+
+        return new OkResult();
+
+      }
+      catch (Exception ex)
+      {
+        log.LogCritical($"Failed to delete the new Family Plan: {ex}");
+      }
+
+      return new BadRequestResult();
+    }
+
 
     private async Task<bool> Authorized(HttpRequest req, ILogger log)
     {

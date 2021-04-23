@@ -25,7 +25,7 @@ export default {
         commit("setBusy");
         commit("setError", "");
 
-        var response = await familyPlansApi.updatePlan(plan);
+        var response = await familyPlansApi.upsertPlan(plan);
 
         if (response.status === 200) {
           // Existing Plan - nothing to do

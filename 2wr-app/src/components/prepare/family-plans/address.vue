@@ -17,17 +17,36 @@
             autofocus
             outlined
             label="Address Line 1"
+            :rules="rules.address1"
             v-model="address.address1"
+            placeholder="e.g. 123 Main Street"
           />
           <v-text-field
             outlined
             label="Address Line 2"
             v-model="address.address2"
+            placeholder="e.g. Suite 400"
           />
           <v-text-field
             outlined
-            label="Address Line 3"
-            v-model="address.address3"
+            label="City"
+            :rules="rules.cityTown"
+            v-model="address.cityTown"
+            placeholder="e.g. Portland"
+          />
+          <v-select 
+            v-model="address.stateProvince"
+            label="State"
+            :items="states"
+            outlined
+          >
+          </v-select>
+          <v-text-field
+            outlined
+            :rules="rules.postalCode"
+            label="Zipcode"
+            v-model="address.postalCode"
+            placeholder="e.g. 97001"
           />
         </v-container>
         <v-card-actions>
@@ -42,6 +61,7 @@
 <script>
 import { computed, defineComponent, ref } from "@vue/composition-api";
 import _ from "lodash";
+import states from "@/lookups/states";
 
 export default defineComponent({
   props: {
@@ -53,10 +73,10 @@ export default defineComponent({
 
     const formattedAddress = computed(() => {
       if (!props.value) return "";
-      return [props.value.address1, props.value.address2, props.value.address3]
-        .filter(Boolean)
-        .join("<br/>");
-    });
+      let theAddress = `${props.value.address1}<br/>`;
+      if (props.value.address2) theAddress += `${props.value.address2}<br/>`;
+      return theAddress + `${props.value.cityTown}, ${props.value.stateProvince}  ${props.value.postalCode}`;
+});
 
     function cancel() {
       dialogOpen.value = false;
@@ -69,12 +89,31 @@ export default defineComponent({
       emit("save");
     }
 
+    const rules = {
+      address1: [
+        v => !!v || "Address is required.",
+        v => v.length >= 10 || "Address must be more than 10 characters."
+      ],
+      cityTown: [
+        v => !!v || "City is required.",
+      ],
+      stateProvince: [
+        v => !!v || "State is required.",
+      ],
+      postalCode: [
+        v => !!v || "Zipcode is required.",
+        v => /^[0-9]{5}(?:-[0-9]{4})?$$/.test(v) || "Must be a valid zipcode."
+      ]
+    }
+
     return {
       address,
       formattedAddress,
       dialogOpen,
       save,
       cancel,
+      rules,
+      states
     };
   },
 });

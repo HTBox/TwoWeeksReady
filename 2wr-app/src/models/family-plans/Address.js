@@ -1,5 +1,7 @@
 export default class Address {
   address1 = "";
   address2 = "";
-  address3 = "";
+  cityTown = "";
+  stateProvince = "";
+  postalCode = "";
 } 
