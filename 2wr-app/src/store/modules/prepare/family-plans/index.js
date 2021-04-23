@@ -5,25 +5,19 @@ export default {
   namespaced: true,
   state: {
     familyPlans: [],
-    sharedPlans: [],
-    error: "",
-    isBusy: false
+    sharedPlans: []
   },
   mutations: {
     setFamilyPlans: (state, plans) => state.familyPlans = plans,
     setSharedPlans: (state, plans) => state.sharedPlans = plans,
-    addToFamilyPlans: (state, newPlan) => state.familyPlans.splice(state.familyPlans.length, 0, newPlan),
-    setError: (state, error) => state.error = error,
-    setBusy: (state) => state.isBusy = true,
-    clearBusy: (state) => state.isBusy = false
-
+    addToFamilyPlans: (state, newPlan) => state.familyPlans.splice(state.familyPlans.length, 0, newPlan)
   },
   actions: {
-    async updatePlanAsync({commit}, plan) {
+    async updatePlanAsync({ commit }, plan) {
 
       try {
-        commit("setBusy");
-        commit("setError", "");
+        commit("setBusy", null, { root: true });
+        commit("setError", "", { root: true });
 
         var response = await familyPlansApi.upsertPlan(plan);
 
@@ -36,10 +30,12 @@ export default {
           return response.data;
         } else {
           // Show Error
-          commit("setError", "Failed to save changes.");
+          commit("setError", "Failed to update changes.", { root: true });
         }
+      } catch {
+        commit("setError", "Failed to update plan.", { root: true })
       } finally {
-        commit("clearBusy");
+        commit("clearBusy", null, { root: true });
       }
     },
     async getAllAsync({
@@ -51,13 +47,21 @@ export default {
         commit('setFamilyPlans', response.data);
         await localForage.setItem('getFamilyPlans', response.data);
       } else {
-        var data = await localForage.getItem('getFamilyPlans')
+        try {
+          commit("setBusy", null, { root: true });
+          commit("setError", "", { root: true });
+          var data = await localForage.getItem('getFamilyPlans')
         if (data) {
           console.log("Serving from cache");
           commit('setFamilyPlans', data);
         } else {
           console.log("Offline without data");
         }
+      } catch {
+        commit("setError", "Could not load plans.", { root: true });
+      } finally {
+        commit("clearBusy", null, { root: true });
+      }
       }
     },
   },
