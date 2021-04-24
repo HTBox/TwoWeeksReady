@@ -8,6 +8,7 @@
       label="Plan Name"
       v-model="plan.title"
       isTitle
+      :rules="rules.title"
       @save="updatePlan"
     ></EditableTextBlock>
     <v-spacer class="my-4" />
@@ -25,50 +26,48 @@
       label="Phone Number"
       v-model="plan.phoneNumber"
       @save="updatePlan"
+      :rules="rules.phone"
     ></EditableTextBlock>
-
-    <!-- <v-card v-if="plan.phoneNumber">
-      <v-card-subtitle><strong>Home Phone</strong></v-card-subtitle>
-      <v-card-text
-        ><v-icon size="sm" class="mr-2">mdi-phone</v-icon
-        ><a :href="`tel:${plan.phoneNumber}`">{{
-          plan.phoneNumber
-        }}</a></v-card-text
-      >
-    </v-card> -->
     <v-spacer class="my-4" />
-    <v-card to="" class="mx-2 my-2" color="#eee" ripple>
-      <v-flex class="d-flex justify-space-between px-2 py-2">
-        <div>Emergency Contacts</div>
-        <div>
-          <v-icon class="mr-2">mdi-chevron-right</v-icon>
-        </div>
-      </v-flex>
-    </v-card>
-    <v-card to="" class="mx-2 my-2" color="#eee" ripple>
-      <v-flex class="d-flex justify-space-between px-2 py-2">
-        <div>Routes and Locations</div>
-        <div>
-          <v-icon class="mr-2">mdi-chevron-right</v-icon>
-        </div>
-      </v-flex>
-    </v-card>
-    <v-card to="" class="mx-2 my-2" color="#eee" ripple>
-      <v-flex class="d-flex justify-space-between px-2 py-2">
-        <div>Children</div>
-        <div>
-          <v-icon class="mr-2">mdi-chevron-right</v-icon>
-        </div>
-      </v-flex>
-    </v-card>
-    <v-card to="" class="mx-2 my-2" color="#eee" ripple>
-      <v-flex class="d-flex justify-space-between px-2 py-2">
-        <div>Pets</div>
-        <div>
-          <v-icon class="mr-2">mdi-chevron-right</v-icon>
-        </div>
-      </v-flex>
-    </v-card>
+    <div class="info-table">
+      <v-card
+        class="mx-2 my-2"
+        color="#eee"
+        ripple
+        :to="`/prepare/familyplan/emergencycontacts/${plan.id}`"
+      >
+        <v-flex class="d-flex justify-space-between px-2 py-2">
+          <div>Emergency Contacts</div>
+          <div>
+            <v-icon class="mr-2">mdi-chevron-right</v-icon>
+          </div>
+        </v-flex>
+      </v-card>
+      <v-card to="" class="mx-2 my-2" color="#eee" ripple>
+        <v-flex class="d-flex justify-space-between px-2 py-2">
+          <div>Routes and Locations</div>
+          <div>
+            <v-icon class="mr-2">mdi-chevron-right</v-icon>
+          </div>
+        </v-flex>
+      </v-card>
+      <v-card to="" class="mx-2 my-2" color="#eee" ripple>
+        <v-flex class="d-flex justify-space-between px-2 py-2">
+          <div>Children</div>
+          <div>
+            <v-icon class="mr-2">mdi-chevron-right</v-icon>
+          </div>
+        </v-flex>
+      </v-card>
+      <v-card to="" class="mx-2 my-2" color="#eee" ripple>
+        <v-flex class="d-flex justify-space-between px-2 py-2">
+          <div>Pets</div>
+          <div>
+            <v-icon class="mr-2">mdi-chevron-right</v-icon>
+          </div>
+        </v-flex>
+      </v-card>
+    </div>
     <!-- <pre class="caption">{{ plan }}</pre> -->
   </v-container>
 </template>
@@ -82,10 +81,11 @@ import {
 } from "@vue/composition-api";
 import store from "@/store";
 import goBack from "@/functions/goBack";
-import FamilyPlan from "@/components/models/family-plans/FamilyPlan";
+import FamilyPlan from "@/models/family-plans/FamilyPlan";
 import EditableTextBlock from "@/components/common/EditableTextBlock.vue";
 import _ from "lodash";
 import Address from "./address";
+import { phoneNumber, required, minLength } from "@/rules";
 
 export default defineComponent({
   name: "family-plan-view",
@@ -112,17 +112,31 @@ export default defineComponent({
     });
 
     async function updatePlan() {
-      const updated = await store.dispatch("familyPlansStore/updatePlanAsync", plan.value);
+      const updated = await store.dispatch(
+        "familyPlansStore/updatePlanAsync",
+        plan.value
+      );
       if (updated.id !== plan.value.id) {
         // Replace it
         plan.value = _.cloneDeep(updated);
       }
     }
 
+    const rules = {
+      title: [
+        required("Title is required."),
+        minLength(3, "Title must be more than three characters."),
+      ],
+      phone: [
+        required("Phone is required."),
+        phoneNumber()      ],
+    };
+
     return {
       plan,
       updatePlan,
       goBack,
+      rules,
     };
   },
 });

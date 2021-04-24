@@ -6,13 +6,14 @@ import EmergencyKitListing from '../views/prepare/emergency-kits/emergency-kit-l
 import EmergencyKitCreatePage from '../views/prepare/emergency-kits/emergency-kit-create.vue';
 import HazardHuntListing from '../views/prepare/hazards/hazard-hunt-list-view.vue';
 import HazardInfoListing from '../views/prepare/hazards/hazard-info-list-view.vue';
-import FamilyPlanLanding from '../views/prepare/family-plans/landing.vue';
-import FamilyPlanView from '../views/prepare/family-plans/view.vue';
 import Recent from '../views/recent/recent.vue';
 import Settings from '../views/settings/settings.vue';
+
 import {
   getAuthInstance
 } from '../auth';
+
+import FamilyPlanRoutes from "./familyPlanRoutes";
 
 Vue.use(VueRouter);
 
@@ -57,23 +58,6 @@ const routes = [{
     }
   },
   {
-    path: '/prepare/familyplan',
-    name: 'familyplan',
-    component: FamilyPlanLanding,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/prepare/familyplan/view/:planId',
-    name: 'familyplan-view',
-    component: FamilyPlanView,
-    props: true,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: '/recent',
     name: 'recent',
     component: Recent
@@ -84,12 +68,13 @@ const routes = [{
     component: Settings,
     meta: {
       requiresAuth: true
-    }
+    } 
   },
   {
     path: '*',
     redirect: '/prepare'
-  }
+  },
+  ...FamilyPlanRoutes
 ];
 
 const router = new VueRouter({

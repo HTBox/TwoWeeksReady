@@ -38,6 +38,10 @@ echo "Create Cosmos DB"
 az cosmosdb create -n $ENV_PREFIX --enable-free-tier true
 az cosmosdb sql database create -a $ENV_PREFIX -n 2wr --throughput 400
 az cosmosdb sql container create -a $ENV_PREFIX -d 2wr -n familymembers --partition-key-path "/id"
+az cosmosdb sql container create -a $ENV_PREFIX -d 2wr -n familyplans --partition-key-path "/id"
+az cosmosdb sql container create -a $ENV_PREFIX -d 2wr -n emergencykits --partition-key-path "/id"
+az cosmosdb sql container create -a $ENV_PREFIX -d 2wr -n hazardhunts --partition-key-path "/id"
+az cosmosdb sql container create -a $ENV_PREFIX -d 2wr -n hazardinformation --partition-key-path "/id"
 
 echo "Configure function apps"
 CONNECTION_STRING=$(az cosmosdb keys list --type connection-strings -n $ENV_PREFIX --query connectionStrings[0].connectionString --out tsv )

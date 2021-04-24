@@ -10,12 +10,15 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
-    // state: {
-
-    // },
-    // mutations: {
-
-    // },
+    state: {
+      isBusy: false,
+      error: ""
+    },
+    mutations: {
+      clearBusy: (state) => state.isBusy = false,
+      setBusy: (state) => state.isBusy = true,
+      setError: (state, msg) => state.error = msg
+    },
     // actions: {
 
     // },
