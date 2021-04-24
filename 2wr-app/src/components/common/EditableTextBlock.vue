@@ -2,7 +2,6 @@
   <div>
     <v-card v-if="!isEditing">
       <v-flex class="d-flex justify-space-between px-2 py-2">
-        <v-icon v-if="icon">{{ icon }}</v-icon>
         <v-card-title v-if="isTitle">{{ theText }}</v-card-title>
         <v-card-text v-if="!isTitle">{{ theText }}</v-card-text>
         <div class="d-flex flex-col">
@@ -44,7 +43,6 @@ export default defineComponent({
     // Value is used as name for v-model of parent, in #vue3 this changes
     value: { type: String, required: true },
     label: {},
-    icon: { type: String },
     isTitle: { type: Boolean },
     rules: {}
   },

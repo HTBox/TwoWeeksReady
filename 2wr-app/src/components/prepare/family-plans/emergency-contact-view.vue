@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="pa-2">
-      <IconTextBlock icon="mdi-pencil" :allowSelected="true">
+      <IconTextBlock icon="mdi-pencil" :allowSelected="true" @selected="$emit('launchEditor', contact)">
         <h3>{{ contact.fullName }}</h3>
       </IconTextBlock>
       <v-card-text class="text-subtitle-1">
@@ -55,10 +55,10 @@
       </v-card>
 
       <v-divider class="my-2"></v-divider>
-      <IconTextBlock :icon="contact.notifyLastLocation ? 'mdi-check-box-outline' : 'mdi-check-box-blank-outline'">
+      <IconTextBlock :icon="contact.notifyLastLocation ? 'mdi-check-box-outline' : 'mdi-checkbox-blank-outline'">
         <div>Notify this person of last known location</div>
       </IconTextBlock>
-      <IconTextBlock :icon="contact.sharePlanWith ? 'mdi-check-box-outline' : 'mdi-check-box-blank-outline'">
+      <IconTextBlock :icon="contact.sharePlanWith ? 'mdi-check-box-outline' : 'mdi-checkbox-blank-outline'">
         <div>Share Plan?</div>
       </IconTextBlock>
     </div>
@@ -74,7 +74,7 @@ export default defineComponent({
     contact: { required: true },
   },
   components: {
-    IconTextBlock
+    IconTextBlock,
   },
   setup() {
     const showSchoolInfo = ref(false);
@@ -84,7 +84,7 @@ export default defineComponent({
     return {
       showSchoolInfo,
       showWorkInfo,
-      showMedicalInfo,
+      showMedicalInfo
     };
   },
 });

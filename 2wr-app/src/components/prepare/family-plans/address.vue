@@ -50,8 +50,8 @@
           />
         </v-container>
         <v-card-actions>
-          <v-btn @click="cancel">Cancel</v-btn>
-          <v-btn color="green" dark @click="save">Save</v-btn>
+          <v-btn text @click="cancel">Cancel</v-btn>
+          <v-btn text color="green" dark @click="save">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

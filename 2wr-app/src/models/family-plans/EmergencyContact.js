@@ -1,4 +1,5 @@
 export default class EmergencyContact {
+  id = "";
   fullName = "";
   cellPhone = "";
   email = "";

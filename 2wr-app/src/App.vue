@@ -12,7 +12,7 @@
           <v-card-title class="red--text"><v-icon color="red">mdi-exclamation-thick</v-icon> Error Occurred</v-card-title>
           <v-card-text class="body-1">{{ error }}</v-card-text>
           <v-card-actions>
-            <v-btn @click="$store.commit('setError', '')">Close</v-btn>
+            <v-btn text @click="$store.commit('setError', '')">Close</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>

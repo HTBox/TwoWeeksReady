@@ -85,6 +85,7 @@ import FamilyPlan from "@/models/family-plans/FamilyPlan";
 import EditableTextBlock from "@/components/common/EditableTextBlock.vue";
 import _ from "lodash";
 import Address from "./address";
+import { phoneNumber, required, minLength } from "@/rules";
 
 export default defineComponent({
   name: "family-plan-view",
@@ -123,15 +124,12 @@ export default defineComponent({
 
     const rules = {
       title: [
-        (v) => !!v || "Title is required.",
-        (v) => v.length >= 3 || "Title must be more than three characters.",
+        required("Title is required."),
+        minLength(3, "Title must be more than three characters."),
       ],
       phone: [
-        (v) => !!v || "Phone is required.",
-        (v) =>
-          /^(\([0-9]{3}\)\s?|[0-9]{3}-)[0-9]{3}-[0-9]{4}$/.test(v) ||
-          "Must be a valid phone number. (e.g. (404) 555-1212, 404-555-1212)",
-      ],
+        required("Phone is required."),
+        phoneNumber()      ],
     };
 
     return {
