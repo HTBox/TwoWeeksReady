@@ -205,6 +205,7 @@ namespace TwoWeeksReady.EmergencyKits
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
             var kit = JsonConvert.DeserializeObject<Kit>(content);            
+            kit.UserId = authorizationResult.User.Identity.Name;
 
             Uri collectionUri = UriFactory.CreateDocumentCollectionUri("2wr", "emergencykits");
 
