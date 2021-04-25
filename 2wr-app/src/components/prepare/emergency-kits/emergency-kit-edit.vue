@@ -1,5 +1,11 @@
 <template>
   <v-container class="py-0">
+    <v-overlay :value="isLoading">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
     <v-app-bar app flat dense fixed>
       <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
       <v-icon class="mr-2">mdi-medical-bag</v-icon>
@@ -201,6 +207,7 @@ export default {
   computed: mapState({
     isSaving: (state) => state.emergencyKitStore.isSaving,
     saveErrorMessage: (state) => state.emergencyKitStore.saveErrorMessage,
+    isLoading: (state) => state.emergencyKitStore.isLoading,
     kit: (state) => state.emergencyKitStore.item,
     icons: () => {
       const materialIcons = [
