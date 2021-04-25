@@ -21,7 +21,7 @@
 
         <v-row>
           <v-col cols="9" lg="3">
-            Color: <v-color-picker v-model="color" flat></v-color-picker>
+            Color: <v-color-picker hide-inputs v-model="color" flat ></v-color-picker>
           </v-col>
           <v-col cols="3">
             <v-select label="Icon" v-model="icon" :items="icons" required>
