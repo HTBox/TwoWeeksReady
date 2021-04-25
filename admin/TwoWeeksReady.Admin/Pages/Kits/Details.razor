@@ -1,0 +1,40 @@
+﻿@page "/Kits/{id}"
+@inject IRepository repository
+
+@if (Kit != null)
+{
+	<h3>Kit Details :: @Kit.Name</h3>
+
+	<div class="card-deck">
+	 
+		@foreach (var item in Kit.Items) {
+			<KitItemDisplay Item="@item"></KitItemDisplay>
+		}
+
+	</div>
+
+}
+else
+{
+	<p>Loading...</p>
+}
+
+
+@code {
+
+	[Parameter]
+	public string Id { get; set; }
+
+	public BaseKit Kit { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+
+		Kit = await repository.GetBaseKitById(Id);
+
+		base.OnInitializedAsync();
+
+	}
+
+
+}

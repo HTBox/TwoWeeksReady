@@ -1,0 +1,29 @@
+﻿
+<div class="card">
+	<img class="card-img-top" src="@Item.Photo" alt="@Item.Name" />
+	<div class="card-body">
+	   <h5>@Item.Name</h5>
+	  <span class="card-text">@Item.Description</span>
+	</div>
+	<div class="card-footer">@Item.QuantityPerCount @Item.QuantityUnit  
+
+	  <span class="btn btn-secondary float-right" style="cursor: pointer" @onclick="@Edit">Edit</span>
+
+	</div>
+</div>
+
+@code {
+
+	[Parameter]
+	public BaseKitItem Item { get; set;  }
+
+	[Parameter]
+	public EventCallback OnEdit { get; set; }
+
+	public async Task Edit() {
+
+		await OnEdit.InvokeAsync(Item);
+
+	}
+
+}
