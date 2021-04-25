@@ -1,0 +1,48 @@
+﻿@page  "/HazardHunts/"
+@inject IRepository Repository
+<h1>Administer Hazard Hunt for Two Weeks Ready</h1>
+
+<h3>Current Hazards Defined:</h3>
+
+@if (_HazardHunts != null && _HazardHunts.Any())
+{
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var hazard in _HazardHunts)
+            {
+
+                <tr>
+                    <td>
+                        <a href="/HazardHunts/@hazard.Id">
+                           @hazard.Name
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+}
+else
+{
+    <p>No Hazards defined.</p>
+}
+
+@code {
+    private IEnumerable<HazardHunt> _HazardHunts { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        _HazardHunts = await Repository.GetAllHazardHunts();
+
+    }
+
+}

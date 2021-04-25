@@ -37,6 +37,30 @@ namespace TwoWeeksReady.Admin.Data
 
 		};
 
+		private List<HazardHunt> _HazardHunt = new List<HazardHunt>()
+		{
+			new HazardHunt
+			{
+				 Id = "ABCDEFG",
+				 Name = "Bookshelf Safety",
+				 Description = "Strap the bookshelf to the wall",
+				 Directive = "Buy straps, find stud, screw it the wall",
+				 ExternalLink = "https://twitch.tv"
+			}
+		};
+
+		private List<HazardInfo> _HazardInfo = new List<HazardInfo>()
+		{
+			new HazardInfo
+			{
+				 Id = "BEGIN",
+				 Name = "Earthquakes",
+				 Description = "All about earthquakes",
+				 Directive = "Cover your head",
+				 ExternalLink = "https://twitch.tv"
+			}
+		};
+
 		public Task<IEnumerable<BaseKit>> GetAllBaseKits()
 		{
 			return Task.FromResult(_BaseKits.AsEnumerable());
@@ -45,6 +69,43 @@ namespace TwoWeeksReady.Admin.Data
 		public Task<BaseKit> GetBaseKitById(string id)
 		{
 			return Task.FromResult(_BaseKits.FirstOrDefault(b => b.Id == id));
+		}
+
+		public Task<BaseKitItem> SaveBaseKitItem(BaseKitItem kitItem)
+        {		
+			return Task.FromResult(kitItem);
+        }
+
+
+		public Task<IEnumerable<HazardHunt>> GetAllHazardHunts()
+        {
+			return Task.FromResult(_HazardHunt.AsEnumerable());
+        }
+
+		public Task<HazardHunt> GetHazardHuntById(string id)
+		{
+			return Task.FromResult(_HazardHunt.FirstOrDefault(h => h.Id == id));
+		}
+
+
+		public Task<HazardHunt> SaveHazardHunt(HazardHunt hazardHunt)
+		{			
+			return Task.FromResult(hazardHunt);
+		}
+
+		public Task<IEnumerable<HazardInfo>> GetAllHazardInfos()
+		{
+			return Task.FromResult(_HazardInfo.AsEnumerable());
+		}
+
+		public Task<HazardInfo> GetHazardInfoById(string id)
+		{
+			return Task.FromResult(_HazardInfo.FirstOrDefault(h => h.Id == id));
+		}
+
+		public Task<HazardInfo> SaveHazardInfo(HazardInfo hazardInfo)
+		{
+			return Task.FromResult(hazardInfo);
 		}
 	}
 

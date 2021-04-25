@@ -1,0 +1,45 @@
+﻿@page "/HazardInfos/{id}"
+@inject IRepository repository
+@inject IJSRuntime JS
+
+<h3>Details</h3>
+Hazard Name:
+<input type="text" @bind="@Hazard.Name" />
+<br />
+Short Description:
+<input type="text" @bind="@Hazard.Description" />
+<br />
+Instructions:
+<input type="text" @bind="@Hazard.Directive" />
+<br />
+More Info Link:
+<input type="text" @bind="@Hazard.ExternalLink" />
+<br />
+<span class="btn btn-secondary float-right" style="cursor: pointer" @onclick="@Save">Save</span>
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    [Parameter]
+    public EventCallback OnSave { get; set; }
+
+    private HazardInfo Hazard { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Hazard = await repository.GetHazardInfoById(Id);
+    }
+
+
+    public async Task Save()
+    {
+        await repository.SaveHazardInfo(Hazard);
+        await OnSave.InvokeAsync(Hazard);
+
+        await JS.InvokeVoidAsync("alert", new object[] { "Hazard Info Saved" });
+
+    }
+}

@@ -1,29 +1,62 @@
-﻿
+﻿@inject IRepository repository
+
 <div class="card">
-	<img class="card-img-top" src="@Item.Photo" alt="@Item.Name" />
-	<div class="card-body">
-	   <h5>@Item.Name</h5>
-	  <span class="card-text">@Item.Description</span>
-	</div>
-	<div class="card-footer">@Item.QuantityPerCount @Item.QuantityUnit  
+    <img class="card-img-top" src="@Item.Photo" alt="@Item.Name" />
 
-	  <span class="btn btn-secondary float-right" style="cursor: pointer" @onclick="@Edit">Edit</span>
+    @if (IsEditMode)
+    {
+        <div class="card-body">
+            Name: <input type="text" @bind="@Item.Name" /><br />
+            Description: <input type="text" @bind="@Item.Description" /><br />
+            Quantity Per Person: <input type="text" @bind="@Item.QuantityPerCount" /><br />
+            Quantity Unit (lbs, oz): <input type="text" @bind="@Item.QuantityUnit" /><br />
+        </div>
+        <div class="card-footer">
+            <span class="btn btn-secondary float-right" style="cursor: pointer" @onclick="@Save">Save</span>
+        </div>
+    }
+    else
+    {
+        <div class="card-body">
+            <h5>@Item.Name</h5>
+            <span class="card-text">@Item.Description</span>
+        </div>
+        <div class="card-footer">
+            @Item.QuantityPerCount @Item.QuantityUnit
 
-	</div>
+            <span class="btn btn-secondary float-right" style="cursor: pointer" @onclick="@Edit">Edit</span>
+
+        </div>
+    }
+
 </div>
 
 @code {
 
-	[Parameter]
-	public BaseKitItem Item { get; set;  }
+    public bool IsEditMode { get; set; } = false;
 
-	[Parameter]
-	public EventCallback OnEdit { get; set; }
+    [Parameter]
+    public BaseKitItem Item { get; set; }
 
-	public async Task Edit() {
+    [Parameter]
+    public EventCallback OnEdit { get; set; }
 
-		await OnEdit.InvokeAsync(Item);
+    [Parameter]
+    public EventCallback OnSave { get; set; }
 
-	}
+    public async Task Edit()
+    {
 
+        IsEditMode = true;
+        await OnEdit.InvokeAsync(Item);
+    }
+
+
+    public async Task Save()
+    {
+        IsEditMode = false;
+        await repository.SaveBaseKitItem(Item);
+        await OnSave.InvokeAsync(Item);
+
+    }
 }
