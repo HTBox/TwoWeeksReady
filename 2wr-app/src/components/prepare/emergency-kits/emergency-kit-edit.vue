@@ -243,7 +243,7 @@ export default {
     kit(newKit) {
       // Our fancy notification (2).
       this.name = newKit.name;
-      this.kitItems = [...newKit.kitItems];
+      this.kitItems = newKit.kitItems.map(i => { return {...i}});
       this.icon = newKit.icon;
       this.color = newKit.color;
     },
