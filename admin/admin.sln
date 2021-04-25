@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31004.235
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoWeeksReady", "..\api\TwoWeeksReady\TwoWeeksReady.csproj", "{E387C361-5643-47DA-B395-9FA72AD21E67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoWeeksReady.Common", "..\TwoWeeksReady.Common\TwoWeeksReady.Common.csproj", "{484A0768-D116-43FF-8476-F96F8BFB3875}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoWeeksReady.Common", "..\TwoWeeksReady.Common\TwoWeeksReady.Common.csproj", "{484A0768-D116-43FF-8476-F96F8BFB3875}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoWeeksReady.Admin", "TwoWeeksReady.Admin\TwoWeeksReady.Admin.csproj", "{428E5852-1B79-4EBC-B48F-BAB47BBD2C5A}"
 EndProject
