@@ -1,6 +1,8 @@
 import familyPlansApi from "@/api/family-plans-api.js";
 import localForage from 'localforage';
-import { v4 } from "uuid";
+import {
+  v4
+} from "uuid";
 
 export default {
   namespaced: true,
@@ -12,13 +14,19 @@ export default {
     setFamilyPlans: (state, plans) => state.familyPlans = plans,
     setSharedPlans: (state, plans) => state.sharedPlans = plans,
     addToFamilyPlans: (state, newPlan) => state.familyPlans.splice(state.familyPlans.length, 0, newPlan),
-    replaceContact: (state, { contact, plan}) => {
+    replaceContact: (state, {
+      contact,
+      plan
+    }) => {
       const index = plan.emergencyContacts.findIndex(i => i.id == contact.id);
       plan.emergencyContacts.splice(index, 1, contact);
     },
-    addContact: (state, { contact, plan}) => {
+    addContact: (state, {
+      contact,
+      plan
+    }) => {
       plan.emergencyContacts.splice(plan.emergencyContacts.length, 0, contact);
-    } 
+    }
   },
   actions: {
     async updatePlanAsync({
@@ -62,18 +70,21 @@ export default {
       commit,
       rootState
     }) {
-      if (rootState.globalStore.online) {
-        let response = await familyPlansApi.getAll();
-        commit('setFamilyPlans', response.data);
-        await localForage.setItem('getFamilyPlans', response.data);
-      } else {
-        try {
-          commit("setBusy", null, {
-            root: true
-          });
-          commit("setError", "", {
-            root: true
-          });
+
+      try {
+        commit("setBusy", null, {
+          root: true
+        });
+        commit("setError", "", {
+          root: true
+        });
+
+        if (rootState.globalStore.online) {
+          let response = await familyPlansApi.getAll();
+          commit('setFamilyPlans', response.data);
+          await localForage.setItem('getFamilyPlans', response.data);
+
+        } else {
           var data = await localForage.getItem('getFamilyPlans')
           if (data) {
             console.log("Serving from cache");
@@ -81,30 +92,39 @@ export default {
           } else {
             console.log("Offline without data");
           }
-        } catch {
-          commit("setError", "Could not load plans.", {
-            root: true
-          });
-        } finally {
-          commit("clearBusy", null, {
-            root: true
-          });
         }
+      } catch {
+        commit("setError", "Could not load plans.", {
+          root: true
+        });
+      } finally {
+        commit("clearBusy", null, {
+          root: true
+        });
       }
     },
-    async updateContactAsync(ctx, { contact, planId }) {
+    async updateContactAsync(ctx, {
+      contact,
+      planId
+    }) {
 
       // Find Plan
       const plan = ctx.getters.findFamilyPlan(planId);
       if (contact.id) { // Existing
         // Replace the contact
-        ctx.commit("replaceContact", { contact, plan});
+        ctx.commit("replaceContact", {
+          contact,
+          plan
+        });
       } else {
         contact.id = v4();
-        ctx.commit("addContact", {contact, plan});
+        ctx.commit("addContact", {
+          contact,
+          plan
+        });
       }
       // Save it
-      await ctx.dispatch("updatePlanAsync", plan);     
+      await ctx.dispatch("updatePlanAsync", plan);
     }
   },
   getters: {
