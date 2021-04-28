@@ -1,9 +1,15 @@
 <template>
   <v-container class="py-0">
+    <v-overlay :value="isLoading">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
     <v-app-bar app flat dense fixed>
       <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
       <v-icon class="mr-2">mdi-medical-bag</v-icon>
-      <v-toolbar-title>Emergency Kit Create</v-toolbar-title>
+      <v-toolbar-title>Emergency Kit Edit</v-toolbar-title>
     </v-app-bar>
     <v-form>
       <v-container>
@@ -15,7 +21,7 @@
 
         <v-row>
           <v-col cols="9" lg="3">
-            Color: <v-color-picker hide-inputs v-model="color" flat></v-color-picker>
+            Color: <v-color-picker hide-inputs v-model="color" flat ></v-color-picker>
           </v-col>
           <v-col cols="3">
             <v-select label="Icon" v-model="icon" :items="icons" required>
@@ -152,9 +158,9 @@
               :disabled="isSaving"
               :loading="isSaving"
               class="mr-4"
-              @click="createKit"
+              @click="updateKit"
             >
-              create
+              save
             </v-btn>
           </v-col>
         </v-row>
@@ -167,7 +173,7 @@
 import { mapState } from "vuex";
 
 export default {
-  name: "EmergencyKitCreate",
+  name: "EmergencyKitEdit",
   data: () => ({
     dialog: false,
     dialogDelete: false,
@@ -201,6 +207,8 @@ export default {
   computed: mapState({
     isSaving: (state) => state.emergencyKitStore.isSaving,
     saveErrorMessage: (state) => state.emergencyKitStore.saveErrorMessage,
+    isLoading: (state) => state.emergencyKitStore.isLoading,
+    kit: (state) => state.emergencyKitStore.item,
     icons: () => {
       const materialIcons = [
         "mdi-alarm-light",
@@ -231,6 +239,22 @@ export default {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },
   }),
+  watch: {
+    kit(newKit) {
+      // Our fancy notification (2).
+      this.name = newKit.name;
+      this.kitItems = newKit.kitItems.map(i => { return {...i}});
+      this.icon = newKit.icon;
+      this.color = newKit.color;
+    },
+  },
+  mounted: function () {
+    // Load the thing
+    this.$store.dispatch(
+      `emergencyKitStore/getEmergencyKitAsync`,
+      this.$route.params.id
+    );
+  },
   methods: {
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
@@ -238,10 +262,12 @@ export default {
     removeKitItem(index) {
       this.kitItems.splice(index, 1);
     },
-    async createKit() {
+
+    async updateKit() {
       const success = await this.$store.dispatch(
-        `emergencyKitStore/createEmergencyKitAsync`,
+        `emergencyKitStore/saveEmergencyKitAsync`,
         {
+          id: this.$route.params.id,
           name: this.name,
           color: this.color,
           icon: this.icon,
@@ -252,6 +278,7 @@ export default {
         this.goBack();
       }
     },
+
     editKitItem(item) {
       this.editedIndex = this.kitItems.indexOf(item);
       this.editedItem = Object.assign({}, item);

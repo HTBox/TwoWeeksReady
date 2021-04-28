@@ -41,6 +41,7 @@
           :color="item.color"
           class="my-4"
           ripple
+          @click="editKit(item.id)"
         >
           <v-card-title class="white--text">
             <v-col class="col-9">
@@ -93,6 +94,9 @@ export default {
         this.listing.splice(elementIndex, 1);
       }
     },
+    editKit(id){
+      this.$router.push(`/prepare/emergencykits/edit/${id}`);
+    }
   },
 };
 </script>
