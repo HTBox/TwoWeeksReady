@@ -1,7 +1,7 @@
 import baseApiInstance from './base-api-instance';
 
 export default {
-    async getDocuments() {
-        return (await baseApiInstance.getInstance()).get('hazardinfo-list');
+    async createPhoto(photo) {
+        return (await baseApiInstance.getInstance()).post('photos', photo);
     },
 };

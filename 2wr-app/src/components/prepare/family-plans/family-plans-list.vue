@@ -9,7 +9,7 @@
         right
         fab
         class="mb-12"
-        to="/prepare/familyplan/view/new"
+        to="/prepare/familyplan/new"
       >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
@@ -42,7 +42,7 @@
                 class="mx-2 my-2"
                 color="#eee"
                 ripple
-                :to="`/prepare/familyplan/view/${item.id}`"
+                :to="`/prepare/familyplan/${item.id}`"
               >
                 <v-card-title class="d-flex justify-space-between px-2 py-2">
                   <div>

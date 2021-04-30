@@ -3,7 +3,7 @@
     <v-card v-if="address">
       <v-card-subtitle>
         <v-row class="pl-3 justify-space-between">
-          <strong>Home Address</strong>
+          <strong>{{ title }}</strong>
           <v-icon class="pr-2" @click="dialogOpen = true">mdi-pencil</v-icon>
         </v-row>
       </v-card-subtitle>
@@ -66,6 +66,7 @@ import states from "@/lookups/states";
 export default defineComponent({
   props: {
     value: {},
+    title: {}
   },
   setup(props, { emit }) {
     const dialogOpen = ref(false);

@@ -19,7 +19,7 @@
       </v-row>
     </v-card>
     <v-spacer class="my-4" />
-    <Address @save="updatePlan" v-model="plan.address"></Address>
+    <Address @save="updatePlan" v-model="plan.address" title="Home Address"></Address>
     <v-spacer class="my-4" />
     <EditableTextBlock
       icon="mdi-phone"
@@ -34,7 +34,7 @@
         class="mx-2 my-2"
         color="#eee"
         ripple
-        :to="`/prepare/familyplan/emergencycontacts/${plan.id}`"
+        :to="`/prepare/familyplan/${plan.id}/emergencycontacts`"
       >
         <v-flex class="d-flex justify-space-between px-2 py-2">
           <div>Emergency Contacts</div>
@@ -43,7 +43,12 @@
           </div>
         </v-flex>
       </v-card>
-      <v-card to="" class="mx-2 my-2" color="#eee" ripple>
+      <v-card
+        class="mx-2 my-2"
+        color="#eee"
+        ripple
+        :to="`/prepare/familyplan/${plan.id}/routes/`"
+      >
         <v-flex class="d-flex justify-space-between px-2 py-2">
           <div>Routes and Locations</div>
           <div>
@@ -127,9 +132,7 @@ export default defineComponent({
         required("Title is required."),
         minLength(3, "Title must be more than three characters."),
       ],
-      phone: [
-        required("Phone is required."),
-        phoneNumber()      ],
+      phone: [required("Phone is required."), phoneNumber()],
     };
 
     return {

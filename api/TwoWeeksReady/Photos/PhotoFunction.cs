@@ -24,39 +24,26 @@ namespace TwoWeeksReady.Photos
   {
 
     const string CONTAINERNAME = "photos";
+#if !NOAUTH
     const string USER_METADATA_KEY = "HTBOX_USER_PRINCIPAL";
-
+#endif
     public PhotoFunction(IApiAuthentication apiAuthentication) :
       base(apiAuthentication)
     {
     }
 
-    [FunctionName("photo")]
-    public async Task<IActionResult> Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", "get", "delete", Route = "photo/{id?}")]
+    [FunctionName("photo-get")]
+    public async Task<IActionResult> Get(
+    [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "photo/{id?}")]
         HttpRequest req,
-        ILogger log)
+    ILogger log)
     {
-      log.LogInformation("Attempting to upload image.");
+      log.LogInformation("Attempting to get image.");
 
 #if !NOAUTH
       if (!await Authorized(req, log)) return new UnauthorizedResult();
 #endif
-      switch (req.Method.ToLower())
-      {
-        case "get":
-          return await GetPhoto(req, log);
-        case "post":
-          return await PostPhoto(req, log);
-        case "delete":
-          return await DeletePhoto(req, log);
-        default:
-          return new BadRequestObjectResult("Invalid operation requested.");
-      }
-    }
 
-    async Task<IActionResult> GetPhoto(HttpRequest req, ILogger log)
-    {
       try
       {
         // Get Blob
@@ -88,10 +75,18 @@ namespace TwoWeeksReady.Photos
       return new NotFoundResult();
     }
 
-    async Task<IActionResult> PostPhoto(HttpRequest req,
+    [FunctionName("photo-post")]
+    public async Task<IActionResult> Post(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "photo/{id?}")]
+        HttpRequest req,
         ILogger log)
     {
 
+      log.LogInformation("Attempting to upload image.");
+
+#if !NOAUTH
+      if (!await Authorized(req, log)) return new UnauthorizedResult();
+#endif
       try
       {
         // Load and Resize
@@ -137,24 +132,19 @@ namespace TwoWeeksReady.Photos
       return new BadRequestObjectResult("Failed to save image.");
     }
 
-    private static BlobContainerClient GetContainerClient()
+    [FunctionName("photo-delete")]
+    public async Task<IActionResult> Delete(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "photo/{id?}")]
+        HttpRequest req,
+        ILogger log)
     {
-      var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:StorageConnection");
-      var blobServiceClient = new BlobServiceClient(connectionString);
 
-      // Get the container
-      var containerClient = blobServiceClient.GetBlobContainerClient(CONTAINERNAME);
-      return containerClient;
-    }
+      log.LogInformation("Attempting to delete image.");
 
-    Uri GenerateBlobUrl(HttpRequest req, BlobClient blobClient)
-    {
-      var http = req.IsHttps ? "https" : "http";
-      return new Uri($"{http}://{req.Host.Value}/api/photo/{blobClient.Name}");
-    }
+#if !NOAUTH
+      if (!await Authorized(req, log)) return new UnauthorizedResult();
+#endif
 
-    async Task<IActionResult> DeletePhoto(HttpRequest req, ILogger log)
-    {
       try
       {
         var containerClient = GetContainerClient();
@@ -179,6 +169,24 @@ namespace TwoWeeksReady.Photos
       }
 
       return new BadRequestResult();
+    }
+
+
+
+    private static BlobContainerClient GetContainerClient()
+    {
+      var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:StorageConnection");
+      var blobServiceClient = new BlobServiceClient(connectionString);
+
+      // Get the container
+      var containerClient = blobServiceClient.GetBlobContainerClient(CONTAINERNAME);
+      return containerClient;
+    }
+
+    Uri GenerateBlobUrl(HttpRequest req, BlobClient blobClient)
+    {
+      var http = req.IsHttps ? "https" : "http";
+      return new Uri($"{http}://{req.Host.Value}/api/photo/{blobClient.Name}");
     }
 
     MemoryStream ResizeImage(Stream stream)

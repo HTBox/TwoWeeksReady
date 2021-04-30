@@ -7,4 +7,5 @@ export default class FamilyPlan {
   phoneNumber = "";
   address = new Address();
   emergencyContacts = [];
+  routes = [];
 }
