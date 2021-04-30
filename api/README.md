@@ -14,9 +14,23 @@
 
 Open the `api.code-workspace` in VS Code.
 
+You will need to install Azurite as a Storage Emulator if using VS Code for API development:
+
+```console
+npm install -g azurite
+```
+
+Alternatively, there is an Azurite VS Code Extension:
+
+[Install Azure Extension](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite#install-and-run-the-azurite-visual-studio-code-extension)
+
 ### Using Visual Studio 2019
 
-Open the `api.sln` in Visual Studio 2019.
+Open the `api.sln` in Visual Studio 2019. 
+
+You will also need the Azure Storage Emulator if using Visual Studio 2019 (if you're using VS Code, look above).
+
+[Install Azure Storage Emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator?toc=/azure/storage/blobs/toc.json#get-the-storage-emulator)
 
 ### Setup Azure CosmosDB
 
@@ -31,6 +45,16 @@ You will also need to create a SQL API database named **2wr** and the following 
 | hazardinformation | /id |
 | hazardhunts | /id |
 | familyplan | /userId |
+
+Alternately, you can run the tool in:
+
+```
+> cd ..\tools\CosmosEmulator
+
+> dotnet run /setup
+```
+
+This will create the database and collections for you.
 
 ### Create a local.settings.json
 

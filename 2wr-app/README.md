@@ -34,6 +34,30 @@ npm run serve
 npm run build
 ```
 
+## Run the api server
+
+```console
+npm run api
+```
+
+## Run the Azurite Server (Development Azure Storage Emulator)
+
+If you're not running the API in Visual Studio (with the Azure SDK running), you'll need to run azurite for Storage Emulation:
+
+```console
+npm run azurite
+```
+
+You may need to install azurite globally:
+
+```console
+npm install -g azurite
+```
+
+Alternatively, there is an Azurite VS Code Extension:
+
+[Install Azure Extension](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite#install-and-run-the-azurite-visual-studio-code-extension)
+
 ## Run production files after build
 
 First line you only ever need to execute once.
