@@ -6,6 +6,7 @@
       label="Route Name"
       outlined
     />
+    <photos-editor title="Photos" :route="theRoute" />
     <v-textarea 
       v-model="theRoute.instructions"
       label="Instructions"
@@ -27,10 +28,12 @@ import { minLength, required } from "@/rules";
 import { defineComponent, reactive } from "@vue/composition-api";
 import _ from "lodash";
 import Address from "./address.vue";
+import PhotosEditor from "./photos-editor.vue";
 
 export default defineComponent({
   components: {
-    Address
+    Address,
+    PhotosEditor 
   },
   props: {
     route: { required: true },
@@ -45,7 +48,7 @@ export default defineComponent({
 
     return {
       theRoute,
-      rules,
+      rules
     };
   },
 });

@@ -18,12 +18,15 @@
       <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
       <v-toolbar-title>{{ plan.title }} - Routes and Locations</v-toolbar-title>
     </v-app-bar>
-    <v-card class="pa-2" v-if="routes.length == 0"
-      ><em>Press <strong>'+'</strong> to add a new route.</em></v-card
-    >
-    <v-card v-for="route in routes" :key="route.id">
-      <v-card-title>route.name</v-card-title>
+    <v-card class="pa-2" v-if="routes.length == 0">
+      <em>Press <strong>'+'</strong> to add a new route.</em>
     </v-card>
+    <v-card class="pa-2" v-for="route in routes" :key="route.id">
+      <IconTextBlock icon="mdi-pencil" :allowSelected="true"  @selected="launchEditor(route)">
+        <h3>{{ route.name }}</h3>
+      </IconTextBlock>
+    </v-card>
+
     <v-dialog v-model="showEditor" persistent>
       <RouteLocationEditor
         v-if="showEditor"
@@ -40,16 +43,18 @@ import {
   defineComponent,
   onMounted,
   reactive,
-  ref,
+  ref
 } from "@vue/composition-api";
 import goBack from "@/functions/goBack.js";
 import store from "@/store";
 import RouteLocation from "@/models/family-plans/RouteLocation";
 import RouteLocationEditor from "./route-location-editor.vue";
+import IconTextBlock from "../../common/IconTextBlock.vue";
 
 export default defineComponent({
   components: {
-    RouteLocationEditor
+    RouteLocationEditor,
+    IconTextBlock
   },
   props: { planId: { required: true } },
   setup(props) {
@@ -59,9 +64,7 @@ export default defineComponent({
     const editorRoute = ref(null);
 
     onMounted(() => {
-      let found = store.getters["familyPlansStore/findFamilyPlan"](
-        props.planId
-      );
+      let found = store.getters["familyPlansStore/findFamilyPlan"](props.planId);
       if (found) {
         routes.value = reactive(found.routeLocations);
         plan.value = reactive(found);
@@ -78,7 +81,7 @@ export default defineComponent({
     async function save(route) {
       await store.dispatch("familyPlansStore/updateRouteAsync", {
         route,
-        planId: plan.value.id,
+        planId: plan.value.id
       });
       showEditor.value = false;
     }
@@ -95,8 +98,8 @@ export default defineComponent({
       launchEditor,
       save,
       showEditor,
-      editorRoute,
+      editorRoute
     };
-  },
+  }
 });
 </script>

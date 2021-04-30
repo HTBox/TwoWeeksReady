@@ -1,7 +1,12 @@
-import baseApiInstance from './base-api-instance';
+import baseApiInstance from "./base-api-instance";
 
 export default {
-    async getDocuments() {
-        return (await baseApiInstance.getInstance()).get('hazardinfo-list');
-    },
+  async uploadPhoto(photo) {
+    console.log(photo);
+    return (await baseApiInstance.getInstance()).post("photo", photo, {
+      headers: {
+        "Content-Type": photo.type
+      }
+    });
+  }
 };

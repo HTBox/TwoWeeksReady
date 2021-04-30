@@ -102,17 +102,17 @@ namespace TwoWeeksReady.Photos
           // Get the client for this new blob
           var blobClient = containerClient.GetBlobClient(blobName);
 
-#if !NOAUTH
-          // Add the userid to the metadata
-          var metadata = new Dictionary<string, string>();
-          metadata.Add(USER_METADATA_KEY, Principal.Identity.Name);
-          await blobClient.SetMetadataAsync(metadata);
-#endif
 
           // Upload the image
           var response = await blobClient.UploadAsync(image);
           if (response != null)
           {
+#if !NOAUTH
+            // Add the userid to the metadata
+            var metadata = new Dictionary<string, string>();
+            metadata.Add(USER_METADATA_KEY, Principal.Identity.Name);
+            await blobClient.SetMetadataAsync(metadata);
+#endif
             // Add content type
             await blobClient.SetHttpHeadersAsync(new BlobHttpHeaders() { ContentType = "image/jpg" });
 
@@ -185,8 +185,10 @@ namespace TwoWeeksReady.Photos
 
     Uri GenerateBlobUrl(HttpRequest req, BlobClient blobClient)
     {
-      var http = req.IsHttps ? "https" : "http";
-      return new Uri($"{http}://{req.Host.Value}/api/photo/{blobClient.Name}");
+      var uri = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.UtcNow.AddDays(1));
+      return uri;
+      //var http = req.IsHttps ? "https" : "http";
+      //return new Uri($"{http}://{req.Host.Value}/api/photo/{blobClient.Name}?s={signature}");
     }
 
     MemoryStream ResizeImage(Stream stream)
