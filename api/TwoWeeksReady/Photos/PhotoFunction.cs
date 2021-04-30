@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
@@ -62,9 +63,12 @@ namespace TwoWeeksReady.Photos
         }
 #endif
 
-        await blob.DownloadToAsync(req.HttpContext.Response.Body);
+        var imageStream = await blob.OpenReadAsync();
 
-        return new OkObjectResult(req.HttpContext.Response);
+        var result = new OkObjectResult(imageStream);
+        result.ContentTypes.Add("image/jpeg");
+
+        return result;
 
       }
       catch (Exception ex)
@@ -116,7 +120,7 @@ namespace TwoWeeksReady.Photos
             // Add content type
             await blobClient.SetHttpHeadersAsync(new BlobHttpHeaders() { ContentType = "image/jpg" });
 
-            var url = GenerateBlobUrl(req, blobClient);
+            var url = new Uri($"{blobClient.Name}");
 
             return new CreatedResult(url, url);
           }
@@ -181,14 +185,6 @@ namespace TwoWeeksReady.Photos
       // Get the container
       var containerClient = blobServiceClient.GetBlobContainerClient(CONTAINERNAME);
       return containerClient;
-    }
-
-    Uri GenerateBlobUrl(HttpRequest req, BlobClient blobClient)
-    {
-      var uri = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.UtcNow.AddDays(1));
-      return uri;
-      //var http = req.IsHttps ? "https" : "http";
-      //return new Uri($"{http}://{req.Host.Value}/api/photo/{blobClient.Name}?s={signature}");
     }
 
     MemoryStream ResizeImage(Stream stream)

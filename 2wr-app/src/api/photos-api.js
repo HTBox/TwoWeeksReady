@@ -8,5 +8,8 @@ export default {
         "Content-Type": photo.type
       }
     });
+  },
+  async getPhoto(photo) {
+    return (await baseApiInstance.getInstance({ responseType: "blob", headers: { Accept: "image/*"}})).get(`photo/${photo}`);  
   }
 };
