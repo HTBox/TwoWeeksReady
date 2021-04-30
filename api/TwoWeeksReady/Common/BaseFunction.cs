@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AzureFunctions.OidcAuthentication;
 using Microsoft.AspNetCore.Http;
