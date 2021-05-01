@@ -113,7 +113,7 @@ export default {
       commit("setError", "", { root: true });
       var result = await photosApi.uploadPhoto(file);
       if (result.status === 201) {
-        commit("addPhoto", { photo: result.data, route });
+        commit("addPhoto", { photo: await result.text(), route });
       }      
     } catch (e) {
       commit("setError", `Failed to upload photo`, { root: true });

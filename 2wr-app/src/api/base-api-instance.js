@@ -1,4 +1,5 @@
-import axios from "axios";
+// Using RedAxios so we can intercept fetch if necessary
+import axios from "redaxios";
 import { getAuthInstance } from "../auth";
 const baseApiInstance = {
   async getInstance(customOptions) {

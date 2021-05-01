@@ -120,7 +120,7 @@ namespace TwoWeeksReady.Photos
             // Add content type
             await blobClient.SetHttpHeadersAsync(new BlobHttpHeaders() { ContentType = "image/jpg" });
 
-            var url = new Uri($"{blobClient.Name}");
+            var url = blobClient.Name;
 
             return new CreatedResult(url, url);
           }
