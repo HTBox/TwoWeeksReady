@@ -79,6 +79,34 @@ export default {
     // Save it
     await ctx.dispatch("updatePlanAsync", plan);
   },
+  async updateChildAsync(ctx, { child, planId }) {
+    // Find Plan
+    const plan = ctx.getters.findFamilyPlan(planId);
+    if (child.id) {
+      // Existing
+      // Replace the contact
+      ctx.commit("replaceChild", { child, plan });
+    } else {
+      child.id = v4();
+      ctx.commit("addChild", { child, plan });
+    }
+    // Save it
+    await ctx.dispatch("updatePlanAsync", plan);
+  },
+  async updatePetAsync(ctx, { pet, planId }) {
+    // Find Plan
+    const plan = ctx.getters.findFamilyPlan(planId);
+    if (pet.id) {
+      // Existing
+      // Replace the contact
+      ctx.commit("replacePet", { pet, plan });
+    } else {
+      pet.id = v4();
+      ctx.commit("addPet", { pet, plan });
+    }
+    // Save it
+    await ctx.dispatch("updatePlanAsync", plan);
+  },
   async addImageFile({ commit }, { file, route }) {
     try {
       commit("setBusy", null, { root: true });

@@ -8,4 +8,6 @@ export default class FamilyPlan {
   address = new Address();
   emergencyContacts = [];
   routes = [];
+  children = [];
+  pets = [];
 }

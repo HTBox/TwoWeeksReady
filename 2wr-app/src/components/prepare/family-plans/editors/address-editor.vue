@@ -74,9 +74,16 @@ export default defineComponent({
 
     const formattedAddress = computed(() => {
       if (!props.value) return "";
-      let theAddress = `${props.value.address1}<br/>`;
-      if (props.value.address2) theAddress += `${props.value.address2}<br/>`;
-      return theAddress + `${props.value.cityTown}, ${props.value.stateProvince}  ${props.value.postalCode}`;
+      const raw = props.value;
+      let theAddress = `${raw.address1}<br/>`;
+      if (raw.address2) theAddress += `${raw.address2}<br/>`;
+      let lastLine = "";
+      if (raw.cityTown && raw.stateProvince) lastLine = `${raw.cityTown}, ${raw.stateProvince}`;
+      if (raw.cityTown && !raw.stateProvince) lastLine = raw.cityTown;
+      if (!raw.cityTown && raw.stateProvince) lastLine = raw.stateProvince;
+      if (lastLine) lastLine += `  `;
+      lastLine += raw.postalCode; 
+      return theAddress + lastLine;
 });
 
     function cancel() {

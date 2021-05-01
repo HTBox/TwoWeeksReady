@@ -1,9 +1,6 @@
 <template>
   <v-container class="py-0" v-if="plan">
-    <v-app-bar app flat dense fixed>
-      <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
-      <v-toolbar-title>Family Plan</v-toolbar-title>
-    </v-app-bar>
+    <InfoBar title="Family Plan"></InfoBar>
     <EditableTextBlock
       label="Plan Name"
       v-model="plan.title"
@@ -19,7 +16,7 @@
       </v-row>
     </v-card>
     <v-spacer class="my-4" />
-    <Address @save="updatePlan" v-model="plan.address" title="Home Address"></Address>
+    <AddressEditor @save="updatePlan" v-model="plan.address" title="Home Address"></AddressEditor>
     <v-spacer class="my-4" />
     <EditableTextBlock
       icon="mdi-phone"
@@ -56,7 +53,7 @@
           </div>
         </v-flex>
       </v-card>
-      <v-card to="" class="mx-2 my-2" color="#eee" ripple>
+      <v-card class="mx-2 my-2" color="#eee" ripple :to="`/prepare/familyplan/${plan.id}/children/`">
         <v-flex class="d-flex justify-space-between px-2 py-2">
           <div>Children</div>
           <div>
@@ -64,7 +61,7 @@
           </div>
         </v-flex>
       </v-card>
-      <v-card to="" class="mx-2 my-2" color="#eee" ripple>
+      <v-card class="mx-2 my-2" color="#eee" ripple :to="`/prepare/familyplan/${plan.id}/pets/`">
         <v-flex class="d-flex justify-space-between px-2 py-2">
           <div>Pets</div>
           <div>
@@ -85,16 +82,16 @@ import {
   ref,
 } from "@vue/composition-api";
 import store from "@/store";
-import goBack from "@/functions/goBack";
 import FamilyPlan from "@/models/family-plans/FamilyPlan";
-import EditableTextBlock from "@/components/common/EditableTextBlock.vue";
 import _ from "lodash";
-import Address from "./address";
+import goBack from "@/functions/goBack";
 import { phoneNumber, required, minLength } from "@/rules";
+
+import AddressEditor from "./editors/address-editor.vue";
 
 export default defineComponent({
   name: "family-plan-view",
-  components: { EditableTextBlock, Address },
+  components: { AddressEditor },
   props: { planId: { required: true } },
   setup(props) {
     const plan = ref(null);

@@ -14,5 +14,8 @@ namespace TwoWeeksReady.Common.FamilyPlans
     public string Description { get; set; }
     [JsonProperty("image")]
     public string Image { get; set; }
+    [JsonProperty("microchipId")]
+    public string MicrochipId { get; set; }
+
   }
 }

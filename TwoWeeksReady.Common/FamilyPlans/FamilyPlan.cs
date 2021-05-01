@@ -28,7 +28,7 @@ namespace TwoWeeksReady.Common.FamilyPlans
     public List<RouteLocation> RouteLocations { get; set; } = new List<RouteLocation>();
 
     [JsonProperty("children")]
-    public List<Person> Children { get; set; } = new List<Person>();
+    public List<Child> Children { get; set; } = new List<Child>();
 
     [JsonProperty("pets")]
     public List<Pet> Pets { get; set; } = new List<Pet>();

@@ -13,7 +13,7 @@
       rows="2"
       outlined
     />
-    <Address v-model="theRoute.address" title="Address"></Address>
+    <AddressEditor v-model="theRoute.address" title="Address"></AddressEditor>
     <v-divider></v-divider>
     <v-card-actions class="">
       <v-btn text @click="$emit(`cancel`)">Cancel</v-btn>
@@ -27,12 +27,12 @@
 import { minLength, required } from "@/rules";
 import { defineComponent, reactive } from "@vue/composition-api";
 import _ from "lodash";
-import Address from "./address.vue";
+import AddressEditor from "./address-editor.vue";
 import PhotosEditor from "./photos-editor.vue";
 
 export default defineComponent({
   components: {
-    Address,
+    AddressEditor,
     PhotosEditor 
   },
   props: {

@@ -14,10 +14,7 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-fab-transition>
-    <v-app-bar app flat dense fixed>
-      <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
-      <v-toolbar-title>My Family Plan</v-toolbar-title>
-    </v-app-bar>
+    <InfoBar title="My Family Plan"></InfoBar>
     <v-tabs background-color="blue" dark grow v-model="currentTab">
       <v-tab> My Family Plan </v-tab>
       <v-tab>
@@ -72,7 +69,6 @@ import {
   ref,
 } from "@vue/composition-api";
 import store from "@/store";
-import goBack from "@/functions/goBack.js";
 
 export default defineComponent({
   name: "family-plan-landing",
@@ -91,7 +87,6 @@ export default defineComponent({
       currentTab,
       familyPlans,
       sharedPlans,
-      goBack,
     };
   },
 });

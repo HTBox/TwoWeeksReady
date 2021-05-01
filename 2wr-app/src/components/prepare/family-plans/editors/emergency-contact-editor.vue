@@ -59,13 +59,11 @@
 </template>
 
 <script>
-import EditableTextBlock from "@/components/common/EditableTextBlock.vue";
 import { minLength, required, phoneNumber, email } from "@/rules";
 import { defineComponent, reactive } from "@vue/composition-api";
 import _ from "lodash";
 
 export default defineComponent({
-  components: { EditableTextBlock },
   props: {
     contact: { required: true },
   },

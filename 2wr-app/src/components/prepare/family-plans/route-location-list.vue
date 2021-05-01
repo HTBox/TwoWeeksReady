@@ -14,6 +14,7 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-fab-transition>
+    <InfoBar :title="`${ plan.title } - Routes and Locations`"></InfoBar>
     <v-app-bar app flat dense fixed>
       <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
       <v-toolbar-title>{{ plan.title }} - Routes and Locations</v-toolbar-title>
@@ -48,13 +49,11 @@ import {
 import goBack from "@/functions/goBack.js";
 import store from "@/store";
 import RouteLocation from "@/models/family-plans/RouteLocation";
-import RouteLocationEditor from "./route-location-editor.vue";
-import IconTextBlock from "../../common/IconTextBlock.vue";
+import RouteLocationEditor from "./editors/route-location-editor.vue";
 
 export default defineComponent({
   components: {
-    RouteLocationEditor,
-    IconTextBlock
+    RouteLocationEditor
   },
   props: { planId: { required: true } },
   setup(props) {
