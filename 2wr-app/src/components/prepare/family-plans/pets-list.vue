@@ -14,29 +14,29 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-fab-transition>
-    <InfoBar :title="`Children`" />
-    <div v-if="children">
-      <v-card class="pa-2" v-if="children.length == 0"
-        ><em>Press <strong>'+'</strong> to add new children.</em></v-card
+    <InfoBar :title="`Pets`" />
+    <div v-if="pets">
+      <v-card class="pa-2" v-if="pets.length == 0"
+        ><em>Press <strong>'+'</strong> to add new pets.</em></v-card
       >
       <IconTextBlock
         allowSelected="true"
         icon="mdi-chevron-right"
-        v-for="child in children"
-        :key="child.id"
+        v-for="pet in pets"
+        :key="pet.id"
       >
         <v-card>
-          <v-card-title>{{ child.name }}</v-card-title>
+          <v-card-title>{{ pet.name }}</v-card-title>
         </v-card>
       </IconTextBlock>
     </div>
      <v-dialog v-model="showEditor" persistent>
-      <ChildEditor
+      <PetEditor
         v-if="showEditor"
-        :child="editorChild"
+        :pet="editorPet"
         @cancel="showEditor = false"
         @save="save"
-      ></ChildEditor>
+      ></PetEditor>
     </v-dialog>
   </v-container>
 </template>
@@ -44,21 +44,21 @@
 <script>
 import { defineComponent, onMounted, ref } from "@vue/composition-api";
 
-import ChildEditor from "./editors/child-editor.vue";
+import PetEditor from "./editors/pet-editor.vue";
 import goBack from "@/functions/goBack";
-import Child from "@/models/family-plans/Child";
+import Pet from "@/models/family-plans/Pet";
 import store from "@/store";
 import _ from "lodash";
 
 export default defineComponent({
-  components: { ChildEditor },
+  components: { PetEditor },
   props: { planId: { required: true } },
   setup(props) {
     
     const plan = ref(null);
-    const children = ref(null);
+    const pets = ref(null);
     const showEditor = ref(false);
-    const editorChild = ref(null);
+    const editorPet = ref(null);
 
     onMounted(() => {
       const result = store.getters[
@@ -66,34 +66,34 @@ export default defineComponent({
         props.planId
       );
       if (result) {
-        children.value = _.cloneDeep(result.children);
+        pets.value = _.cloneDeep(result.pets);
         plan.value = result;
       } else {
         goBack();
       }
     });
 
-    function launchEditor(child) {
-      editorChild.value = child;
+    function launchEditor(pet) {
+      editorPet.value = pet;
       showEditor.value = true;
     }
 
     function addNew() {
-      launchEditor(new Child());
+      launchEditor(new Pet());
     }
 
-    async function save(child) {
-      await store.dispatch("familyPlansStore/updateChildAsync", { child, planId: props.planId});
+    async function save(pet) {
+      await store.dispatch("familyPlansStore/updatePetAsync", { pet, planId: props.planId});
       showEditor.value = false;
     }
     return {
-      children,
+      pets,
       showEditor,
       addNew,
       launchEditor, 
-      editorChild,
-      plan,
-      save
+      editorPet,
+      save,
+      plan
     };
   },
 });
