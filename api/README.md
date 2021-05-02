@@ -69,7 +69,8 @@ Create a `local.settings.json` file in the TwoWeeksReady project folder. You wil
     "OidcApiAuthSettings:IssuerUrl": "https://dev-3y6ze-l0.us.auth0.com/"
   },
   "ConnectionStrings": {
-    "CosmosDBConnection": "AccountEndpoint=https://localhost:8081/;AccountKey=YOURLOCALACCOUNTKEY"
+    "CosmosDBConnection": "AccountEndpoint=https://localhost:8081/;AccountKey=YOURLOCALACCOUNTKEY",
+  "StorageConnection": "UseDevelopmentStorage=true"
   },
   "Host":{
     "CORS": "*"
