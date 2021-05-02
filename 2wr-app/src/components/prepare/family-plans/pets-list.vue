@@ -15,21 +15,33 @@
       </v-btn>
     </v-fab-transition>
     <InfoBar :title="`Pets`" />
-    <div v-if="pets">
-      <v-card class="pa-2" v-if="pets.length == 0"
-        ><em>Press <strong>'+'</strong> to add new pets.</em></v-card
-      >
+    <v-card class="pa-2" v-if="!pets"
+      ><em>Press <strong>'+'</strong> to add new pets.</em></v-card
+    >
+    <v-card class="pa-2 mb-1" v-for="pet in pets" :key="pet.id">
       <IconTextBlock
-        allowSelected="true"
-        icon="mdi-chevron-right"
-        v-for="pet in pets"
-        :key="pet.id"
+        icon="mdi-pencil"
+        :allowSelected="true"
+        @selected="launchEditor(pet)"
       >
-        <v-card>
-          <v-card-title>{{ pet.name }}</v-card-title>
-        </v-card>
+        <v-row>
+          <v-col class="flex-grow-0 flex-shrink-0">
+            <v-layout v-if="!pet.image" class="mr-n3" style="width: 50px; height: 50px;">&nbsp;</v-layout> 
+            <SecureImg
+              v-if="pet.image"
+              :src="pet.image"
+              :alt="pet.name"
+              class="img-cover mr-n3"
+              max-width="100%"
+              width="50" height="50"
+            />
+          </v-col>
+          <v-col>
+            <h3>{{ pet.name }}</h3>
+          </v-col>
+        </v-row>
       </IconTextBlock>
-    </div>
+    </v-card>
      <v-dialog v-model="showEditor" persistent>
       <PetEditor
         v-if="showEditor"
@@ -48,14 +60,12 @@ import PetEditor from "./editors/pet-editor.vue";
 import goBack from "@/functions/goBack";
 import Pet from "@/models/family-plans/Pet";
 import store from "@/store";
-import _ from "lodash";
 
 export default defineComponent({
   components: { PetEditor },
   props: { planId: { required: true } },
   setup(props) {
     
-    const plan = ref(null);
     const pets = ref(null);
     const showEditor = ref(false);
     const editorPet = ref(null);
@@ -66,8 +76,7 @@ export default defineComponent({
         props.planId
       );
       if (result) {
-        pets.value = _.cloneDeep(result.pets);
-        plan.value = result;
+        pets.value = result.pets;
       } else {
         goBack();
       }
@@ -92,8 +101,7 @@ export default defineComponent({
       addNew,
       launchEditor, 
       editorPet,
-      save,
-      plan
+      save
     };
   },
 });

@@ -53,7 +53,7 @@ export default defineComponent({
     }
 
     async function imagePicked(file) {
-      store.dispatch("familyPlansStore/addImageFile", {
+      store.dispatch("familyPlansStore/addImageToRoute", {
         file,
         route: props.route,
       });

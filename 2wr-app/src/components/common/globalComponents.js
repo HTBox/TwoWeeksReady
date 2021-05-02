@@ -3,10 +3,12 @@ import EditableTextBlock from './EditableTextBlock.vue';
 import IconTextBlock from './IconTextBlock.vue';
 import InfoBar from './InfoBar.vue';
 import DatePickerInput from "./DatePickerInput.vue";
+import SecureImg from './SecureImg.vue';
 
 export default function () {
   Vue.component("EditableTextBlock", EditableTextBlock);  
   Vue.component("IconTextBlock", IconTextBlock);  
   Vue.component("InfoBar", InfoBar);
-  Vue.component("DatePickerInput", DatePickerInput)  
+  Vue.component("DatePickerInput", DatePickerInput);
+  Vue.component("SecureImg", SecureImg);
 }

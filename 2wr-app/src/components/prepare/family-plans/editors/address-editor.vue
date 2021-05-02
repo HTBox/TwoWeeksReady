@@ -50,7 +50,7 @@ import { minLength, required, zipCode } from "@/rules";
 
 export default defineComponent({
   props: {
-    value: { required: true },
+    value: { required: true }
   },
   setup(props, { emit, refs }) {
     const address = computed({

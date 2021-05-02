@@ -7,6 +7,11 @@
         label="Child's Name"
         outlined
       />
+      <PhotoEditor
+        :photo="theChild.image"
+        @photoPicked="savePhoto"
+        @clearPhoto="clearPhoto"
+      ></PhotoEditor>
       <v-textarea
         v-model="theChild.relationship"
         label="Relationship to Family"
@@ -29,8 +34,12 @@
       >
       </v-text-field>
       <v-divider></v-divider>
-      <v-text-field outlined label="School Name" />
-      <AddressEditor v-model="theChild.schoolAddress" ref="addressEditor"/>
+      <v-text-field
+        outlined
+        label="School Name"
+        v-model="theChild.schoolName"
+      />
+      <AddressEditor v-model="theChild.schoolAddress" ref="addressEditor" />
       <v-text-field
         v-model="theChild.schoolNumber"
         label="School Phone Number"
@@ -44,6 +53,7 @@
         <v-btn text color="green" @click="save">Save</v-btn>
       </v-card-actions>
     </v-form>
+    <pre>{{ theChild }}</pre>
   </v-card>
 </template>
 
@@ -52,10 +62,13 @@ import { phoneNumber, required } from "@/rules";
 import { defineComponent, reactive } from "@vue/composition-api";
 import _ from "lodash";
 import AddressEditor from "./address-editor.vue";
+import PhotoEditor from "./photo-editor.vue";
+import store from "@/store";
 
 export default defineComponent({
   components: {
     AddressEditor,
+    PhotoEditor,
   },
   props: {
     child: { required: true },
@@ -72,15 +85,35 @@ export default defineComponent({
     };
 
     function save() {
-      if (refs.theForm.validate() && refs.addressEditor.validate()) {
+      if (
+        refs.theForm.validate() &&
+        (theChild.schoolName ? refs.addressEditor.validate() : true)
+      ) {
         emit(`save`, theChild);
       }
     }
 
+  async function savePhoto(file) {
+    await store.dispatch("familyPlansStore/addImageToChild", {
+      file,
+      child: theChild,
+    });
+  }
+
+  async function clearPhoto() {
+    // Committing a blank url, instead of actually deleting it
+    await store.commit("familyPlansStore/addPhotoToChild", {
+      photo: "",
+      child: theChild,
+    });
+  }
+
     return {
       theChild,
       rules,
-      save
+      save,
+      savePhoto,
+      clearPhoto
     };
   },
 });

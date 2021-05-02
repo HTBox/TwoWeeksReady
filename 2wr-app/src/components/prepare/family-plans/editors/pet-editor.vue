@@ -7,6 +7,12 @@
         label="Pet's Name"
         outlined
       />
+      <PhotoEditor
+        :photo="thePet.image"
+        @photoPicked="savePhoto"
+        @clearPhoto="clearPhoto"
+      ></PhotoEditor>
+
       <v-text-field
         outlined
         v-model="thePet.type"
@@ -36,8 +42,13 @@
 import { phoneNumber, required } from "@/rules";
 import { defineComponent, reactive } from "@vue/composition-api";
 import _ from "lodash";
+import PhotoEditor from "./photo-editor.vue";
+import store from "@/store";
 
 export default defineComponent({
+  components: {
+    PhotoEditor,
+  },
   props: {
     pet: { required: true },
   },
@@ -58,10 +69,27 @@ export default defineComponent({
       }
     }
 
+    async function savePhoto(file) {
+      await store.dispatch("familyPlansStore/addImageToPet", {
+        file,
+        pet: thePet,
+      });
+    }
+
+    async function clearPhoto() {
+      // Committing a blank url, instead of actually deleting it
+      await store.commit("familyPlansStore/addPhotoToPet", {
+        photo: "",
+        pet: thePet,
+      });
+    }
+
     return {
       thePet,
       rules,
       save,
+      savePhoto,
+      clearPhoto
     };
   },
 });

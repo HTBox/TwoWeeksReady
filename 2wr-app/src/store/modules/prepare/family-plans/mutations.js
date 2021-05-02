@@ -31,7 +31,14 @@ export default {
   addPet: (state, { pet, plan }) => {
     plan.pets.splice(plan.pets.length, 0, pet);
   },
-  addPhoto: (state, { photo, route }) => {
+  addPhotoToRoute: (state, { photo, route }) => {
     route.images.splice(route.images.length, 0, photo);
+  },
+  addPhotoToChild: (state, { photo, child }) => {
+    child.image = photo;
+  },
+  addPhotoToPet: (state, { photo, pet }) => {
+    pet.image = photo;
   }
+
 };

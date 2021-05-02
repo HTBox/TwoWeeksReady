@@ -107,13 +107,13 @@ export default {
     // Save it
     await ctx.dispatch("updatePlanAsync", plan);
   },
-  async addImageFile({ commit }, { file, route }) {
+  async addImage({ commit }, file) {
     try {
       commit("setBusy", null, { root: true });
       commit("setError", "", { root: true });
       var result = await photosApi.uploadPhoto(file);
       if (result.status === 201) {
-        commit("addPhoto", { photo: await result.text(), route });
+        return await result.text();
       }      
     } catch (e) {
       commit("setError", `Failed to upload photo`, { root: true });
@@ -121,5 +121,19 @@ export default {
     } finally {
       commit("clearBusy", null, { root: true });
     }   
+    return null;
+  },
+  async addImageToRoute({ commit, dispatch }, { file, route }) {
+    const photo = await dispatch("addImage", file);
+    if (photo) commit("addPhotoToRoute", { photo, route });
+  },
+  async addImageToChild({ commit, dispatch }, { file, child }) {
+    const photo = await dispatch("addImage", file);
+    if (photo) commit("addPhotoToChild", { photo, child });
+  },
+  async addImageToPet({ commit, dispatch }, { file, pet }) {
+    const photo = await dispatch("addImage", file);
+    if (photo) commit("addPhotoToPet", { photo, pet });
   }
+
 };
