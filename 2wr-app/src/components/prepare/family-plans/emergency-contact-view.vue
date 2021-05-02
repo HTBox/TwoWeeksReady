@@ -67,14 +67,10 @@
 
 <script>
 import { defineComponent, ref } from "@vue/composition-api";
-import IconTextBlock from "@/components/common/IconTextBlock.vue";
 
 export default defineComponent({
   props: {
     contact: { required: true },
-  },
-  components: {
-    IconTextBlock,
   },
   setup() {
     const showSchoolInfo = ref(false);

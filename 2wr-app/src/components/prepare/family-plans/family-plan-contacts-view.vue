@@ -14,10 +14,8 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-fab-transition>
-    <v-app-bar app flat dense fixed>
-      <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
-      <v-toolbar-title>{{ plan.title }} - Emergency Contacts</v-toolbar-title>
-    </v-app-bar>
+    <InfoBar :title="`${plan.title} - Emergency Contacts`"></InfoBar>  
+    <v-card class="pa-2" v-if="contacts.length == 0"><em>Press <strong>'+'</strong> to add new contacts.</em></v-card>
     <v-card v-for="contact in contacts" :key="contact.fullName">
       <EmergencyContactView :contact="contact" @launchEditor="launchEditor"></EmergencyContactView>
     </v-card>
@@ -42,7 +40,7 @@ import {
 import goBack from "@/functions/goBack.js";
 import store from "@/store";
 import EmergencyContactView from "./emergency-contact-view.vue";
-import EmergencyContactEditor from "./emergency-contact-editor.vue";
+import EmergencyContactEditor from "./editors/emergency-contact-editor.vue";
 import EmergencyContact from "@/models/family-plans/EmergencyContact";
 
 export default defineComponent({
@@ -64,7 +62,7 @@ export default defineComponent({
         props.planId
       );
       if (found) {
-        contacts.value = reactive(found.emergencyContacts);
+        contacts.value = reactive(found.emergencyContacts ? found.emergencyContacts : []);
         plan.value = reactive(found);
       } else {
         goBack();

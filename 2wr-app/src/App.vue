@@ -75,3 +75,13 @@ export default {
   },
 };
 </script>
+
+<!-- Global Styles -->
+<style>
+.hidden {
+  display: none;
+}
+.img-cover {
+  object-fit: cover;
+}
+</style>

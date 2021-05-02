@@ -10,12 +10,16 @@ export function minLength(len, msg) {
 
 export function phoneNumber(msg) {
   if (!msg) msg = "Must be a valid phone number. (e.g. (404) 555-1212, 404-555-1212)";
-  return  (v) => /^(\([0-9]{3}\)\s?|[0-9]{3}-)[0-9]{3}-[0-9]{4}$/.test(v) || msg;
+  return  (v) => !v || /^(\([0-9]{3}\)\s?|[0-9]{3}-)[0-9]{3}-[0-9]{4}$/.test(v) || msg;
 } 
 
 
 export function email(msg) {
   if (!msg) msg = "Must be a valid email.";
-  return  (v) => /^[^@]+@[^@]+\.[^@]+$/.test(v) || msg;
+  return  (v) => !v || /^[^@]+@[^@]+\.[^@]+$/.test(v) || msg;
 } 
 
+export function zipCode(msg) {
+  if (!msg) msg = "Must be a valid zipcode.";
+  return (v) => !v || /^[0-9]{5}(?:-[0-9]{4})?$$/.test(v) || msg;
+}

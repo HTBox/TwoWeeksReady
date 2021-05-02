@@ -1,10 +1,21 @@
-﻿namespace TwoWeeksReady.Common.FamilyPlans
+﻿using Newtonsoft.Json;
+
+namespace TwoWeeksReady.Common.FamilyPlans
 {
   public class Pet
   {
+    [JsonProperty("id")]
+    public string Id { get; set; }
+    [JsonProperty("name")]
     public string Name { get; set; }
+    [JsonProperty("type")]
     public string Type { get; set; }
+    [JsonProperty("description")]
     public string Description { get; set; }
-    public string ImageUrl { get; set; }
+    [JsonProperty("image")]
+    public string Image { get; set; }
+    [JsonProperty("microchipId")]
+    public string MicrochipId { get; set; }
+
   }
 }

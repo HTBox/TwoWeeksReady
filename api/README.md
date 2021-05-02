@@ -14,9 +14,23 @@
 
 Open the `api.code-workspace` in VS Code.
 
+You will need to install Azurite as a Storage Emulator if using VS Code for API development:
+
+```console
+npm install -g azurite
+```
+
+Alternatively, there is an Azurite VS Code Extension:
+
+[Install Azure Extension](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite#install-and-run-the-azurite-visual-studio-code-extension)
+
 ### Using Visual Studio 2019
 
-Open the `api.sln` in Visual Studio 2019.
+Open the `api.sln` in Visual Studio 2019. 
+
+You will also need the Azure Storage Emulator if using Visual Studio 2019 (if you're using VS Code, look above).
+
+[Install Azure Storage Emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator?toc=/azure/storage/blobs/toc.json#get-the-storage-emulator)
 
 ### Setup Azure CosmosDB
 
@@ -32,6 +46,16 @@ You will also need to create a SQL API database named **2wr** and the following 
 | hazardhunts | /id |
 | familyplan | /userId |
 
+Alternately, you can run the tool in:
+
+```
+> cd ..\tools\CosmosEmulator
+
+> dotnet run /setup
+```
+
+This will create the database and collections for you.
+
 ### Create a local.settings.json
 
 Create a `local.settings.json` file in the TwoWeeksReady project folder. You will need to set the CosmosDbConnection setting to your own CosmosDB instance.
@@ -45,7 +69,8 @@ Create a `local.settings.json` file in the TwoWeeksReady project folder. You wil
     "OidcApiAuthSettings:IssuerUrl": "https://dev-3y6ze-l0.us.auth0.com/"
   },
   "ConnectionStrings": {
-    "CosmosDBConnection": "AccountEndpoint=https://localhost:8081/;AccountKey=YOURLOCALACCOUNTKEY"
+    "CosmosDBConnection": "AccountEndpoint=https://localhost:8081/;AccountKey=YOURLOCALACCOUNTKEY",
+  "StorageConnection": "UseDevelopmentStorage=true"
   },
   "Host":{
     "CORS": "*"
