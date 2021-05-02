@@ -1,32 +1,34 @@
 <template>
   <v-card class="pa-2">
-    <v-text-field
-      v-model="thePet.name"
-      :rules="rules.name"
-      label="Pet's Name"
-      outlined
-    />
-    <v-text-field
-      outlined
-      v-model="thePet.type"
-      :rules="rules.type"
-      label="Pet Type"
-      placeholder="e.g. Cat, Dog, Fish"
-    />
-    <v-text-field
-      v-model="thePet.microchipId"
-      label="Microchip ID"
-      :rules="rules.microchipId"
-      outlined
-    >
-    </v-text-field>
-    <v-textarea outlined v-model="thePet.description" label="Description">
-    </v-textarea>
-    <v-divider></v-divider>
-    <v-card-actions class="">
-      <v-btn text @click="$emit(`cancel`)">Cancel</v-btn>
-      <v-btn text color="green" @click="$emit(`save`, thePet)">Save</v-btn>
-    </v-card-actions>
+    <v-form ref="theForm">
+      <v-text-field
+        v-model="thePet.name"
+        :rules="rules.name"
+        label="Pet's Name"
+        outlined
+      />
+      <v-text-field
+        outlined
+        v-model="thePet.type"
+        :rules="rules.type"
+        label="Pet Type"
+        placeholder="e.g. Cat, Dog, Fish"
+      />
+      <v-text-field
+        v-model="thePet.microchipId"
+        label="Microchip ID"
+        :rules="rules.microchipId"
+        outlined
+      >
+      </v-text-field>
+      <v-textarea outlined v-model="thePet.description" label="Description">
+      </v-textarea>
+      <v-divider></v-divider>
+      <v-card-actions class="">
+        <v-btn text @click="$emit(`cancel`)">Cancel</v-btn>
+        <v-btn text color="green" @click="save">Save</v-btn>
+      </v-card-actions>
+    </v-form>
   </v-card>
 </template>
 
@@ -39,7 +41,7 @@ export default defineComponent({
   props: {
     pet: { required: true },
   },
-  setup(props) {
+  setup(props, { emit, refs }) {
     const thePet = reactive(_.cloneDeep(props.pet));
 
     const rules = {
@@ -50,9 +52,16 @@ export default defineComponent({
       birthday: [required()],
     };
 
+    function save() {
+      if (refs.theForm.validate()) {
+        emit(`save`, thePet);
+      }
+    }
+
     return {
       thePet,
       rules,
+      save,
     };
   },
 });

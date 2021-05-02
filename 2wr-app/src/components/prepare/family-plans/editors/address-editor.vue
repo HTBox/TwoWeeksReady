@@ -1,127 +1,85 @@
 <template>
-  <div>
-    <v-card v-if="address">
-      <v-card-subtitle>
-        <v-row class="pl-3 justify-space-between">
-          <strong>{{ title }}</strong>
-          <v-icon class="pr-2" @click="dialogOpen = true">mdi-pencil</v-icon>
-        </v-row>
-      </v-card-subtitle>
-      <v-card-text v-html="formattedAddress" />
-    </v-card>
-    <v-dialog persistent v-model="dialogOpen">
-      <v-card color="#eee">
-        <v-card-title>Edit Address</v-card-title>
-        <v-container>
-          <v-text-field
-            autofocus
-            outlined
-            label="Address Line 1"
-            :rules="rules.address1"
-            v-model="address.address1"
-            placeholder="e.g. 123 Main Street"
-          />
-          <v-text-field
-            outlined
-            label="Address Line 2"
-            v-model="address.address2"
-            placeholder="e.g. Suite 400"
-          />
-          <v-text-field
-            outlined
-            label="City"
-            :rules="rules.cityTown"
-            v-model="address.cityTown"
-            placeholder="e.g. Portland"
-          />
-          <v-select 
-            v-model="address.stateProvince"
-            label="State"
-            :items="states"
-            outlined
-          >
-          </v-select>
-          <v-text-field
-            outlined
-            :rules="rules.postalCode"
-            label="Zipcode"
-            v-model="address.postalCode"
-            placeholder="e.g. 97001"
-          />
-        </v-container>
-        <v-card-actions>
-          <v-btn text @click="cancel">Cancel</v-btn>
-          <v-btn text color="green" dark @click="save">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
+  <v-form ref="theForm">
+    <v-text-field
+      outlined
+      ref="address1"
+      label="Address Line 1"
+      :rules="rules.address1"
+      v-model="address.address1"
+      placeholder="e.g. 123 Main Street"
+    />
+    <v-text-field
+      outlined
+      ref="address2"
+      label="Address Line 2"
+      v-model="address.address2"
+      placeholder="e.g. Suite 400"
+    />
+    <v-text-field
+      outlined
+      label="City"
+      ref="cityTown"
+      :rules="rules.cityTown"
+      v-model="address.cityTown"
+      placeholder="e.g. Portland"
+    />
+    <v-select
+      v-model="address.stateProvince"
+      ref="stateProvince"
+      label="State"
+      :rules="rules.stateProvince"
+      :items="states"
+      outlined
+    >
+    </v-select>
+    <v-text-field
+      outlined
+      ref="postalCode"
+      :rules="rules.postalCode"
+      label="Zipcode"
+      v-model="address.postalCode"
+      placeholder="e.g. 97001"
+    />
+  </v-form>
 </template>
 
 <script>
-import { computed, defineComponent, ref } from "@vue/composition-api";
-import _ from "lodash";
+import { defineComponent, computed } from "@vue/composition-api";
 import states from "@/lookups/states";
+import { minLength, required, zipCode } from "@/rules";
 
 export default defineComponent({
   props: {
-    value: {},
-    title: {}
+    value: { required: true },
   },
-  setup(props, { emit }) {
-    const dialogOpen = ref(false);
-    const address = ref(_.cloneDeep(props.value));
-
-    const formattedAddress = computed(() => {
-      if (!props.value) return "";
-      const raw = props.value;
-      let theAddress = `${raw.address1}<br/>`;
-      if (raw.address2) theAddress += `${raw.address2}<br/>`;
-      let lastLine = "";
-      if (raw.cityTown && raw.stateProvince) lastLine = `${raw.cityTown}, ${raw.stateProvince}`;
-      if (raw.cityTown && !raw.stateProvince) lastLine = raw.cityTown;
-      if (!raw.cityTown && raw.stateProvince) lastLine = raw.stateProvince;
-      if (lastLine) lastLine += `  `;
-      lastLine += raw.postalCode; 
-      return theAddress + lastLine;
-});
-
-    function cancel() {
-      dialogOpen.value = false;
-      address.value = _.cloneDeep(props.value); 
-    }
-
-    function save() {
-      dialogOpen.value = false;
-      emit("input", address);
-      emit("save");
-    }
+  setup(props, { emit, refs }) {
+    const address = computed({
+      // Name "value" is changed in #vue3 so we'll need to change this if we upgrade
+      get: () => {
+        return props.value;
+      },
+      // Name "input" is changed in #vue3 so we'll need to change this if we upgrade
+      set: (val) => {
+        emit("input", val);
+      },
+    });
 
     const rules = {
-      address1: [
-        v => !!v || "Address is required.",
-        v => v.length >= 10 || "Address must be more than 10 characters."
-      ],
-      cityTown: [
-        v => !!v || "City is required.",
-      ],
-      stateProvince: [
-        v => !!v || "State is required.",
-      ],
-      postalCode: [
-        v => !!v || "Zipcode is required.",
-        v => /^[0-9]{5}(?:-[0-9]{4})?$$/.test(v) || "Must be a valid zipcode."
-      ]
+      address1: [required(), minLength(10)],
+      cityTown: [required()],
+      stateProvince: [required()],
+      postalCode: [required(), zipCode()],
+    };
+
+    function validate() {
+      return refs.theForm.validate();
     }
 
     return {
       address,
-      formattedAddress,
-      dialogOpen,
-      save,
-      cancel,
+      states,
       rules,
-      states
+      validate,
     };
   },
 });

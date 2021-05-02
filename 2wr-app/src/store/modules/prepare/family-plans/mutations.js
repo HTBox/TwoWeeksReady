@@ -22,14 +22,14 @@ export default {
     plan.children.splice(index, 1, child);
   },
   addChild: (state, { child, plan }) => {
-    plan.child.splice(plan.routeLocations.length, 0, child);
+    plan.children.splice(plan.children.length, 0, child);
   },
   replacePet: (state, { pet, plan }) => {
     const index = plan.pets.findIndex(i => i.id == pet.id);
     plan.pets.splice(index, 1, pet);
   },
   addPet: (state, { pet, plan }) => {
-    plan.pets.splice(plan.routeLocations.length, 0, pet);
+    plan.pets.splice(plan.pets.length, 0, pet);
   },
   addPhoto: (state, { photo, route }) => {
     route.images.splice(route.images.length, 0, photo);

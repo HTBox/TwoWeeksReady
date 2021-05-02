@@ -16,7 +16,7 @@
       </v-row>
     </v-card>
     <v-spacer class="my-4" />
-    <AddressEditor @save="updatePlan" v-model="plan.address" title="Home Address"></AddressEditor>
+    <AddressView @save="updatePlan" v-model="plan.address" title="Home Address"></AddressView>
     <v-spacer class="my-4" />
     <EditableTextBlock
       icon="mdi-phone"
@@ -87,11 +87,11 @@ import _ from "lodash";
 import goBack from "@/functions/goBack";
 import { phoneNumber, required, minLength } from "@/rules";
 
-import AddressEditor from "./editors/address-editor.vue";
+import AddressView from "./address-view.vue";
 
 export default defineComponent({
   name: "family-plan-view",
-  components: { AddressEditor },
+  components: { AddressView },
   props: { planId: { required: true } },
   setup(props) {
     const plan = ref(null);

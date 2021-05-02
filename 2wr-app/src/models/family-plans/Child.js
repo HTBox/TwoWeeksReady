@@ -3,7 +3,7 @@ import Address from "./Address";
 export default class Child {
   id = "";
   name = "";
-  age = new Date();
+  birthday = "";
   phoneNumber = "";
   image = "";
   schoolName = "";

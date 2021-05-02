@@ -15,24 +15,17 @@
       </v-btn>
     </v-fab-transition>
     <InfoBar :title="`Children`" />
-    <div v-if="children">
-      <v-card class="pa-2" v-if="children.length == 0"
+      <v-card class="pa-2" v-if="!children"
         ><em>Press <strong>'+'</strong> to add new children.</em></v-card
       >
-      <IconTextBlock
-        allowSelected="true"
-        icon="mdi-chevron-right"
-        v-for="child in children"
-        :key="child.id"
-      >
-        <v-card>
-          <v-card-title>{{ child.name }}</v-card-title>
-        </v-card>
+    <v-card class="pa-2 mb-1" v-for="child in children" :key="child.id">
+      <IconTextBlock icon="mdi-pencil" :allowSelected="true"  @selected="launchEditor(child)">
+        <h3>{{ child.name }}</h3>
       </IconTextBlock>
-    </div>
+    </v-card>
+
      <v-dialog v-model="showEditor" persistent>
       <ChildEditor
-        v-if="showEditor"
         :child="editorChild"
         @cancel="showEditor = false"
         @save="save"
@@ -54,15 +47,13 @@ export default defineComponent({
   components: { ChildEditor },
   props: { planId: { required: true } },
   setup(props) {
-    
     const plan = ref(null);
     const children = ref(null);
     const showEditor = ref(false);
     const editorChild = ref(null);
 
     onMounted(() => {
-      const result = store.getters[
-        "familyPlansStore/findFamilyPlan"](
+      const result = store.getters["familyPlansStore/findFamilyPlan"](
         props.planId
       );
       if (result) {
@@ -83,17 +74,20 @@ export default defineComponent({
     }
 
     async function save(child) {
-      await store.dispatch("familyPlansStore/updateChildAsync", { child, planId: props.planId});
+      await store.dispatch("familyPlansStore/updateChildAsync", {
+        child,
+        planId: props.planId,
+      });
       showEditor.value = false;
     }
     return {
       children,
       showEditor,
       addNew,
-      launchEditor, 
+      launchEditor,
       editorChild,
       plan,
-      save
+      save,
     };
   },
 });
