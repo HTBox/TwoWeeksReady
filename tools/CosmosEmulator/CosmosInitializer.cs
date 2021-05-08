@@ -36,6 +36,7 @@ namespace CosmosEmulator
 
         var collections = new []
         {
+          (name: "basekits", key: "/id"),
           (name: "emergencykits", key: "/userId"),
           (name: "familymembers", key: "/id"),
           (name: "familyplans", key: "/userid"),
