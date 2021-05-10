@@ -5,11 +5,11 @@
       <v-icon class="mr-2">mdi-medical-bag</v-icon>
       <v-toolbar-title>Emergency Kit Create</v-toolbar-title>
     </v-app-bar>
-    <v-form>
+    <v-form v-model="valid">
       <v-container>
         <v-row>
           <v-col cols="12">
-            <v-text-field label="Kit name" v-model="name" required />
+            <v-text-field label="Kit name" v-model="name" required  :rules="[v => !!v || 'Name is required']"/>
           </v-col>
         </v-row>
 
@@ -18,7 +18,7 @@
             Color: <v-color-picker hide-inputs v-model="color" flat></v-color-picker>
           </v-col>
           <v-col cols="3">
-            <v-select label="Icon" v-model="icon" :items="icons" required>
+            <v-select label="Icon" v-model="icon" :items="icons" required :rules="[v => !!v || 'Icon is required']">
               <template v-slot:item="{ item }">
                 <v-divider class="mb-2"></v-divider>
                 <v-list-item disabled>
@@ -149,7 +149,7 @@
         <v-row>
           <v-col cols="12">
             <v-btn
-              :disabled="isSaving"
+              :disabled="!valid || isSaving"
               :loading="isSaving"
               class="mr-4"
               @click="createKit"
@@ -169,6 +169,7 @@ import { mapState } from "vuex";
 export default {
   name: "EmergencyKitCreate",
   data: () => ({
+    valid: false,
     dialog: false,
     dialogDelete: false,
     headers: [
