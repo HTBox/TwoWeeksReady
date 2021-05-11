@@ -15,7 +15,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -31,8 +30,22 @@ jobs:
     - name: Zip Functions Package
       run: zip -r ../deploy.zip ./
       working-directory: ./api/TwoWeeksReady/bin/Release/netcoreapp3.1/publish/
+    - name: Upload Deployment Zip
+      uses: actions/upload-artifact@v2
+      with:
+        name: deployment_zip
+        path: $GITHUB_WORKSPACE/api/TwoWeeksReady/bin/Release/netcoreapp3.1/deploy.zip
+  deploy_to_dev:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name != 'pull_request'
+    environment: development
+    steps:
+    - name: Download a Deployment Zip
+      uses: actions/download-artifact@v2
+      with:
+        name: deployment_zip
     - name: Azure Login
-      if: github.event_name != 'pull_request'
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -42,4 +55,4 @@ jobs:
       with:
         inlineScript: |
           chmod +x $GITHUB_WORKSPACE/az/deploy-backend.sh
-          $GITHUB_WORKSPACE/az/deploy-backend.sh -z $GITHUB_WORKSPACE/api/TwoWeeksReady/bin/Release/netcoreapp3.1/deploy.zip
+          $GITHUB_WORKSPACE/az/deploy-backend.sh -z deploy.zip
