@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import baseKitStore from './modules/prepare/base-kits/base-kit-store';
 import emergencyKitStore from './modules/prepare/emergency-kits/emergency-kit-store';
 import hazardHuntStore from './modules/prepare/hazards/hazard-hunt-store';
 import hazardInfoStore from './modules/prepare/hazards/hazard-info-store';
@@ -24,6 +25,7 @@ const store = new Vuex.Store({
     // },
     modules: {
         globalStore,
+        baseKitStore,
         emergencyKitStore,
         hazardHuntStore,
         hazardInfoStore,
