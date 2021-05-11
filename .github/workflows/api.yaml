@@ -35,6 +35,11 @@ jobs:
       with:
         name: deployment_zip
         path: ./api/TwoWeeksReady/bin/Release/netcoreapp3.1/deploy.zip
+    - name: Upload Deployment Script
+      uses: actions/upload-artifact@v2
+      with:
+        name: deployment_script
+        path: ./az/deploy-backend.sh
       
   deploy_to_dev:
     runs-on: ubuntu-latest
@@ -42,15 +47,14 @@ jobs:
     if: github.event_name != 'pull_request'
     environment: development
     steps:
-    - uses: actions/checkout@v2
-    - name: Show Files 1
-      run: ls -R
     - name: Download a Deployment Zip
       uses: actions/download-artifact@v2
       with:
         name: deployment_zip
-    - name: Show Files 2
-      run: ls -R
+    - name: Download a Deployment Script
+      uses: actions/download-artifact@v2
+      with:
+        name: deployment_script
     - name: Azure Login
       uses: azure/login@v1
       with:
@@ -60,5 +64,5 @@ jobs:
       uses: Azure/cli@v1.0.0
       with:
         inlineScript: |
-          chmod +x $GITHUB_WORKSPACE/az/deploy-backend.sh
-          $GITHUB_WORKSPACE/az/deploy-backend.sh -z deploy.zip
+          chmod +x ./deploy-backend.sh
+          ./deploy-backend.sh -z deploy.zip
