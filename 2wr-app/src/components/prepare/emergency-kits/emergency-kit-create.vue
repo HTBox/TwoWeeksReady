@@ -9,6 +9,36 @@
       <v-container>
         <v-row>
           <v-col cols="12">
+            <v-select label="Create from Base Kit Type" v-model="selectedBaseKit" 
+            :items="baseKits"   return-object item-text="name"/>
+          </v-col>
+        </v-row>
+        <v-row v-if="selectedBaseKit">
+          <v-col cols="5">
+              <v-text-field type="number" label="People" v-model="numberOfPeople" />
+          </v-col>
+          <v-col cols="2">
+              <span>+</span>
+          </v-col>
+          
+          <v-col cols="5">
+              <v-text-field type="number" label="Pets" v-model="numberOfPets" />
+          </v-col>
+        </v-row>
+        <v-row v-if="selectedBaseKit">
+          <v-col cols="12">
+             <v-btn
+                        color="primary"
+                        dark
+                        class="mb-2"
+                        @click="createFromBaseKit"
+                      >
+                        Apply
+                      </v-btn>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12">
             <v-text-field label="Kit name" v-model="name" required />
           </v-col>
         </v-row>
@@ -169,6 +199,9 @@ import { mapState } from "vuex";
 export default {
   name: "EmergencyKitCreate",
   data: () => ({
+    selectedBaseKit: null,
+    numberOfPeople: 1,
+    numberOfPets: 0,
     dialog: false,
     dialogDelete: false,
     headers: [
@@ -230,7 +263,11 @@ export default {
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },
+    baseKits: (state) => state.baseKitStore.list,
   }),
+  created() {
+    this.$store.dispatch(`baseKitStore/getBaseKitListAsync`);
+  },
   methods: {
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
@@ -238,6 +275,25 @@ export default {
     removeKitItem(index) {
       this.kitItems.splice(index, 1);
     },
+   createFromBaseKit() {
+     if (this.selectedBaseKit && 
+         this.selectedBaseKit.items && 
+         this.selectedBaseKit.items.length > 0) {
+          this.icon = this.selectedBaseKit.icon;
+        
+          const totalPersonCount = Math.max(1, (+this.numberOfPeople + +this.numberOfPets));
+          this.kitItems = this.selectedBaseKit.items.map(item => {
+            return {
+              name: item.name,
+              description: item.description,
+              quantity: item.quantityPerCount * totalPersonCount,
+              quantityUnit: item.quantityUnit,
+
+            }
+          });
+       
+     }
+   },
     async createKit() {
       const success = await this.$store.dispatch(
         `emergencyKitStore/createEmergencyKitAsync`,
