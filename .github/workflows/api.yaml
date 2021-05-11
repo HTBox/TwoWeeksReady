@@ -46,7 +46,11 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: deployment_zip
+    - name: Show Files 1
+      run: ls
     - uses: actions/checkout@v2
+    - name: Show Files 2
+      run: ls
     - name: Azure Login
       uses: azure/login@v1
       with:
