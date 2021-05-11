@@ -46,6 +46,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: deployment_zip
+    - uses: actions/checkout@v2
     - name: Azure Login
       uses: azure/login@v1
       with:
