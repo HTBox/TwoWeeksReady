@@ -69,7 +69,7 @@ jobs:
           
   deploy_to_beta:
     runs-on: ubuntu-latest
-    needs: build
+    needs: deploy_to_dev
     if: github.event_name != 'pull_request'
     environment: beta
     steps:
