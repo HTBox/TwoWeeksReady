@@ -4,12 +4,12 @@ on:
   push:
     paths:
       - 'api/**'
-      - '.github/workflows/api.yml'
+      - '.github/workflows/api.yaml'
     branches: [ master ]
   pull_request:
     paths:
       - 'api/**'
-      - '.github/workflows/api.yml'
+      - '.github/workflows/api.yaml'
     branches: [ master ]
   workflow_dispatch:
 jobs:
@@ -34,7 +34,8 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: deployment_zip
-        path: $GITHUB_WORKSPACE/api/TwoWeeksReady/bin/Release/netcoreapp3.1/deploy.zip
+        path: ./api/TwoWeeksReady/bin/Release/netcoreapp3.1/deploy.zip
+      
   deploy_to_dev:
     runs-on: ubuntu-latest
     needs: build
