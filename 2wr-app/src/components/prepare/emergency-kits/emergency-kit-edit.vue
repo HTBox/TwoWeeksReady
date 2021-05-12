@@ -15,7 +15,7 @@
       <v-container>
         <v-row>
           <v-col cols="12">
-            <v-text-field label="Kit name" v-model="name" required :rules="[v => !!v || 'Name is required']" />
+            <v-text-field label="Kit name" v-model="name" required :rules="kitNameRules" :counter="120" />
           </v-col>
         </v-row>
 
@@ -24,7 +24,7 @@
             Color: <v-color-picker hide-inputs v-model="color" flat ></v-color-picker>
           </v-col>
           <v-col cols="3">
-            <v-select label="Icon" v-model="icon" :items="icons" required :rules="[v => !!v || 'Icon is required']">
+            <v-select label="Icon" v-model="icon" :items="icons" required :rules="iconRules">
               <template v-slot:item="{ item }">
                 <v-divider class="mb-2"></v-divider>
                 <v-list-item disabled>
@@ -82,6 +82,8 @@
                               <v-text-field
                                 v-model="editedItem.name"
                                 label="Item Name"
+                                :rules="kitItemNameRules"
+                                :counter="120"                                
                               ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="6" md="4">
@@ -106,7 +108,7 @@
                         <v-btn color="blue darken-1" text @click="close">
                           Cancel
                         </v-btn>
-                        <v-btn color="blue darken-1" text @click="save">
+                        <v-btn color="blue darken-1" text @click="save" :disabled="editedItem.name.length == 0">
                           Save
                         </v-btn>
                       </v-card-actions>
@@ -170,6 +172,7 @@
 </template>
 
 <script>
+import { maxLength, required } from '@/rules';
 import { mapState } from "vuex";
 
 export default {
@@ -203,7 +206,10 @@ export default {
       name: "My Kit Item",
       description: "A description of my kit item",
       quantity: 1,
-    }
+    },
+    kitNameRules: [required(), maxLength(120)],
+    iconRules: [required()],
+    kitItemNameRules: [required(), maxLength(120)]
   }),
   computed: mapState({
     isSaving: (state) => state.emergencyKitStore.isSaving,
