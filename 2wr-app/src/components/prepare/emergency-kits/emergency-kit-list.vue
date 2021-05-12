@@ -18,12 +18,20 @@
         </v-btn>
       </v-fab-transition>
     </v-app-bar>
+    <v-overlay :value="isLoading">
+        <v-progress-circular
+          indeterminate
+          size="64"
+        ></v-progress-circular>
+    </v-overlay>
     <v-data-iterator
       :items="listing"
       disable-pagination
       disable-sort
       hide-default-footer
       :search="search"
+      :loading="isLoading"
+      :loading-text="'Data is loading..'"
     >
       <template v-slot:header>
         <v-text-field
@@ -33,7 +41,7 @@
           append-icon="mdi-magnify"
         >
         </v-text-field>
-      </template>
+      </template>      
       <template v-slot:default="props">
         <v-card
           v-for="item in props.items"
@@ -72,10 +80,11 @@ export default {
         text: "Kit name",
         value: "name",
       },
-    ],
+    ]
   }),
   computed: mapState({
     listing: (state) => state.emergencyKitStore.list,
+    isLoading: (state) => state.emergencyKitStore.isLoading,
   }),
   created() {
     this.$store.dispatch(`emergencyKitStore/getEmergencyKitListAsync`);

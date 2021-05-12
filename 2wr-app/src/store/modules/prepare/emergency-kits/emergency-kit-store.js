@@ -14,6 +14,7 @@ const emergencyKitStore = {
   },
   mutations: {
     SET_LIST(state, payload) {
+      state.isLoading = false;
       state.list = payload;
     },
     LOAD_START(state) {
@@ -56,6 +57,7 @@ const emergencyKitStore = {
   },
   actions: {
     async getEmergencyKitListAsync({ commit, rootState }) {
+      commit("LOAD_START");
       if (rootState.globalStore.online) {
         let response = await emergencyKitApi.getAll();
         commit("SET_LIST", response.data);
