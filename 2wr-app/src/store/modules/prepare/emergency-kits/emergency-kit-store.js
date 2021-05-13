@@ -56,19 +56,28 @@ const emergencyKitStore = {
   },
   actions: {
     async getEmergencyKitListAsync({ commit, rootState }) {
-      if (rootState.globalStore.online) {
-        let response = await emergencyKitApi.getAll();
-        commit("SET_LIST", response.data);
-        await localForage.setItem("getEmergencyKitListAsync", response.data);
-      } else {
-        var data = await localForage.getItem("getEmergencyKitListAsync");
-        if (data) {
-          console.log("Serving from cache");
-          commit("SET_LIST", data);
+      commit("setBusy", null, { root: true });
+      commit("setError", "", { root: true });
+      
+      try {
+        if (rootState.globalStore.online) {
+          let response = await emergencyKitApi.getAll();
+          commit("SET_LIST", response.data);
+          await localForage.setItem("getEmergencyKitListAsync", response.data);
         } else {
-          console.log("Offline without data");
-        }
-      }
+          var data = await localForage.getItem("getEmergencyKitListAsync");
+          if (data) {
+            console.log("Serving from cache");
+            commit("SET_LIST", data);
+          } else {
+            console.log("Offline without data");
+          }
+        }        
+      } catch {
+        commit("setError", "Could not load emergency kits.", { root: true });
+      } finally {
+        commit("clearBusy", null, { root: true });
+      }      
     },
     async getEmergencyKitAsync({ commit, rootState }, id) {
       commit("LOAD_START");
