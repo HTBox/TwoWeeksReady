@@ -91,4 +91,4 @@ jobs:
       with:
         inlineScript: |
           chmod +x ./deploy-backend.sh
-          ./deploy-backend.sh -z deploy.zip        
+          ./deploy-backend.sh -z deploy.zip -r 2wr-beta-resources -e 2wrbeta        
