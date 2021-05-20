@@ -30,6 +30,13 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
       working-directory: ./2wr-app
+    - name: Write env file
+      run: 'echo "$DEV_ENV" > ./2wr-app/.env'
+      shell: bash
+      env:
+        DEV_ENV: ${{secrets.DEV_ENV}}
+    - run: npm run build
+      working-directory: ./2wr-app
 
   deploy_to_dev:
     runs-on: ubuntu-latest
