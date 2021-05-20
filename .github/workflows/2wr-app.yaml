@@ -4,12 +4,12 @@ on:
   push:
     paths:
       - '2wr-app/**'
-      - '.github/workflows/2wr-app.yml'
+      - '.github/workflows/2wr-app.yaml'
     branches: [ master ]
   pull_request:
     paths:
       - '2wr-app/**'
-      - '.github/workflows/2wr-app.yml'
+      - '.github/workflows/2wr-app.yaml'
     branches: [ master ]
   workflow_dispatch:
 
@@ -30,6 +30,20 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
       working-directory: ./2wr-app
+
+  deploy_to_dev:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name != 'pull_request'
+    environment: development
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+      working-directory: ./2wr-app
     - name: Write env file
       run: 'echo "$DEV_ENV" > ./2wr-app/.env'
       shell: bash
@@ -38,14 +52,43 @@ jobs:
     - run: npm run build
       working-directory: ./2wr-app
     - name: Azure Login
-      if: github.event_name != 'pull_request'
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: Azure Deploy Resources
-      if: github.event_name != 'pull_request'
       uses: Azure/cli@v1.0.0
       with:
         inlineScript: |
           chmod +x $GITHUB_WORKSPACE/az/deploy-frontend.sh
           $GITHUB_WORKSPACE/az/deploy-frontend.sh -s $GITHUB_WORKSPACE/2wr-app/dist/
+          
+  deploy_to_beta:
+    runs-on: ubuntu-latest
+    needs: deploy_to_dev
+    if: github.event_name != 'pull_request'
+    environment: beta
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+      working-directory: ./2wr-app
+    - name: Write env file
+      run: 'echo "$ENV" > ./2wr-app/.env'
+      shell: bash
+      env:
+        ENV: ${{secrets.ENV}}
+    - run: npm run build
+      working-directory: ./2wr-app
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Azure Deploy Resources
+      uses: Azure/cli@v1.0.0
+      with:
+        inlineScript: |
+          chmod +x $GITHUB_WORKSPACE/az/deploy-frontend.sh
+          $GITHUB_WORKSPACE/az/deploy-frontend.sh -s $GITHUB_WORKSPACE/2wr-app/dist/ -r 2wr-beta-resources -e 2wrbeta      
