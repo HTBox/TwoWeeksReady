@@ -4,8 +4,8 @@
       <v-icon class="mr-2">mdi-clipboard-list-outline</v-icon>
       <v-toolbar-title>Prepare</v-toolbar-title>
     </v-app-bar>
-    <v-alert v-if="isDevVersion" dismissible type="warning">
-      You are using the Development version of 2 Weeks Ready. This version is
+    <v-alert v-if="showVersionBanner" dismissible type="warning">
+      You are using the {{versionTag}} version of 2 Weeks Ready. This version is
       for testing purposes only!
     </v-alert>
 
@@ -94,9 +94,12 @@
 export default {
   name: "PrepareLanding",
   computed: {
-    isDevVersion() {
-      return process.env.VUE_APP_VERSION_TAG === "DEVELOPMENT";
+    showVersionBanner() {
+      return this.versionTag && this.versionTag  !== "PRODUCTION";
     },
+    versionTag() {
+      return process.env.VUE_APP_VERSION_TAG;
+    }
   },
   data: () => ({}),
 };
