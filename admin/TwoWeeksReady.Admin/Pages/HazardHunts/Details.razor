@@ -1,4 +1,6 @@
 ﻿@page "/HazardHunts/{id}"
+@attribute [Authorize(Roles = "admin")]
+
 @inject IRepository repository
 @inject IJSRuntime JS
 

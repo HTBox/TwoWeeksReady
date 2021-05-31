@@ -1,4 +1,5 @@
 ﻿@page "/Kits/{id}"
+@attribute [Authorize(Roles = "admin")]
 @inject IRepository repository
 
 @if (Kit != null)

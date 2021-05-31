@@ -1,4 +1,5 @@
 ﻿@page  "/Kits/"
+@attribute [Authorize (Roles = "admin")]
 @inject IRepository Repository
 
 <h1>Administer the Base Kits for Two Weeks Ready</h1>

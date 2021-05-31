@@ -1,4 +1,6 @@
 ﻿@page  "/HazardHunts/"
+@attribute [Authorize(Roles = "admin")]
+
 @inject IRepository Repository
 <h1>Administer Hazard Hunt for Two Weeks Ready</h1>
 
