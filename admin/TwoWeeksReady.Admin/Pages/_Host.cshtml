@@ -1,5 +1,7 @@
 ﻿@page "/"
 @namespace TwoWeeksReady.Admin.Pages
+@using TwoWeeksReady.Admin.Security
+@using Microsoft.AspNetCore.Authentication
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = null;
@@ -17,8 +19,17 @@
     <link href="css/site.css" rel="stylesheet" />
     <link href="TwoWeeksReady.Admin.styles.css" rel="stylesheet" />
 </head>
+
 <body>
-    <component type="typeof(App)" render-mode="ServerPrerendered" />
+    @{
+        var token = new TokenProvider
+        {
+            AccessToken = await HttpContext.GetTokenAsync("access_token")
+        };
+    }
+    <app>
+        <component type="typeof(App)" param-InitialState="token" render-mode="ServerPrerendered" />
+    </app>
 
     <div id="blazor-error-ui">
         <environment include="Staging,Production">
@@ -31,6 +42,6 @@
         <a class="dismiss">🗙</a>
     </div>
 
-    <script src="_framework/blazor.server.js"></script>   
+    <script src="_framework/blazor.server.js"></script>
 </body>
 </html>
