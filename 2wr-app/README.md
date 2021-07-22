@@ -84,7 +84,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ```text
 NODE_ENV=development
 VUE_APP_APIROOT=http://localhost:7071/api/
-VUE_APP_AUTH0_DOMAIN=dev-3y6ze-l0.us.auth0.com
+VUE_APP_AUTH0_DOMAIN=login.2wr.org
 VUE_APP_AUTH0_CLIENTID=6TSzRpgtMKR3NI1D4Is1nGO6brBB2wB0
 VUE_APP_AUTH0_AUDIENCE=https://2wrdev.azurewebsites.net
 ```
