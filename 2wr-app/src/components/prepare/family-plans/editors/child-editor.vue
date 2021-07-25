@@ -53,7 +53,6 @@
         <v-btn text color="green" @click="save">Save</v-btn>
       </v-card-actions>
     </v-form>
-    <pre>{{ theChild }}</pre>
   </v-card>
 </template>
 
