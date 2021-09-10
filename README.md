@@ -12,7 +12,7 @@ Each project landing page (linked below) contains instructions on setting up env
 
 3. admin : No landing page yet, ASP.NET Blazor interface for administrative users to maintain content in the application.
 
-![2 Weeks Ready Logo.](https://user-images.githubusercontent.com/78102622/132774691-9154483e-ac71-471a-959e-0d75df8f2be1.png)
+![2WR Logo](https://user-images.githubusercontent.com/78102622/132778543-8d2331ac-f3bf-4f93-93a1-59b136e7978e.png)
 
 Disasters can impact you when you least expect them to. That’s why our team is developing 2 Weeks Ready, a mobile preparedness app to help you and the people you care about get prepared for the next disaster. Use your skills for good and help serve your community. Join us in developing 2 Weeks Ready, an app developed by a community of volunteers that will help others survive and thrive through disasters to come.
 
