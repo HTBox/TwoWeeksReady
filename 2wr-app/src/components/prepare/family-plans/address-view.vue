@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-card v-if="address">
+      <div class="pseudo-text-block-label">{{ title }}</div>
       <v-card-subtitle>
-        <v-row class="pl-3 justify-space-between">
-          <strong>{{ title }}</strong>
+        <v-row class="pl-3 justify-end">
           <v-icon class="pr-2" @click="dialogOpen = true">mdi-pencil</v-icon>
         </v-row>
       </v-card-subtitle>
@@ -17,7 +17,10 @@
         <v-card-title>Edit Address</v-card-title>
         <v-container>
           <v-form ref="theForm">
-            <AddressEditor v-model="address" ref="addressEditor"></AddressEditor>
+            <AddressEditor
+              v-model="address"
+              ref="addressEditor"
+            ></AddressEditor>
           </v-form>
         </v-container>
         <v-card-actions>
@@ -40,7 +43,7 @@ export default defineComponent({
   },
   props: {
     value: {},
-    title: {},
+    title: {}
   },
   setup(props, { emit, refs }) {
     const dialogOpen = ref(false);
@@ -79,8 +82,8 @@ export default defineComponent({
       formattedAddress,
       dialogOpen,
       save,
-      cancel,
+      cancel
     };
-  },
+  }
 });
 </script>

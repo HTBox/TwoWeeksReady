@@ -7,6 +7,7 @@ import store from './store';
 import { Auth0Plugin } from "./auth";
 import VueCompositionAPI from '@vue/composition-api';
 import globalComponents from "@/components/common/globalComponents";
+import './assets/app.scss';
 
 Vue.config.productionTip = false
 
