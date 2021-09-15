@@ -1,6 +1,15 @@
 .pseudo-text-block-label {
   margin-left: .5rem;
   position: absolute;
-  margin-top: -.3rem;
-  font-size: 12px
+  background-color: #fff;
+  margin-top: -9px;
+  font-size: 12px;
+  padding: 1px;
+}
+
+.hidden {
+  display: none;
+}
+.img-cover {
+  object-fit: cover;
 }

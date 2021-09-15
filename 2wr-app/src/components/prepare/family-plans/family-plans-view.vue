@@ -7,6 +7,7 @@
       isTitle
       :rules="rules.title"
       @save="updatePlan"
+      class="mt-2"
     ></EditableTextBlock>
     <v-spacer class="my-4" />
     <v-card class="py-10">
@@ -16,7 +17,11 @@
       </v-row>
     </v-card>
     <v-spacer class="my-4" />
-    <AddressView @save="updatePlan" v-model="plan.address" title="Home Address"></AddressView>
+    <AddressView
+      @save="updatePlan"
+      v-model="plan.address"
+      title="Home Address"
+    ></AddressView>
     <v-spacer class="my-4" />
     <EditableTextBlock
       icon="mdi-phone"
@@ -31,7 +36,7 @@
         class="mx-2 my-2"
         color="#eee"
         ripple
-        :to="`/prepare/familyplan/${plan.id}/emergencycontacts`"
+        @click="ensureNamed('Emergency Contacts', 'emergencycontacts')"
       >
         <v-flex class="d-flex justify-space-between px-2 py-2">
           <div>Emergency Contacts</div>
@@ -44,7 +49,7 @@
         class="mx-2 my-2"
         color="#eee"
         ripple
-        :to="`/prepare/familyplan/${plan.id}/routes/`"
+        @click="ensureNamed('Routes and Locations', 'routes')"
       >
         <v-flex class="d-flex justify-space-between px-2 py-2">
           <div>Routes and Locations</div>
@@ -53,7 +58,12 @@
           </div>
         </v-flex>
       </v-card>
-      <v-card class="mx-2 my-2" color="#eee" ripple :to="`/prepare/familyplan/${plan.id}/children/`">
+      <v-card
+        class="mx-2 my-2"
+        color="#eee"
+        ripple
+        @click="ensureNamed('Children', 'children')"
+      >
         <v-flex class="d-flex justify-space-between px-2 py-2">
           <div>Children</div>
           <div>
@@ -61,7 +71,12 @@
           </div>
         </v-flex>
       </v-card>
-      <v-card class="mx-2 my-2" color="#eee" ripple :to="`/prepare/familyplan/${plan.id}/pets/`">
+      <v-card
+        class="mx-2 my-2"
+        color="#eee"
+        ripple
+        @click="ensureNamed('Pets', 'pets')"
+      >
         <v-flex class="d-flex justify-space-between px-2 py-2">
           <div>Pets</div>
           <div>
@@ -79,7 +94,7 @@ import {
   defineComponent,
   onMounted,
   reactive,
-  ref,
+  ref
 } from "@vue/composition-api";
 import store from "@/store";
 import FamilyPlan from "@/models/family-plans/FamilyPlan";
@@ -88,6 +103,7 @@ import goBack from "@/functions/goBack";
 import { phoneNumber, required, minLength } from "@/rules";
 
 import AddressView from "./address-view.vue";
+import router from "@/router";
 
 export default defineComponent({
   name: "family-plan-view",
@@ -127,18 +143,27 @@ export default defineComponent({
     const rules = {
       title: [
         required("Title is required."),
-        minLength(3, "Title must be more than three characters."),
+        minLength(3, "Title must be more than three characters.")
       ],
-      phone: [required("Phone is required."), phoneNumber()],
+      phone: [required("Phone is required."), phoneNumber()]
     };
 
+    function ensureNamed(intent, subcomponent) {
+      if (store.state.error) store.commit("clearError");
+      if (!plan.value || !plan.value.id || !plan.value.title) {
+        store.commit("setError", `Must name a plan before setting ${intent}`);
+      } else {
+        router.push(`/prepare/familyplan/${plan.value.id}/${subcomponent}/`);
+      }
+    }
+
     return {
+      ensureNamed,
       plan,
       updatePlan,
       goBack,
-      rules,
+      rules
     };
-  },
+  }
 });
 </script>
-
