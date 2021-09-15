@@ -28,6 +28,28 @@ npm install
 npm run serve
 ```
 
+## Alternatively, you can run the functions and the Vue build for development
+
+```console
+npm run dev
+```
+
+We've started the process of moving to a two tier build names where dev processes are prefixed with dev: so that you can run all the process by building this way. You will notice that you can run these separated if needed:
+
+### Just Serve the Vue PWA
+
+```console
+npm run dev:serve
+```
+
+### Just Start the Azure Function Project
+
+```console
+npm run dev:napi
+```
+
+**NOTE**: We will be moving all the processes to this once we complete changes to the CI Build.
+
 ## Compiles and minifies for production
 
 ```console
