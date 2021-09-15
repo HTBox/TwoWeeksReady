@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card v-if="!isEditing">
-      <div class="pseudo-text-block-label">{{ label }}</div>
+      <div class="pseudo-text-block-label text-caption">{{ label }}</div>
       <v-flex class="d-flex justify-space-between px-2 py-2">
         <v-card-title v-if="isTitle">{{ theText }}</v-card-title>
         <v-card-text v-if="!isTitle">{{ theText }}</v-card-text>

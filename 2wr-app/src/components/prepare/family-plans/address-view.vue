@@ -1,12 +1,12 @@
 <template>
   <div>
     <v-card v-if="address">
-      <div class="pseudo-text-block-label">{{ title }}</div>
+      <div class="pseudo-text-block-label  text-caption">{{ title }}</div>
       <v-card-text>
         <v-row class="pl-3 justify-end">
           <v-icon class="pr-2" @click="dialogOpen = true">mdi-pencil</v-icon>
         </v-row>
-        <v-row class="pl-4">
+        <v-row class="pl-4 black--text">
           <div v-if="!formattedAddress"
             ><em>No Address: Click pencil to specify address.</em></div
           >

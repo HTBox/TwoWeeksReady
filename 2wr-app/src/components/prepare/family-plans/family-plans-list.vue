@@ -42,12 +42,13 @@
                 :to="`/prepare/familyplan/${item.id}`"
               >
                 <v-card-title class="d-flex justify-space-between px-2 py-2">
-                  <div>
-                    {{ item.title }}
-                  </div>
-                  <div>
-                    <v-icon class="mr-2">mdi-chevron-right</v-icon>
-                  </div>
+                    <div>
+                    <v-icon v-if="item.allowAlerts">mdi-alarm-light</v-icon>
+                    <v-icon v-if="!item.allowAlerts">mdi-alarm-light-off</v-icon>
+
+                      {{ item.title }}
+                    </div>
+                  <v-icon class="mr-2">mdi-chevron-right</v-icon>
                 </v-card-title>
               </v-card>
             </div>
@@ -66,7 +67,7 @@ import {
   computed,
   defineComponent,
   onMounted,
-  ref,
+  ref
 } from "@vue/composition-api";
 import store from "@/store";
 
@@ -86,8 +87,8 @@ export default defineComponent({
     return {
       currentTab,
       familyPlans,
-      sharedPlans,
+      sharedPlans
     };
-  },
+  }
 });
 </script>

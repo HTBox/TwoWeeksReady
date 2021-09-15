@@ -1,6 +1,17 @@
 <template>
   <v-container class="py-0" v-if="plan">
     <InfoBar title="Family Plan"></InfoBar>
+    <v-flex>
+      <v-row justify="end" class="py-6" @click="toggleAlerts">
+        <div class="text-button px-6">{{ plan.allowAlerts ? 'Alerts Enabled' : 'Alerts Disabled'}}</div>
+        <v-icon
+          plain
+          large
+          class="mr-6"
+          >{{ plan.allowAlerts ? 'mdi-alarm-light' : 'mdi-alarm-light-off'}}</v-icon
+        >
+      </v-row>
+    </v-flex>
     <EditableTextBlock
       label="Plan Name"
       v-model="plan.title"
@@ -117,7 +128,6 @@ export default defineComponent({
       if (props.planId === "new") {
         plan.value = reactive(new FamilyPlan());
       } else {
-        console.log(props.planId);
         let found = store.getters["familyPlansStore/findFamilyPlan"](
           props.planId
         );
@@ -150,14 +160,25 @@ export default defineComponent({
 
     function ensureNamed(intent, subcomponent) {
       if (store.state.error) store.commit("clearError");
-      if (!plan.value || !plan.value.id || !plan.value.title) {
+      if (!isPlanSaved()) {
         store.commit("setError", `Must name a plan before setting ${intent}`);
       } else {
         router.push(`/prepare/familyplan/${plan.value.id}/${subcomponent}/`);
       }
     }
 
+    function isPlanSaved() {
+      return plan.value && plan.value.id;
+    }
+
+    async function toggleAlerts() {
+      plan.value.allowAlerts = plan.value.allowAlerts ? false : true;
+      if (isPlanSaved()) {
+        await updatePlan();
+      }
+    }
     return {
+      toggleAlerts,
       ensureNamed,
       plan,
       updatePlan,
@@ -167,3 +188,9 @@ export default defineComponent({
   }
 });
 </script>
+
+<style scoped>
+.v-icon {
+  transition: none !important;
+}
+</style>
