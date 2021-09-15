@@ -20,9 +20,9 @@
       outlined
     >
       <template v-slot:append>
-        <v-col class="pa-0">
-          <v-icon class="pr-2" color="red" @click="cancel">mdi-cancel</v-icon>
-          <v-icon class="pr-2" color="blue" @click="save">mdi-content-save</v-icon>
+        <v-col class="pa-0 editable-text-block-buttons">
+          <v-btn plain v-ripple="false" class="pr-2" color="red" @click="cancel">cancel</v-btn>
+          <v-btn plain v-ripple="false" class="pr-2" color="blue" @click="save">save</v-btn>
         </v-col>
       </template>
     </v-text-field>
@@ -89,3 +89,8 @@ export default defineComponent({
 });
 </script>
 
+<style scoped>
+.editable-text-block-buttons {
+  margin-top: -7px;
+}
+</style>
