@@ -56,6 +56,7 @@ namespace TwoWeeksReady.Admin
 
                 options.Scope.Clear();
                 options.Scope.Add("openid");
+                options.Scope.Add("profile");
 
                 options.CallbackPath = new PathString("/callback");
                 options.ClaimsIssuer = "Auth0";
@@ -68,6 +69,17 @@ namespace TwoWeeksReady.Admin
 
                 options.Events = new OpenIdConnectEvents
                 {
+                    OnRedirectToIdentityProvider = context =>
+                    {
+                        // The context's ProtocolMessage can be used to pass along additional query parameters
+                        // to Auth0's /authorize endpoint.
+                        // 
+                        // Set the audience query parameter to the API identifier to ensure the returned Access Tokens can be used
+                        // to call protected endpoints on the corresponding API.
+                        context.ProtocolMessage.SetParameter("audience", Configuration["Auth0:Audience"]);
+
+                        return Task.FromResult(0);
+                    },
                     OnRedirectToIdentityProviderForSignOut = (context) =>
                     {
                         var logoutUri = $"https://{Configuration["Auth0:Domain"]}/v2/logout?client_id={Configuration["Auth0:ClientId"]}";
@@ -94,6 +106,7 @@ namespace TwoWeeksReady.Admin
 			services.AddHttpContextAccessor();
             services.AddScoped<TokenProvider>();
             services.AddScoped<IRepository, StubRepository>();
+            //services.AddScoped<IRepository, FunctionsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
