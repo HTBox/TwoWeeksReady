@@ -16,6 +16,10 @@ In VSCode, you can get a walk-through of the code via the [CodeTour](https://mar
 
 ![CodeTour API file and panel with the Open tour file selected.](../assets/images/codetour_ui.png "CodeTour panel")
 
+## Project Prerequisites
+
+1. Node.js 14.17.6 LTS
+
 ## Project setup
 
 ```console
