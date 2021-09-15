@@ -21,8 +21,8 @@
     >
       <template v-slot:append>
         <v-col class="pa-0 editable-text-block-buttons">
-          <v-btn plain v-ripple="false" class="pr-2" color="red" @click="cancel">cancel</v-btn>
-          <v-btn plain v-ripple="false" class="pr-2" color="blue" @click="save">save</v-btn>
+          <v-btn plain v-ripple="false" class="pr-2" color="gray" @click="cancel">cancel</v-btn>
+          <v-btn plain v-ripple="false" class="pr-2" color="green" @click="save">save</v-btn>
         </v-col>
       </template>
     </v-text-field>

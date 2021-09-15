@@ -2,15 +2,20 @@
   <div>
     <v-card v-if="address">
       <div class="pseudo-text-block-label">{{ title }}</div>
-      <v-card-subtitle>
+      <v-card-text>
         <v-row class="pl-3 justify-end">
           <v-icon class="pr-2" @click="dialogOpen = true">mdi-pencil</v-icon>
         </v-row>
-      </v-card-subtitle>
-      <v-card-text v-if="!formattedAddress"
-        ><em>No Address: Click pencil to specify address.</em></v-card-text
-      >
-      <v-card-text v-if="formattedAddress" v-html="formattedAddress" />
+        <v-row class="pl-4">
+          <div v-if="!formattedAddress"
+            ><em>No Address: Click pencil to specify address.</em></div
+          >
+          <div
+            v-if="formattedAddress"
+            v-html="formattedAddress"
+          />
+        </v-row>
+      </v-card-text>
     </v-card>
     <v-dialog persistent v-model="dialogOpen">
       <v-card color="#eee">
