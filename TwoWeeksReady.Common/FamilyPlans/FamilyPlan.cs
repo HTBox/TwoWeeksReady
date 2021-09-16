@@ -21,7 +21,10 @@ namespace TwoWeeksReady.Common.FamilyPlans
     [JsonProperty("phoneNumber")]
     public string PhoneNumber { get; set; }
 
-    [JsonProperty("emergecyContacts")]
+    [JsonProperty("allowAlerts")]
+    public bool AllowAlerts { get; set; }
+
+    [JsonProperty("emergencyContacts")]
     public List<Contact> EmergencyContacts { get; set; } = new List<Contact>();
 
     [JsonProperty("routeLocations")]

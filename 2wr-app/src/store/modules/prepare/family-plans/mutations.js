@@ -3,6 +3,10 @@ export default {
   setSharedPlans: (state, plans) => (state.sharedPlans = plans),
   addToFamilyPlans: (state, newPlan) =>
     state.familyPlans.splice(state.familyPlans.length, 0, newPlan),
+  removeFromFamilyPlans: (state, plan) => {
+    const index = state.familyPlans.indexOf(plan);  
+    if (index > -1) state.familyPlans.splice(index, 1);
+  },
   replaceContact: (state, { contact, plan }) => {
     const index = plan.emergencyContacts.findIndex(i => i.id == contact.id);
     plan.emergencyContacts.splice(index, 1, contact);
@@ -40,5 +44,4 @@ export default {
   addPhotoToPet: (state, { photo, pet }) => {
     pet.image = photo;
   }
-
 };

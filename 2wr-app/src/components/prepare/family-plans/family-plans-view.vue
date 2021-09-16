@@ -1,13 +1,29 @@
 <template>
   <v-container class="py-0" v-if="plan">
+      <v-fab-transition>
+      <v-btn
+        color="red"
+        dark
+        absolute
+        bottom
+        right
+        fab
+        class="mb-12"
+        @click="deletePlan"
+      >
+        <v-icon>mdi-delete-forever</v-icon>
+      </v-btn>
+    </v-fab-transition>
+
     <InfoBar title="Family Plan"></InfoBar>
     <v-flex>
-      <v-row justify="end" class="py-6" @click="toggleAlerts">
+      <v-row justify="end" class="py-6 cursor-pointer" @click="toggleAlerts" >
         <div class="text-button px-6">{{ plan.allowAlerts ? 'Alerts Enabled' : 'Alerts Disabled'}}</div>
         <v-icon
           plain
           large
           class="mr-6"
+          :class="{ 'red--text': plan.allowAlerts }"
           >{{ plan.allowAlerts ? 'mdi-alarm-light' : 'mdi-alarm-light-off'}}</v-icon
         >
       </v-row>
@@ -96,6 +112,7 @@
         </v-flex>
       </v-card>
     </div>
+    <ConfirmDialog ref="theDialog"></ConfirmDialog>
     <!-- <pre class="caption">{{ plan }}</pre> -->
   </v-container>
 </template>
@@ -120,7 +137,7 @@ export default defineComponent({
   name: "family-plan-view",
   components: { AddressView },
   props: { planId: { required: true } },
-  setup(props) {
+  setup(props, { refs }) {
     const plan = ref(null);
 
     onMounted(() => {
@@ -177,7 +194,22 @@ export default defineComponent({
         await updatePlan();
       }
     }
+
+    async function deletePlan() {
+      if (await refs.theDialog.open()) {
+        if (!(await store.dispatch(
+          "familyPlansStore/deletePlanAsync",
+          plan.value
+        ))) {
+          store.commit("setError", "Failed to delete plan");
+        } else {
+          goBack();
+        }
+      }
+    }
+
     return {
+      deletePlan,
       toggleAlerts,
       ensureNamed,
       plan,

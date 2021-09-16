@@ -8,6 +8,6 @@ export default {
       return (await baseApiInstance.getInstance()).post('familyplans-upsert', plan);
   },
   async deletePlan(plan) {
-    return (await baseApiInstance.getInstance()).delete('familyplans-delete', plan);
+    return (await baseApiInstance.getInstance()).delete(`familyplans-delete/${plan.id}`);
 }
 }
