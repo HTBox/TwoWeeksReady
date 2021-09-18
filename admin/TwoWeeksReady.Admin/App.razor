@@ -28,8 +28,8 @@
     public TokenProvider InitialState { get; set; }
 
     protected override void OnInitialized()
-        {
-            Service.AccessToken = InitialState.AccessToken;
-            base.OnInitialized();
-        }
+    {
+        Service.AccessToken = InitialState.AccessToken;
+        base.OnInitialized();
+    }
 }
