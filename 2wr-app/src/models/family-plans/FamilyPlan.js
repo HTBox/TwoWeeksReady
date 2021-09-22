@@ -10,4 +10,6 @@ export default class FamilyPlan {
   routes = [];
   children = [];
   pets = [];
+  allowAlerts = false;
+
 }

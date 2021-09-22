@@ -28,6 +28,25 @@ export default {
       commit("clearBusy", null, { root: true });
     }
   },
+  async deletePlanAsync({ commit }, plan) {
+    try {
+      commit("setBusy", true, { root: true });
+      commit("setError", "", { root: true });
+
+      var response = await familyPlansApi.deletePlan(plan);
+
+      if (response.status === 200) {
+        commit("removeFromFamilyPlans", plan);
+        return true;
+      } else {  
+        return false 
+      }
+    } catch {
+      commit("setError", "Failed to delete plan.", { root: true });
+    } finally {
+      commit("clearBusy", null, { root: true });
+    }
+  },
   async getAllAsync({ commit, rootState }) {
     try {
       commit("setBusy", null, { root: true });

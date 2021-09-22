@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using AzureFunctions.OidcAuthentication;
+﻿using AzureFunctions.OidcAuthentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents;
@@ -13,6 +8,11 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using TwoWeeksReady.Common;
 using TwoWeeksReady.Common.FamilyPlans;
 
@@ -128,8 +128,9 @@ namespace TwoWeeksReady.FamilyPlans
 
     [FunctionName("familyplans-delete")]
     public async Task<IActionResult> DeleteFamilyPlan(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = null)]
+        [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "familyplans-delete/{id}")]
         HttpRequest req,
+        string id,
         [CosmosDB(databaseName: DefaultDatabaseName,
                   collectionName: CollectionName,
                   ConnectionStringSetting = DefaultDbConnectionName)]
@@ -141,26 +142,34 @@ namespace TwoWeeksReady.FamilyPlans
 
       log.LogInformation($"Deleting a Family Plan");
 
-      try
+      Uri collectionUri = UriFactory.CreateDocumentCollectionUri(DefaultDatabaseName, CollectionName);
+
+
+
+      //verify existing document (not upserting as this is an update only function)
+      var options = new FeedOptions()
       {
-        var content = await new StreamReader(req.Body).ReadToEndAsync();
-        var thePlan = JsonConvert.DeserializeObject<FamilyPlan>(content);
+        EnableCrossPartitionQuery = true
+      };
+      var existingDocument = client.CreateDocumentQuery<FamilyPlan>(collectionUri, options)
+         .Where(d => d.Id == id)
+         .AsEnumerable().FirstOrDefault();
 
-        Uri collectionUri = UriFactory.CreateDocumentCollectionUri(DefaultDatabaseName, CollectionName);
-
-        // Update Plan
-        var docUri = UriFactory.CreateDocumentUri(DefaultDatabaseName, CollectionName, thePlan.Id);
-        Document document = await client.DeleteDocumentAsync(docUri);
-
-        return new OkResult();
-
-      }
-      catch (Exception ex)
+      if (existingDocument == null)
       {
-        log.LogCritical($"Failed to delete the new Family Plan: {ex}");
+        log.LogWarning($"{id} not found.");
+        return new BadRequestObjectResult($"Family Plan not found.");
       }
 
-      return new BadRequestResult();
+      var documentUri = UriFactory.CreateDocumentUri(DefaultDatabaseName, CollectionName, id);
+
+      await client.DeleteDocumentAsync(documentUri, new RequestOptions
+      {
+        PartitionKey = new PartitionKey(existingDocument.UserId)
+      });
+
+      return new OkObjectResult(true);
+
     }
 
   }

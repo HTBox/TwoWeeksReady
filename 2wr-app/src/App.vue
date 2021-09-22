@@ -1,15 +1,14 @@
 <template>
   <v-app>
+    <div v-if="isBusy" class="loading-line"></div>
     <v-main>
-      <v-overlay v-if="isBusy" absolute v-ripple="{ center: true }">
-        <div class="text-center headline">
-          <v-icon>mdi-loading mdi-spin</v-icon> Loading...
-        </div>
-      </v-overlay>
       <router-view></router-view>
       <v-dialog persistent :value="error">
         <v-card>
-          <v-card-title class="red--text"><v-icon color="red">mdi-exclamation-thick</v-icon> Error Occurred</v-card-title>
+          <v-card-title class="red--text"
+            ><v-icon color="red">mdi-exclamation-thick</v-icon> Error
+            Occurred</v-card-title
+          >
           <v-card-text class="body-1">{{ error }}</v-card-text>
           <v-card-actions>
             <v-btn text @click="$store.commit('setError', '')">Close</v-btn>
@@ -60,7 +59,7 @@ export default {
     },
     error() {
       return this.$store.state.error;
-    },
+    }
   },
   methods: {
     login() {
@@ -69,19 +68,72 @@ export default {
     // Log the user out
     logout() {
       this.$auth.logout({
-        returnTo: window.location.origin,
+        returnTo: window.location.origin
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
-<!-- Global Styles -->
-<style>
-.hidden {
-  display: none;
+<style scoped>
+.loading-line {
+  height: 3px;
+  position: absolute;
+  top: 0;
+  background-color: #eeffff;
+  animation: loading-animate 5s linear infinite;
+  z-index: 50;
 }
-.img-cover {
-  object-fit: cover;
+
+@keyframes loading-animate {
+  0% {
+    width: 0%;
+    background-color: #dff;
+  }
+  10% {
+    width: 5%;
+    background-color: #cff;
+  }
+  20% {
+    width: 10%;
+    background-color: #bff;
+  }
+  30% {
+    width: 15%;
+    background-color: #aef;
+  }
+  40% {
+    width: 25%;
+    background-color: #8cf;
+  }
+  50% {
+    width: 35%;
+    background-color: #7af;
+  }
+  60% {
+    width: 50%;
+    background-color: #69f;
+  }
+  70% {
+    width: 65%;
+    background-color: #57f;
+  }
+  80% {
+    width: 80%;
+    background-color: #38f;
+  }
+  90% {
+    width: 90%;
+    background-color: #03f;
+  }
+  100% {
+    width: 100%;
+    background-color: #00f;
+  }
+
+  0% {
+    width: 0%;
+    background-color: #eff;
+  }
 }
 </style>
