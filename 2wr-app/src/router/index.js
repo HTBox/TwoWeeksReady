@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Prepare from '../views/prepare/prepare.vue';
+import Welcome from '../views/welcome/welcome.vue';
 import EmergencyKitListing from '../views/prepare/emergency-kits/emergency-kit-listing.vue';
 import EmergencyKitCreatePage from '../views/prepare/emergency-kits/emergency-kit-create.vue';
 import EmergencyKitEditPage from '../views/prepare/emergency-kits/emergency-kit-edit.vue';
@@ -21,6 +22,11 @@ Vue.use(VueRouter);
 const routes = [{
     path: '/',
     redirect: '/prepare'
+  },
+  {
+    path: '/welcome',
+    name: 'welcome',
+    component: Welcome
   },
   {
     path: '/prepare',
