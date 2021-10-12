@@ -33,12 +33,12 @@ jobs:
       working-directory: ./admin
     - name: Zip Functions Package
       run: zip -r ../deploy.zip ./
-      working-directory: ./api/TwoWeeksReady/bin/Release/net5.0/publish/
+      working-directory: ./admin/TwoWeeksReady.Admin/bin/Release/net5.0/publish/
     - name: Upload Deployment Zip
       uses: actions/upload-artifact@v2
       with:
         name: deployment_zip
-        path: ./api/TwoWeeksReady/bin/Release/netcoreapp3.1/deploy.zip
+        path: ./admin/TwoWeeksReady.Admin/bin/Release/net5.0/deploy.zip
     - name: Upload Deployment Script
       uses: actions/upload-artifact@v2
       with:
