@@ -61,7 +61,7 @@
     <div class="info-table">
       <v-card
         class="mx-2 my-2"
-        color="#eee"
+        color="primary"
         ripple
         @click="ensureNamed('Emergency Contacts', 'emergencycontacts')"
       >
@@ -74,7 +74,7 @@
       </v-card>
       <v-card
         class="mx-2 my-2"
-        color="#eee"
+        color="primary"
         ripple
         @click="ensureNamed('Routes and Locations', 'routes')"
       >
@@ -87,7 +87,7 @@
       </v-card>
       <v-card
         class="mx-2 my-2"
-        color="#eee"
+        color="primary"
         ripple
         @click="ensureNamed('Children', 'children')"
       >
@@ -100,7 +100,7 @@
       </v-card>
       <v-card
         class="mx-2 my-2"
-        color="#eee"
+        color="primary"
         ripple
         @click="ensureNamed('Pets', 'pets')"
       >

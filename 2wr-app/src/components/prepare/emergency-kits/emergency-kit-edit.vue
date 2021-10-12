@@ -6,7 +6,7 @@
         size="64"
       ></v-progress-circular>
     </v-overlay>
-    <v-app-bar app flat dense fixed>
+    <v-app-bar app flat dense fixed  color="background">
       <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
       <v-icon class="mr-2">mdi-medical-bag</v-icon>
       <v-toolbar-title>Emergency Kit Edit</v-toolbar-title>

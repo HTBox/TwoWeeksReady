@@ -15,7 +15,7 @@
       </v-btn>
     </v-fab-transition>
     <InfoBar title="My Family Plan"></InfoBar>
-    <v-tabs background-color="blue" dark grow v-model="currentTab">
+    <v-tabs background-color="transparent" grow v-model="currentTab">
       <v-tab> My Family Plan </v-tab>
       <v-tab>
         Plans Shared<br />
@@ -24,6 +24,7 @@
     </v-tabs>
     <v-tabs-items v-model="currentTab">
       <v-tab-item>
+        <v-card color="background">
         <v-data-iterator
           :items="familyPlans"
           disable-pagination
@@ -37,7 +38,6 @@
                 v-for="item in props.items"
                 :key="item.id"
                 class="mx-2 my-2"
-                color="#eee"
                 ripple
                 :to="`/prepare/familyplan/${item.id}`"
               >
@@ -54,6 +54,7 @@
             </div>
           </template>
         </v-data-iterator>
+        </v-card>
       </v-tab-item>
       <v-tab-item>
         <p>Shared Plans</p>

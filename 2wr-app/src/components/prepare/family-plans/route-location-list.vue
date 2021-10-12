@@ -15,7 +15,7 @@
       </v-btn>
     </v-fab-transition>
     <InfoBar :title="`${ plan.title } - Routes and Locations`"></InfoBar>
-    <v-app-bar app flat dense fixed>
+    <v-app-bar app flat dense fixed  color="background">
       <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
       <v-toolbar-title>{{ plan.title }} - Routes and Locations</v-toolbar-title>
     </v-app-bar>
