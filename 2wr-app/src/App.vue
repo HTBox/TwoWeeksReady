@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :style="{background: $vuetify.theme.themes[theme].background}">
     <div v-if="isBusy" class="loading-line"></div>
     <v-main>
       <router-view></router-view>
@@ -21,24 +21,24 @@
       <!-- show login when not authenticated -->
 
       <!-- show logout when authenticated -->
-      <v-bottom-navigation app fixed grow color="primary">
-        <v-btn v-if="!$auth.isAuthenticated" height="100%" @click="login">
+      <v-bottom-navigation app fixed background-color="secondary">
+        <v-btn v-if="!$auth.isAuthenticated" height="100%" @click="login" color="secondary">
           <span>login</span>
           <v-icon>mdi-login-variant</v-icon>
         </v-btn>
-        <v-btn v-if="$auth.isAuthenticated" to="/prepare" height="100%">
+        <v-btn v-if="$auth.isAuthenticated" to="/prepare" height="100%" color="secondary">
           <span>Prepare</span>
           <v-icon>mdi-clipboard-list-outline</v-icon>
         </v-btn>
-        <v-btn v-if="$auth.isAuthenticated" to="/recent" height="100%">
+        <v-btn v-if="$auth.isAuthenticated" to="/recent" height="100%" color="secondary">
           <span>Recent Events</span>
           <v-icon>mdi-calendar-star</v-icon>
         </v-btn>
-        <v-btn v-if="$auth.isAuthenticated" to="/settings" height="100%">
+        <v-btn v-if="$auth.isAuthenticated" to="/settings" height="100%" color="secondary">
           <span>Settings</span>
           <v-icon>mdi-cog</v-icon>
         </v-btn>
-        <v-btn v-if="$auth.isAuthenticated" @click="logout" height="100%">
+        <v-btn v-if="$auth.isAuthenticated" @click="logout" height="100%" color="secondary">
           <span>Logout</span>
           <v-icon>mdi-logout-variant</v-icon>
         </v-btn>
@@ -59,6 +59,9 @@ export default {
     },
     error() {
       return this.$store.state.error;
+    },
+     theme(){
+      return (this.$vuetify.theme.dark) ? 'dark' : 'light'
     }
   },
   methods: {

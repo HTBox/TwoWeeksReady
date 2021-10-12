@@ -1,6 +1,6 @@
 <template>
   <div class="mb-1">
-    <v-app-bar app flat dense fixed color="blue-grey lighten-4">
+    <v-app-bar app flat dense fixed color="background" >
       <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-app-bar>
