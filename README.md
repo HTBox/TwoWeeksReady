@@ -28,4 +28,4 @@ For many years, we’ve been talking about the importance of being prepared for 
 
 **Use this application as a means to prepare to become two weeks ready.**
 
-For additional details, questions, etc.  You can reachout out to Pascal @schuback or Maximilian @MaximilianDixon on twitter and/or join our hackathon dev channel on slack (https://join.slack.com/share/zt-vl9s9i4z-Q_77RgK4IsRxWDzWxdffRA). 
+For additional details, questions, etc.  You can reachout out to Pascal @schuback or Maximilian @MaximilianDixon on twitter and/or join our hackathon dev channel on slack (https://join.slack.com/share/zt-x4s24iua-M0eTipxEhx1LtQCwlvHErQ). (LINK posted 10/12 and expires 14 days after
