@@ -48,7 +48,7 @@ jobs:
   deploy_to_dev:
     runs-on: ubuntu-latest
     needs: build
-    # if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request'
     environment: development
     steps:
     - name: Download a Deployment Zip
