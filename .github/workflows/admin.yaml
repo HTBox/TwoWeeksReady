@@ -1,0 +1,96 @@
+name: Admin App CI/CD
+
+on:
+  push:
+    paths:
+      - 'admin/**'
+      - '.github/workflows/admin.yaml'
+    branches: [ master ]
+  pull_request:
+    paths:
+      - 'admin/**'
+      - '.github/workflows/admin.yaml'
+    branches: [ master ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x    
+    - name: Setup .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Build
+      run: dotnet build -c Release
+      working-directory: ./admin
+    - name: Publish
+      run: dotnet publish -c Release
+      working-directory: ./admin
+    - name: Zip Functions Package
+      run: zip -r ../deploy.zip ./
+      working-directory: ./admin/TwoWeeksReady.Admin/bin/Release/net5.0/publish/
+    - name: Upload Deployment Zip
+      uses: actions/upload-artifact@v2
+      with:
+        name: deployment_zip
+        path: ./admin/TwoWeeksReady.Admin/bin/Release/net5.0/deploy.zip
+    - name: Upload Deployment Script
+      uses: actions/upload-artifact@v2
+      with:
+        name: deployment_script
+        path: ./az/deploy-admin-app.sh
+      
+  deploy_to_dev:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name != 'pull_request'
+    environment: development
+    steps:
+    - name: Download a Deployment Zip
+      uses: actions/download-artifact@v2
+      with:
+        name: deployment_zip
+    - name: Download a Deployment Script
+      uses: actions/download-artifact@v2
+      with:
+        name: deployment_script
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Azure Deploy Resources
+      uses: Azure/cli@v1.0.0
+      with:
+        inlineScript: |
+          chmod +x ./deploy-admin-app.sh
+          ./deploy-admin-app.sh -z deploy.zip
+          
+  deploy_to_beta:
+    runs-on: ubuntu-latest
+    needs: deploy_to_dev
+    if: github.event_name != 'pull_request'
+    environment: beta
+    steps:
+    - name: Download a Deployment Zip
+      uses: actions/download-artifact@v2
+      with:
+        name: deployment_zip
+    - name: Download a Deployment Script
+      uses: actions/download-artifact@v2
+      with:
+        name: deployment_script
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Azure Deploy Resources
+      uses: Azure/cli@v1.0.0
+      with:
+        inlineScript: |
+          chmod +x ./deploy-admin-app.sh
+          ./deploy-admin-app.sh -z deploy.zip -r 2wr-beta-resources -e 2wrbeta        
