@@ -1,6 +1,6 @@
 <template>
     <v-container class="py-0">
-        <v-app-bar app flat dense fixed>
+        <v-app-bar app flat dense fixed  color="background">
           <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
           <v-icon class="mr-2">mdi-shield-search</v-icon>
           <v-toolbar-title>Hazard Hunt</v-toolbar-title>

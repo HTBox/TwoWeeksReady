@@ -4,16 +4,11 @@ import '@mdi/font/css/materialdesignicons.css';
 import colors from 'vuetify/lib/util/colors';
 import VueRouter from 'vue-router'
 
-/* HEX THEME
-  
-                primary: '#3f51b5',
-                secondary: '#ff5722',
-                accent: '#00bcd4',
-                error: '#f44336',
-                warning: '#ffc107',
-                info:'#607d8b',
-                success: '#4caf50'
-*/
+const themeColors = {
+    lightOrange: "#f99b2c",
+    darkOrange: "#d75727",
+    background: "#f8f1c7"
+}
 
 Vue.use(Vuetify);
 Vue.use(VueRouter);
@@ -25,13 +20,14 @@ const vuetify = new Vuetify({
     theme: {
         themes: {
             light: {
-                primary: colors.indigo.base,
-                secondary: colors.deepOrange.base,
+                primary: themeColors.lightOrange,
+                secondary: themeColors.darkOrange,
                 accent: colors.cyan.base,
                 error: colors.red.base,
                 warning: colors.amber.base,
                 info: colors.blueGrey.base,
-                success: colors.green.base 
+                success: colors.green.base,
+                background: themeColors.background
             }
         }
     }
