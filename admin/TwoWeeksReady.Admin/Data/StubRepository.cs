@@ -103,6 +103,13 @@ namespace TwoWeeksReady.Admin.Data
 		{
 			return Task.FromResult(hazardInfo);
 		}
+
+		public Task<HazardInfo> CreateHazardInfo(HazardInfo hazardInfo)
+		{
+			return Task.FromResult(hazardInfo);
+		}
+
+
 	}
 
 }

@@ -72,5 +72,18 @@ namespace TwoWeeksReady.Admin.Data
                 throw new Exception("Error saving hazard info");
             }
         }
+
+        public async Task<HazardInfo> CreateHazardInfo(HazardInfo hazardInfo)
+        {
+            var response = await _httpClient.PostAsJsonAsync("hazardinfo-create", hazardInfo);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<HazardInfo>();
+            }
+            else
+            {
+                throw new Exception("Error saving hazard info");
+            }
+        }
     }
 }

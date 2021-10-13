@@ -1,4 +1,5 @@
 ﻿@page "/HazardInfos/{id}"
+@page "/HazardInfos/new"
 @attribute [Authorize(Roles = "admin")]
 
 @inject IRepository repository
@@ -46,13 +47,30 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Hazard = await repository.GetHazardInfoById(Id);
+        if (string.IsNullOrEmpty(Id))
+        {
+            Hazard = new HazardInfo();
+
+        }
+        else
+        {
+            Hazard = await repository.GetHazardInfoById(Id);
+        }
+
     }
 
 
     public async Task Save()
     {
-        Hazard = await repository.SaveHazardInfo(Hazard);
+        if (string.IsNullOrEmpty(Hazard.Id))
+        {
+            Hazard = await repository.CreateHazardInfo(Hazard);
+        }
+        else
+        {
+            Hazard = await repository.SaveHazardInfo(Hazard);
+        }
+
         //await OnSave.InvokeAsync(Hazard);
 
         await JS.InvokeVoidAsync("alert", new object[] { "Hazard Info Saved" });
