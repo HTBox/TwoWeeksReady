@@ -1,6 +1,6 @@
 # 2 Weeks Ready
 
-Try the live development version of app: [2 Weeks Ready - Dev](https://2wrdev.azureedge.net/)
+Try the live development version of app: [2 Weeks Ready - Dev](https://sasquatch.2wr.org/)
 
 ## Project List
 
