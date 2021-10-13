@@ -61,6 +61,9 @@
       <IconTextBlock :icon="contact.sharePlanWith ? 'mdi-check-box-outline' : 'mdi-checkbox-blank-outline'">
         <div>Share Plan?</div>
       </IconTextBlock>
+      <IconTextBlock v-if="distant" :icon="distant ? 'mdi-check-box-outline' : 'mdi-checkbox-blank-outline'">
+        <div>Out of area?</div>
+      </IconTextBlock>
     </div>
   </div>
 </template>
@@ -71,6 +74,7 @@ import { defineComponent, ref } from "@vue/composition-api";
 export default defineComponent({
   props: {
     contact: { required: true },
+    distant: { required: true }
   },
   setup() {
     const showSchoolInfo = ref(false);
