@@ -98,6 +98,10 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  if(!localStorage.getItem('welcomeCompleted') && to.name !== 'welcome') {
+    router.push('welcome');
+  }
+
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
