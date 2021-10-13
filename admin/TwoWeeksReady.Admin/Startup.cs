@@ -5,12 +5,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using TwoWeeksReady.Admin.Security;
+using System;
+using System.Net.Http;
 
 namespace TwoWeeksReady.Admin
 {
@@ -57,6 +60,7 @@ namespace TwoWeeksReady.Admin
                 options.Scope.Clear();
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
+                options.Scope.Add("roles");
 
                 options.CallbackPath = new PathString("/callback");
                 options.ClaimsIssuer = "Auth0";
@@ -104,9 +108,14 @@ namespace TwoWeeksReady.Admin
             });
 
 			services.AddHttpContextAccessor();
+            services.AddHttpClient("ApiClient", (HttpClient client) =>
+            {
+                client.BaseAddress = new Uri(Configuration["ApiUrl"]);
+            });
+
             services.AddScoped<TokenProvider>();
-            services.AddScoped<IRepository, StubRepository>();
-            //services.AddScoped<IRepository, FunctionsRepository>();
+            //services.AddScoped<IRepository, StubRepository>();
+            services.AddScoped<IRepository, FunctionsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
