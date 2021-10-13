@@ -60,7 +60,6 @@ namespace TwoWeeksReady.Admin
                 options.Scope.Clear();
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
-                options.Scope.Add("roles");
 
                 options.CallbackPath = new PathString("/callback");
                 options.ClaimsIssuer = "Auth0";

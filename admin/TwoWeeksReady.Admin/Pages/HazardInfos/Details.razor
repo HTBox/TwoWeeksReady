@@ -10,14 +10,27 @@
 }
 else
 {
-    <h3>Details</h3>
-    <label for="name">Hazard Name:</label>
-    <input type="text" @bind="@Hazard.Name" />
-    <br />
-    <label for="description">Short Description:</label>
-    <input type="text" @bind="@Hazard.Description" />
-    <span class="btn btn-secondary float-right" style="cursor: pointer" @onclick="@Save">Save</span>
 
+    <h3>Details</h3>
+    <form>
+        <div class="form-group">
+            <label for="name">Hazard Name</label>
+            <input type="text" class="form-control" name="name" @bind="@Hazard.Name">
+        </div>
+        <div class="form-group">
+            <label for="description">Short Description:</label>
+            <textarea class="form-control" name="description" @bind="@Hazard.Description" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="iconUrl">Icon Url</label>
+            <input type="text" class="form-control" name="iconUrl" @bind="@Hazard.IconUrl">
+        </div>
+        <div class="form-group">
+            <label for="mediaUrl">Media Url</label>
+            <input type="text" class="form-control" name="mediaUrl" @bind="@Hazard.MediaUrl">
+        </div>
+        <button type="submit" class="btn btn-primary" @onclick="@Save">Submit</button>
+    </form>
 }
 
 @code {
@@ -39,8 +52,8 @@ else
 
     public async Task Save()
     {
-        await repository.SaveHazardInfo(Hazard);
-        await OnSave.InvokeAsync(Hazard);
+        Hazard = await repository.SaveHazardInfo(Hazard);
+        //await OnSave.InvokeAsync(Hazard);
 
         await JS.InvokeVoidAsync("alert", new object[] { "Hazard Info Saved" });
 

@@ -47,14 +47,7 @@ namespace TwoWeeksReady.Admin.Data
 
         public async Task<HazardInfo> GetHazardInfoById(string id)
         {
-            try
-            {
-                return await _httpClient.GetFromJsonAsync<HazardInfo>($"hazardinfo-by-id/{id}");
-            } catch (Exception ex)
-            {
-                return new HazardInfo();
-            }
-            
+            return await _httpClient.GetFromJsonAsync<HazardInfo>($"hazardinfo-by-id/{id}");
         }
 
         public Task<BaseKitItem> SaveBaseKitItem(BaseKitItem kit)
@@ -67,9 +60,17 @@ namespace TwoWeeksReady.Admin.Data
             throw new NotImplementedException();
         }
 
-        public Task<HazardInfo> SaveHazardInfo(HazardInfo hazardInfo)
+        public async Task<HazardInfo> SaveHazardInfo(HazardInfo hazardInfo)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.PutAsJsonAsync("hazardinfo-update", hazardInfo);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<HazardInfo>();
+            } 
+            else
+            {
+                throw new Exception("Error saving hazard info");
+            }
         }
     }
 }
