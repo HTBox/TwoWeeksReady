@@ -1,37 +1,42 @@
 <template>
   <v-container>
-    <v-row class="text-left">
-      <v-col cols="10">
+    <v-row class="text-center">
+      <v-col cols="12">
         <img src="/img/icons/safari-pinned-tab.svg" width="350" />
-        <div v-if="stage === 1">
-          <h2>Welcome to 2 weeks ready</h2>
-          <p>
-            <strong>2 Weeks Ready</strong> is a mobile application that makes
-            emergency preparedness a <strong>simple</strong>,
-            <strong>easy</strong>, <strong>sharable</strong>, and
-            <strong>time-saving</strong> experience to protect you and people
-            you care about.
-          </p>
-        </div>
-        <div v-if="stage === 2">
-          <h2>You and earthquake risk</h2>
-          <p>
-            The Pacific Northwest is earthquake country with the
-            <strong
-              >second highest risk for earthquakes in the United States!</strong
-            >
-            There are also a wide assortment of hazards that can impact you
-            including tsunamis, volcanic eruptions, and wildfires to name a few.
-          </p>
-        </div>
-        <div v-if="stage === 3">
-          <h2>Let's get started!</h2>
-          <p>
-            There's a lot to prepare for and learn about. <strong>2 Weeks Ready can
-            help!</strong> Are you ready to start your preparedness Journey? <strong>Let's begin
-            by creating an account and answering some questions.</strong>
-          </p>
-        </div>
+      </v-col>
+
+      <v-col v-if="stage === 1" cols="12" md="6" offset-md="3" class="text-left pa-6">
+        <h2 class="text-center text-uppercase">Welcome to 2 weeks ready</h2>
+        <p>
+          <strong>2 Weeks Ready</strong> is a mobile application that makes
+          emergency preparedness a <strong>simple</strong>,
+          <strong>easy</strong>, <strong>sharable</strong>, and
+          <strong>time-saving</strong> experience to protect you and people you
+          care about.
+        </p>
+      </v-col>
+      <v-col v-if="stage === 2" cols="12" md="6" offset-md="3" class="text-left pa-6">
+        <h2 class="text-center text-uppercase">You and earthquake risk</h2>
+        <p>
+          The Pacific Northwest is earthquake country with the
+          <strong
+            >second highest risk for earthquakes in the United States!</strong
+          >
+          There are also a wide assortment of hazards that can impact you
+          including tsunamis, volcanic eruptions, and wildfires to name a few.
+        </p>
+      </v-col>
+      <v-col v-if="stage === 3" cols="12" md="6" offset-md="3" class="text-left pa-6">
+        <h2 class="text-center text-uppercase">Let's get started!</h2>
+        <p>
+          There's a lot to prepare for and learn about.
+          <strong>2 Weeks Ready can help!</strong> Are you ready to start your
+          preparedness Journey?
+          <strong
+            >Let's begin by creating an account and answering some
+            questions.</strong
+          >
+        </p>
       </v-col>
     </v-row>
     <v-fab-transition>
@@ -59,11 +64,11 @@ export default {
   }),
   methods: {
     next() {
-      
       this.stage++;
 
-      if(this.stage > 3){
-        this.$auth.loginWithRedirect("/")
+      if (this.stage > 3) {
+        localStorage.setItem("welcomeCompleted", "true");
+        this.$auth.loginWithRedirect("/");
       }
     },
   },
