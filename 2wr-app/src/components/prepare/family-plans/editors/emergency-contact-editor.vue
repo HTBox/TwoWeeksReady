@@ -50,6 +50,12 @@
         v-model="theContact.sharePlanWith"
         label="Share Plan with this Person?"
       />
+      <v-checkbox
+        v-model="theContact.distant"
+        v-if="distant"
+        label="Out of area?"
+        disabled=true
+      />
       <v-divider></v-divider>
       <v-card-actions class="">
         <v-btn text @click="$emit(`cancel`)">Cancel</v-btn>
@@ -67,6 +73,7 @@ import _ from "lodash";
 export default defineComponent({
   props: {
     contact: { required: true },
+    distant: { required: true }
   },
   setup(props, { emit, refs }) {
     const theContact = reactive(_.cloneDeep(props.contact));
