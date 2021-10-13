@@ -4,20 +4,21 @@
 @inject IRepository repository
 @inject IJSRuntime JS
 
-<h3>Details</h3>
-Hazard Name:
-<input type="text" @bind="@Hazard.Name" />
-<br />
-Short Description:
-<input type="text" @bind="@Hazard.Description" />
-<br />
-Instructions:
-<input type="text" @bind="@Hazard.Directive" />
-<br />
-More Info Link:
-<input type="text" @bind="@Hazard.ExternalLink" />
-<br />
-<span class="btn btn-secondary float-right" style="cursor: pointer" @onclick="@Save">Save</span>
+@if (Hazard == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h3>Details</h3>
+    <label for="name">Hazard Name:</label>
+    <input type="text" @bind="@Hazard.Name" />
+    <br />
+    <label for="description">Short Description:</label>
+    <input type="text" @bind="@Hazard.Description" />
+    <span class="btn btn-secondary float-right" style="cursor: pointer" @onclick="@Save">Save</span>
+
+}
 
 @code {
 

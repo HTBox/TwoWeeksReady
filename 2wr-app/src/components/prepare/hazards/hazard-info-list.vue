@@ -10,29 +10,25 @@
           indeterminate
           color="green"
         ></v-progress-linear>
-        <v-data-iterator v-if="!loading" :items="items" disable-pagination disable-sort hide-default-footer
-          :search="search">
-          <template v-slot:header>
-            <v-text-field
-              v-model="search"
-              clearable             
-              label="Search"
-              append-icon="mdi-magnify">
-            </v-text-field>
-          </template>
-          <template v-slot:default="props">
-            <div class="info-table">
-              <v-card v-for="item in props.items" :key="item.id" class="my-4" ripple dark>
-                <v-card-title class="white--text">
-                  <v-col class="col-9">
-                    <!-- <v-icon class="mr-2 white--text">{{item.icon}}</v-icon> -->{{ item.name }}
-                  </v-col>
-                </v-card-title>
-                <v-card-text>{{ item.description }}</v-card-text>
-              </v-card>
-            </div>
-          </template>
-        </v-data-iterator>
+          <v-row dense>
+        <v-col
+          v-for="item in items"
+          :key="item.id"
+          cols="6"
+        >
+          <v-card
+            @click="viewItem(item.id)">
+            <v-img
+              :src="item.iconUrl"
+              class="white--text align-end"
+              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              height="200px"
+            >
+              <v-card-title v-text="item.name"></v-card-title>
+            </v-img>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
 </template>
 
@@ -56,6 +52,9 @@ export default {
   methods: {
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
+    },
+    viewItem(id){
+      this.$router.push(`/prepare/hazardinfo/${id}`);
     }
   }
 }

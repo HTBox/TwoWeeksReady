@@ -43,9 +43,7 @@ namespace TwoWeeksReady.Admin.Data
 			{
 				 Id = "ABCDEFG",
 				 Name = "Bookshelf Safety",
-				 Description = "Strap the bookshelf to the wall",
-				 Directive = "Buy straps, find stud, screw it the wall",
-				 ExternalLink = "https://twitch.tv"
+				 Description = "Strap the bookshelf to the wall"
 			}
 		};
 
@@ -55,9 +53,7 @@ namespace TwoWeeksReady.Admin.Data
 			{
 				 Id = "BEGIN",
 				 Name = "Earthquakes",
-				 Description = "All about earthquakes",
-				 Directive = "Cover your head",
-				 ExternalLink = "https://twitch.tv"
+				 Description = "All about earthquakes"
 			}
 		};
 

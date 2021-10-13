@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using TwoWeeksReady.Admin.Security;
 using TwoWeeksReady.Common.EmergencyKits;
@@ -9,11 +11,14 @@ namespace TwoWeeksReady.Admin.Data
 {
     public class FunctionsRepository : IRepository
     {
-        private TokenProvider _tokenProvider;
+        private readonly HttpClient _httpClient;
+        private readonly TokenProvider _tokenProvider;
 
-        public FunctionsRepository(TokenProvider tokenProvider)
+        public FunctionsRepository(IHttpClientFactory httpClientFactory, TokenProvider tokenProvider)
         {
-            this._tokenProvider = tokenProvider;
+            this._httpClient = httpClientFactory.CreateClient("ApiClient");
+            _tokenProvider = tokenProvider;
+            this._httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokenProvider.AccessToken);
         }
         public Task<IEnumerable<BaseKit>> GetAllBaseKits()
         {
@@ -25,9 +30,9 @@ namespace TwoWeeksReady.Admin.Data
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<HazardInfo>> GetAllHazardInfos()
+        public async Task<IEnumerable<HazardInfo>> GetAllHazardInfos()
         {
-            throw new NotImplementedException();
+            return await _httpClient.GetFromJsonAsync<IList<HazardInfo>>("hazardinfo-list");
         }
 
         public Task<BaseKit> GetBaseKitById(string id)
@@ -40,9 +45,16 @@ namespace TwoWeeksReady.Admin.Data
             throw new NotImplementedException();
         }
 
-        public Task<HazardInfo> GetHazardInfoById(string id)
+        public async Task<HazardInfo> GetHazardInfoById(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<HazardInfo>($"hazardinfo-by-id/{id}");
+            } catch (Exception ex)
+            {
+                return new HazardInfo();
+            }
+            
         }
 
         public Task<BaseKitItem> SaveBaseKitItem(BaseKitItem kit)

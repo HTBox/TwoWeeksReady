@@ -12,6 +12,20 @@
     <v-row>
       <v-col cols="12">
         <v-card
+          to="prepare/hazardinfo"
+          color="primary"
+          class="my-4"
+          ripple
+        >
+          <v-card-title>
+            <v-icon class="mr-2">mdi-shield-alert-outline</v-icon>
+            Learn Your Hazards
+          </v-card-title>
+          <v-card-text>
+            <div class="text-subtitle-1">Learn all about common hazards.</div>
+          </v-card-text>            
+        </v-card>
+        <v-card
           to="/prepare/familyplan"
           color="primary"
           class="my-4"
@@ -19,7 +33,7 @@
         >
           <v-card-title>
             <v-icon class="mr-2">mdi-notebook-multiple</v-icon>
-            My Family Plan
+            Make a Plan
           </v-card-title>
           <v-card-text>
             <div class="text-subtitle-1">Make an actionable plan to share with friends and family. Know what to do in the event of a disaster.</div>
@@ -35,7 +49,7 @@
         >
           <v-card-title>
             <v-icon class="mr-2">mdi-medical-bag</v-icon>
-            Emergency Kits
+            Build a Kit
           </v-card-title>
           <v-card-text>
             <div class="text-subtitle-1">Create a grab-and-go kit so you have all that you need in the event
@@ -43,7 +57,8 @@
           </v-card-text>          
         </v-card>
 
-        <v-card
+        <!-- Hiding for now. Requirements in progress
+          <v-card
           to="prepare/hazardhunt"
           color="primary"
           class="my-4"
@@ -57,37 +72,8 @@
             <div class="text-subtitle-1">Observe your surroundings and identify common hazards that could
             mean danger in certain situations.</div>
           </v-card-text>              
-        </v-card>
+        </v-card> -->
 
-        <v-card
-          to="prepare/hazardinfo"
-          color="primary"
-          class="my-4"
-          ripple
-        >
-          <v-card-title>
-            <v-icon class="mr-2">mdi-shield-alert-outline</v-icon>
-            Hazard Information
-          </v-card-title>
-          <v-card-text>
-            <div class="text-subtitle-1">Learn all about common hazards.</div>
-          </v-card-text>            
-          <v-card-text align="left">
-
-          </v-card-text>
-        </v-card>
-
-        <v-card color="primary" class="my-4" ripple>
-          <v-card-title>
-            <v-icon class="mr-2"
-              >mdi-human-greeting-proximity</v-icon
-            >
-            Connect with the Community
-          </v-card-title>
-          <v-card-text>
-            <div class="text-subtitle-1">ShakeOut information</div>
-          </v-card-text>                      
-        </v-card>
       </v-col>
     </v-row>
   </v-container>
