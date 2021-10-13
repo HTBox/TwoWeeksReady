@@ -1,5 +1,5 @@
 <template>
-  <FamilyPlansContacts :planId="planId"></FamilyPlansContacts>
+  <FamilyPlansContacts :planId="planId" :distant=false></FamilyPlansContacts>
 </template>
 
 <script>
