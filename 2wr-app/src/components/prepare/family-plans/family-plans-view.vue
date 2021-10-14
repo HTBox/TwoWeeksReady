@@ -76,6 +76,19 @@
         class="mx-2 my-2"
         color="primary"
         ripple
+        @click="ensureNamed('Out of Area Contact', 'distantcontacts')"
+      >
+        <v-flex class="d-flex justify-space-between px-2 py-2">
+          <div>Out of Area Contacts</div>
+          <div>
+            <v-icon class="mr-2">mdi-chevron-right</v-icon>
+          </div>
+        </v-flex>
+      </v-card>
+      <v-card
+        class="mx-2 my-2"
+        color="primary"
+        ripple
         @click="ensureNamed('Routes and Locations', 'routes')"
       >
         <v-flex class="d-flex justify-space-between px-2 py-2">

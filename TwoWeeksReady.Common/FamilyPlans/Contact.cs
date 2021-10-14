@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace TwoWeeksReady.Common.FamilyPlans
 {
@@ -22,5 +22,7 @@ namespace TwoWeeksReady.Common.FamilyPlans
     public bool NotifyLastLocation { get; set; }
     [JsonProperty("sharePlanWith")]
     public bool SharePlanWith { get; set; }
+    [JsonProperty("distant")]
+    public bool Distant { get; set; }
   }
 }

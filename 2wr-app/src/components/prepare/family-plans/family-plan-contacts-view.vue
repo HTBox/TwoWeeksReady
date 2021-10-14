@@ -2,6 +2,7 @@
   <v-container class="py-0" v-if="plan">
     <v-fab-transition>
       <v-btn
+        v-if="contacts.length == 0 || !distant"
         color="green"
         dark
         absolute
@@ -14,15 +15,17 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-fab-transition>
-    <InfoBar :title="`${plan.title} - Emergency Contacts`"></InfoBar>  
-    <v-card class="pa-2" v-if="contacts.length == 0"><em>Press <strong>'+'</strong> to add new contacts.</em></v-card>
+    <InfoBar v-if="distant" :title="`${plan.title} - Distant Contact`"></InfoBar>
+    <InfoBar v-if="!distant" :title="`${plan.title} - Emergency Contacts`"></InfoBar>
+    <v-card class="pa-2" v-if="contacts.length == 0"><em>Press <strong>'+'</strong> to add a new contact.</em></v-card>
     <v-card v-for="contact in contacts" :key="contact.fullName">
-      <EmergencyContactView :contact="contact" @launchEditor="launchEditor"></EmergencyContactView>
+      <EmergencyContactView v-if="contact.distant === distant" :contact="contact" :distant="distant" @launchEditor="launchEditor"></EmergencyContactView>
     </v-card>
     <v-dialog v-model="showEditor" persistent>
       <EmergencyContactEditor
         v-if="showEditor"
         :contact="editorContact"
+        :distant="distant"
         @cancel="showEditor = false"
         @save="save"
       ></EmergencyContactEditor>
@@ -49,15 +52,16 @@ export default defineComponent({
     EmergencyContactView,
     EmergencyContactEditor
   },
-  props: { planId: { required: true } },
+  props: { planId: { required: true }, distant: { required: true } },
   setup(props) {
     const contacts = ref(null);
     const plan = ref(null);
-
     const editorContact = ref(null);
     const showEditor = ref(false);
+    const distant = ref(false);
 
     onMounted(() => {
+      distant.value = props.distant;
       let found = store.getters["familyPlansStore/findFamilyPlan"](
         props.planId
       );
@@ -80,10 +84,13 @@ export default defineComponent({
     }
 
     function addNew() {
-      launchEditor(new EmergencyContact());
+      let contact = new EmergencyContact();
+      contact.distant = distant.value;
+      launchEditor(contact);
     }
 
     return {
+      distant,
       contacts,
       goBack,
       plan,
