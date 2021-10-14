@@ -2,6 +2,7 @@
   <v-container class="py-0" v-if="plan">
     <v-fab-transition>
       <v-btn
+        v-if="routes.length < 2"
         color="green"
         dark
         absolute
@@ -14,13 +15,17 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-fab-transition>
-    <InfoBar :title="`${ plan.title } - Routes and Locations`"></InfoBar>
+    <InfoBar :title="`${ plan.title } - Reunification`"></InfoBar>
     <v-app-bar app flat dense fixed  color="background">
       <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
-      <v-toolbar-title>{{ plan.title }} - Routes and Locations</v-toolbar-title>
+      <v-toolbar-title>{{ plan.title }} - Reunification</v-toolbar-title>
     </v-app-bar>
+    <v-card class="pa-2">
+      An emergency has happened at your home.  Where do you plan to meet others and how will you get there?
+      Add up to two reunification plans containing important information, including addresses and photos as needed.
+    </v-card>
     <v-card class="pa-2" v-if="routes.length == 0">
-      <em>Press <strong>'+'</strong> to add a new route.</em>
+      <em>Press <strong>'+'</strong> to add a new reunification plan.</em>
     </v-card>
     <v-card class="pa-2" v-for="route in routes" :key="route.id">
       <IconTextBlock icon="mdi-pencil" :allowSelected="true"  @selected="launchEditor(route)">
@@ -86,7 +91,9 @@ export default defineComponent({
     }
 
     function addNew() {
-      launchEditor(new RouteLocation());
+      let routeLocation = new RouteLocation();
+      routeLocation.name = "Reunification Plan " + String.fromCharCode("A".charCodeAt(0) + routes.value.length);
+      launchEditor(routeLocation);
     }
 
     return {
