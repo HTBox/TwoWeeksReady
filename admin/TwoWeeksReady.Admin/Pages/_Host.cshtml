@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    @{  
+    @{
         var token = new TokenProvider
         {
             AccessToken = await HttpContext.GetTokenAsync("access_token")
@@ -43,5 +43,6 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
+    <script src="_content/TinyMCE.Blazor/tinymce-blazor.js"></script>
 </body>
 </html>
