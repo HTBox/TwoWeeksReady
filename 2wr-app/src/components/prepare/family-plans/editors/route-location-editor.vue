@@ -4,7 +4,8 @@
       <v-text-field
         v-model="theRoute.name"
         :rules="rules.name"
-        label="Route Name"
+        label="Reunification Plan Name"
+        disabled=true
         outlined
       />
       <photos-editor title="Photos" :route="theRoute" />
