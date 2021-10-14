@@ -6,7 +6,7 @@
 @if (_HazardInfos != null && _HazardInfos.Any())
 {
 
-    <table>
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Name</th>
@@ -27,6 +27,7 @@
         </tbody>
 
     </table>
+    <a class="btn btn-primary" href="/HazardInfos/new">Add New Hazard</a>
 
 }
 else if (_HazardInfos == null)
