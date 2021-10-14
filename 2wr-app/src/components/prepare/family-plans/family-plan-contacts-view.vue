@@ -15,7 +15,7 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-fab-transition>
-    <InfoBar v-if="distant" :title="`${plan.title} - Distant Contact`"></InfoBar>
+    <InfoBar v-if="distant" :title="`${plan.title} - Out of Area Contact`"></InfoBar>
     <InfoBar v-if="!distant" :title="`${plan.title} - Emergency Contacts`"></InfoBar>
     <v-card class="pa-2" v-if="contacts.length == 0"><em>Press <strong>'+'</strong> to add a new contact.</em></v-card>
     <v-card v-for="contact in contacts" :key="contact.fullName">
