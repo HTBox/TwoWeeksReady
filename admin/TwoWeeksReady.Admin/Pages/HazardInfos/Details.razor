@@ -1,8 +1,15 @@
 ﻿@page "/HazardInfos/{id}"
+@page "/HazardInfos/new"
 @attribute [Authorize(Roles = "admin")]
 
+@using TinyMCE.Blazor
 @inject IRepository repository
 @inject IJSRuntime JS
+@inject Microsoft.Extensions.Configuration.IConfiguration configuration 
+
+@{ 
+    var tinyMCEApiKey = configuration["TinyMCEApiKey"];
+}
 
 @if (Hazard == null)
 {
@@ -10,17 +17,64 @@
 }
 else
 {
-    <h3>Details</h3>
-    <label for="name">Hazard Name:</label>
-    <input type="text" @bind="@Hazard.Name" />
-    <br />
-    <label for="description">Short Description:</label>
-    <input type="text" @bind="@Hazard.Description" />
-    <span class="btn btn-secondary float-right" style="cursor: pointer" @onclick="@Save">Save</span>
 
+    <h3>Details</h3>
+    <form>
+        <div class="form-group">
+            <label for="name">Hazard Name</label>
+            <input type="text" class="form-control" name="name" @bind="@Hazard.Name">
+        </div>
+        <div class="form-group">
+            <label for="description">Short Description:</label>
+            <textarea class="form-control" name="description" @bind="@Hazard.Description" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="iconUrl">Icon Url</label>
+            <input type="text" class="form-control" name="iconUrl" @bind="@Hazard.IconUrl">
+        </div>
+        <div class="form-group">
+            <label for="mediaUrl">Media Url</label>
+            <input type="text" class="form-control" name="mediaUrl" @bind="@Hazard.MediaUrl">
+        </div>
+
+        <div class="form-group">
+            <label for="beforeSafetyDetails">Before Safety Details</label>
+            <Editor Id="beforeSafetyDetails" Conf="@EditorConfig" ApiKey="@tinyMCEApiKey" @bind-Value="@Hazard.BeforeSafetyDetails" />
+        </div>
+
+        <div class="form-group">
+            <label for="duringSafetyDetails">DuringSafety Details</label>
+            <Editor Id="duringSafetyDetails" Conf="@EditorConfig" ApiKey="@tinyMCEApiKey" @bind-Value="@Hazard.DuringSafetyDetails" />
+        </div>
+
+        <div class="form-group">
+            <label for="afterSafetyDetails">Before Safety Details</label>
+            <Editor Id="afterSafetyDetails" Conf="@EditorConfig" ApiKey="@tinyMCEApiKey" @bind-Value="@Hazard.AfterSafetyDetails" />
+        </div>
+
+
+        <div class="form-group">
+            <label for="externalLinks">External Links (One link per line)</label>
+            <textarea rows="6" class="form-control" name="externalLinks" @bind="@ExternalLinks"></textarea>
+        </div>
+
+        <button type="button" class="btn btn-primary" @onclick="@Save">Submit</button>
+    </form>
 }
 
 @code {
+
+    public Dictionary<string, object> EditorConfig = new Dictionary<string, object>
+{
+        { "plugins", "image" },
+        { "toolbar", "image" },
+        {"image_list", new []
+        {
+            // TODO: Figure out a strategy for loading a list of images from assets availabe within the app
+            new { title = "Image 1", value = "http://localhost:8080/images/hazards/earthquake.png"}
+        } }
+
+    };
 
     [Parameter]
     public string Id { get; set; }
@@ -30,17 +84,47 @@ else
 
     private HazardInfo Hazard { get; set; }
 
+    private string ExternalLinks
+    {
+        get
+        {
+            return string.Join(Environment.NewLine, Hazard?.ExternalLinks ?? new string[0]);
+        }
+        set
+        {
+            var links = value.Split(new string[] { "\n", Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s));
+            Hazard.ExternalLinks = links.ToArray();
+        }
+    }
+
 
     protected override async Task OnInitializedAsync()
     {
-        Hazard = await repository.GetHazardInfoById(Id);
+        if (string.IsNullOrEmpty(Id))
+        {
+            Hazard = new HazardInfo();
+
+        }
+        else
+        {
+            Hazard = await repository.GetHazardInfoById(Id);
+        }
+
     }
 
 
     public async Task Save()
     {
-        await repository.SaveHazardInfo(Hazard);
-        await OnSave.InvokeAsync(Hazard);
+        if (string.IsNullOrEmpty(Hazard.Id))
+        {
+            Hazard = await repository.CreateHazardInfo(Hazard);
+        }
+        else
+        {
+            Hazard = await repository.SaveHazardInfo(Hazard);
+        }
+
+        //await OnSave.InvokeAsync(Hazard);
 
         await JS.InvokeVoidAsync("alert", new object[] { "Hazard Info Saved" });
 

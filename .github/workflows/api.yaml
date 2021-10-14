@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'api/**'
+      - 'TwoWeeksReady.Common/**'
       - '.github/workflows/api.yaml'
     branches: [ master ]
   pull_request:

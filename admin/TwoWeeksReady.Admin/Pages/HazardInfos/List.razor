@@ -1,17 +1,15 @@
 ﻿@page  "/HazardInfos/"
 @attribute [Authorize(Roles = "admin")]
 @inject IRepository Repository
-<h1>Administer Hazard Info for Two Weeks Ready</h1>
-
-<h3>Current Hazards Defined:</h3>
+<h1>Administer Hazard Info</h1>
 
 @if (_HazardInfos != null && _HazardInfos.Any())
 {
 
-    <table>
+    <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Name</th>               
+                <th>Name</th>
             </tr>
         </thead>
         <tbody>
@@ -21,7 +19,7 @@
                 <tr>
                     <td>
                         <a href="/HazardInfos/@hazard.Id">
-                           @hazard.Name
+                            @hazard.Name
                         </a>
                     </td>
                 </tr>
@@ -29,11 +27,16 @@
         </tbody>
 
     </table>
+    <a class="btn btn-primary" href="/HazardInfos/new">Add New Hazard</a>
 
+}
+else if (_HazardInfos == null)
+{
+    <p>Loading....</p>
 }
 else
 {
-    <p>No Hazards defined.</p>
+    <p>No hazard infos defined</p>
 }
 
 @code {

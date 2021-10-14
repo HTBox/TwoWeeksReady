@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'admin/**'
+      - 'TwoWeeksReady.Common/**'
       - '.github/workflows/admin.yaml'
     branches: [ master ]
   pull_request:
