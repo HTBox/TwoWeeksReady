@@ -6,6 +6,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using AzureFunctions.OidcAuthentication;
+using TwoWeeksReady.Authorization;
 
 namespace TwoWeeksReady.Hazards
 {
@@ -52,7 +53,7 @@ namespace TwoWeeksReady.Hazards
             DocumentClient client,
           ILogger log)
       {
-         return await CreateDocument(req, client, log, CollectionName);
+         return await CreateDocument(req, client, log, CollectionName, Roles.Admin);
       }
 
 
@@ -64,7 +65,7 @@ namespace TwoWeeksReady.Hazards
             DocumentClient client,
           ILogger log)
       {
-         return await UpdateDocument(req, client, log, CollectionName);
+         return await UpdateDocument(req, client, log, CollectionName, Roles.Admin);
       }
 
 
