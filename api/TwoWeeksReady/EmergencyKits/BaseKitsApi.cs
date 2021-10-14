@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using AzureFunctions.OidcAuthentication;
 using TwoWeeksReady.Common.EmergencyKits;
+using TwoWeeksReady.Authorization;
 
 namespace TwoWeeksReady.EmergencyKits
 {
@@ -74,7 +75,13 @@ namespace TwoWeeksReady.EmergencyKits
             return new UnauthorizedResult();
         }
 
-        var content = await new StreamReader(req.Body).ReadToEndAsync();
+        if (!authorizationResult.IsInRole(Roles.Admin))
+        {
+            log.LogWarning($"User is not in the {Roles.Admin} role");
+            return new UnauthorizedResult();
+        }
+
+            var content = await new StreamReader(req.Body).ReadToEndAsync();
         var newBaseKit = JsonConvert.DeserializeObject<BaseKit>(content);
         newBaseKit.Id = Guid.NewGuid().ToString();
         if(newBaseKit.Items.Count > 0) 
@@ -102,6 +109,12 @@ namespace TwoWeeksReady.EmergencyKits
           if (authorizationResult.Failed)
           {
               log.LogWarning(authorizationResult.FailureReason);
+              return new UnauthorizedResult();
+          }
+
+          if (!authorizationResult.IsInRole(Roles.Admin))
+          {
+              log.LogWarning($"User is not in the {Roles.Admin} role");
               return new UnauthorizedResult();
           }
 
@@ -154,8 +167,13 @@ namespace TwoWeeksReady.EmergencyKits
               log.LogWarning(authorizationResult.FailureReason);
               return new UnauthorizedResult();
           }
+          if (!authorizationResult.IsInRole(Roles.Admin))
+          {
+              log.LogWarning($"User is not in the {Roles.Admin} role");
+              return new UnauthorizedResult();
+          }
 
-          if(String.IsNullOrWhiteSpace(id))
+            if (String.IsNullOrWhiteSpace(id))
           {
               return new BadRequestObjectResult("Base Kit id was not specified.");
           }

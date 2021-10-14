@@ -149,13 +149,19 @@ namespace TwoWeeksReady.Hazards
         }
 
         protected async Task<IActionResult> DeleteDocument(
-           HttpRequest req, string id, DocumentClient client, ILogger log, string collectionName)
+           HttpRequest req, string id, DocumentClient client, ILogger log, string collectionName, string requiredRole = null)
         {
             log.LogInformation($"Deleting {collectionName} document: id = {id}");
             var authorizationResult = await _apiAuthentication.AuthenticateAsync(req.Headers);
             if (authorizationResult.Failed)
             {
                 log.LogWarning(authorizationResult.FailureReason);
+                return new UnauthorizedResult();
+            }
+            
+            if (!string.IsNullOrEmpty(requiredRole) && !authorizationResult.IsInRole(requiredRole))
+            {
+                log.LogWarning($"User is not in the {requiredRole} role");
                 return new UnauthorizedResult();
             }
 
