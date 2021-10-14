@@ -79,7 +79,7 @@
         @click="ensureNamed('Out of Area Contact', 'distantcontacts')"
       >
         <v-flex class="d-flex justify-space-between px-2 py-2">
-          <div>Out of Area Contacts</div>
+          <div>Out of Area Contact</div>
           <div>
             <v-icon class="mr-2">mdi-chevron-right</v-icon>
           </div>
@@ -92,7 +92,7 @@
         @click="ensureNamed('Routes and Locations', 'routes')"
       >
         <v-flex class="d-flex justify-space-between px-2 py-2">
-          <div>Routes and Locations</div>
+          <div>Reunification</div>
           <div>
             <v-icon class="mr-2">mdi-chevron-right</v-icon>
           </div>
