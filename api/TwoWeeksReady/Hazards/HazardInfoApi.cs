@@ -78,7 +78,7 @@ namespace TwoWeeksReady.Hazards
             DocumentClient client,
           ILogger log)
       {
-         return await DeleteDocument(req, id, client, log, CollectionName);
+         return await DeleteDocument(req, id, client, log, CollectionName, Roles.Admin);
       }
    }
 }
