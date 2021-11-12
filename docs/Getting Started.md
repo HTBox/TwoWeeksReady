@@ -1,4 +1,4 @@
-# Getting Started with Two Weeks Ready System
+# Getting Started with **Two Weeks Ready**
 
 ## Overview
 
@@ -40,3 +40,7 @@ This is the back-end of the system. It is implemented in Azure Functions.
 * secured with Auth0
 * persists data in Azure Blob Storage
 * persists data in Cosmos DB
+
+## Repository Layout
+
+- this section should describe the top level folder
