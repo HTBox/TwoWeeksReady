@@ -20,7 +20,7 @@
       <!-- show login when not authenticated -->
 
     <!-- show logout when authenticated -->
-    <v-bottom-navigation background-color="secondary" dark role="navigation">
+    <v-bottom-navigation background-color="secondary" dark role="navigation" fixed>
       <v-btn v-if="!$auth.isAuthenticated" height="100%" @click="login" color="secondary">
         <span>Login</span>
         <v-icon>mdi-login-variant</v-icon>
