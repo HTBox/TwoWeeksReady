@@ -1,6 +1,6 @@
 <template>
   <v-app :style="{background: $vuetify.theme.themes[theme].background}">
-    <div v-if="isBusy" class="loading-line"></div>
+    <div v-if="isBusy" class="loading-line" role="progressbar"></div>
     <v-main>
       <router-view></router-view>
       <v-dialog persistent :value="error">
@@ -17,33 +17,32 @@
       </v-dialog>
     </v-main>
     <!-- Check that the SDK client is not currently loading before accessing is methods -->
-    <div>
       <!-- show login when not authenticated -->
 
-      <!-- show logout when authenticated -->
-      <v-bottom-navigation app fixed background-color="secondary">
-        <v-btn v-if="!$auth.isAuthenticated" height="100%" @click="login" color="secondary">
-          <span>login</span>
-          <v-icon>mdi-login-variant</v-icon>
-        </v-btn>
-        <v-btn v-if="$auth.isAuthenticated" to="/prepare" height="100%" color="secondary">
-          <span>Prepare</span>
-          <v-icon>mdi-clipboard-list-outline</v-icon>
-        </v-btn>
-        <v-btn v-if="$auth.isAuthenticated" to="/recent" height="100%" color="secondary">
-          <span>Recent Events</span>
-          <v-icon>mdi-calendar-star</v-icon>
-        </v-btn>
-        <v-btn v-if="$auth.isAuthenticated" to="/settings" height="100%" color="secondary">
-          <span>Settings</span>
-          <v-icon>mdi-cog</v-icon>
-        </v-btn>
-        <v-btn v-if="$auth.isAuthenticated" @click="logout" height="100%" color="secondary">
-          <span>Logout</span>
-          <v-icon>mdi-logout-variant</v-icon>
-        </v-btn>
-      </v-bottom-navigation>
-    </div>
+    <!-- show logout when authenticated -->
+    <v-bottom-navigation background-color="secondary" dark role="navigation">
+      <v-btn v-if="!$auth.isAuthenticated" height="100%" @click="login" color="secondary">
+        <span>Login</span>
+        <v-icon>mdi-login-variant</v-icon>
+      </v-btn>
+      <v-btn v-if="$auth.isAuthenticated" to="/prepare" height="100%" color="secondary">
+        <span>Prepare</span>
+        <v-icon>mdi-clipboard-list-outline</v-icon>
+      </v-btn>
+      <v-btn v-if="$auth.isAuthenticated" to="/recent" height="100%" color="secondary">
+        <span>Recent Events</span>
+        <v-icon>mdi-calendar-star</v-icon>
+      </v-btn>
+      <v-btn v-if="$auth.isAuthenticated" to="/settings" height="100%" color="secondary">
+        <span>Settings</span>
+        <v-icon>mdi-cog</v-icon>
+      </v-btn>
+      <v-btn v-if="$auth.isAuthenticated" @click="logout" height="100%" color="secondary">
+        <span>Logout</span>
+        <v-icon>mdi-logout-variant</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
+  
   </v-app>
 </template>
 
@@ -79,6 +78,12 @@ export default {
 </script>
 
 <style scoped>
+
+.theme--dark.v-bottom-navigation .v-btn:not(.v-btn--active)
+{
+  color: rgba(255, 255, 255, .95) !important;
+}
+
 .loading-line {
   height: 3px;
   position: absolute;
