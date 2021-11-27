@@ -1,17 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>4c82d094-3afe-4274-922b-9c0d8bdda7c5</UserSecretsId>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<UserSecretsId>4c82d094-3afe-4274-922b-9c0d8bdda7c5</UserSecretsId>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\TwoWeeksReady.Common\TwoWeeksReady.Common.csproj" />
-  </ItemGroup>
+	<PropertyGroup>
+		<PowerShell># 2&gt;nul || type %~df0|find /v "setlocal"|find /v "errorlevel"|powershell.exe -noninteractive -&amp; exit %errorlevel% || #</PowerShell>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.6" />
-    <PackageReference Include="TinyMCE.Blazor" Version="0.0.8" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Content Include="client-images.txt" />
+	</ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\..\TwoWeeksReady.Common\TwoWeeksReady.Common.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.6" />
+		<PackageReference Include="TinyMCE.Blazor" Version="0.0.8" />
+	</ItemGroup>
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+		<PropertyGroup>
+			<!-- #3 prefix your powershell script with the $(PowerShell) variable, then code as normal! -->
+			<myscript>
+				$(PowerShell)
+				#
+				# Gets the list of images available within the client app
+				#
+				if (Test-Path client-images.txt)
+				{
+					Remove-Item client-images.txt
+				}
+				Get-ChildItem ..\..\2wr-app\public\images -Recurse -File | % { Write-Host $_.FullName.Substring($_.FullName.IndexOf('2wr-app')+14) } 6&gt;&gt; client-images.txt
+			</myscript>
+		</PropertyGroup>
+		<!-- #4 and execute the script like this -->
+		<Exec Command="$(myscript)" EchoOff="true" />
+	</Target>
 </Project>
