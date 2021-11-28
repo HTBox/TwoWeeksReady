@@ -1,17 +1,41 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>4c82d094-3afe-4274-922b-9c0d8bdda7c5</UserSecretsId>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<UserSecretsId>4c82d094-3afe-4274-922b-9c0d8bdda7c5</UserSecretsId>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\TwoWeeksReady.Common\TwoWeeksReady.Common.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Content Include="client-images.txt">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.6" />
-    <PackageReference Include="TinyMCE.Blazor" Version="0.0.8" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\TwoWeeksReady.Common\TwoWeeksReady.Common.csproj" />
+	</ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.6" />
+		<PackageReference Include="TinyMCE.Blazor" Version="0.0.8" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ClientImages Include="..\..\2wr-app\public\images\**\*.*" />
+	</ItemGroup>
+
+	<Target Name="ClearClientImagesFile">
+		<Delete Files=".\client-images.txt" />
+		<Touch AlwaysCreate="true" Files=".\client-images.txt" />
+	</Target>
+	
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent" DependsOnTargets="ClearClientImagesFile">
+		<!-- Generates an up-to-date file of all the images available in the client app -->
+		<PropertyGroup>
+			<ClientImage>%(ClientImages.Identity)</ClientImage>
+			<ClientImageIndexOffset>$([MSBuild]::Add($(ClientImage.IndexOf(`2wr-app`)), 14))</ClientImageIndexOffset>
+		</PropertyGroup>
+		<Message Text="Client Image: %(ClientImages.Identity)" Importance="high" />
+		<WriteLinesToFile Lines="$([System.String]::Copy(&quot;%(ClientImages.Identity)&quot;).Substring($(ClientImageIndexOffset)))" File="./client-images.txt" Overwrite="false" />
+	</Target>
 </Project>

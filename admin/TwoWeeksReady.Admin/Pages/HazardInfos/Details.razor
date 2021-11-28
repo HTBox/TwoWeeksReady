@@ -3,9 +3,13 @@
 @attribute [Authorize(Roles = "admin")]
 
 @using TinyMCE.Blazor
+@using System.IO;
+@using System.Linq;
+
 @inject IRepository repository
 @inject IJSRuntime JS
 @inject Microsoft.Extensions.Configuration.IConfiguration configuration 
+@inject ClientImageService clientImages
 
 @{ 
     var tinyMCEApiKey = configuration["TinyMCEApiKey"];
@@ -19,7 +23,7 @@ else
 {
 
     <h3>Details</h3>
-    <form>
+    <EditForm Model="@Hazard">
         <div class="form-group">
             <label for="name">Hazard Name</label>
             <input type="text" class="form-control" name="name" @bind="@Hazard.Name">
@@ -30,11 +34,25 @@ else
         </div>
         <div class="form-group">
             <label for="iconUrl">Icon Url</label>
-            <input type="text" class="form-control" name="iconUrl" @bind="@Hazard.IconUrl">
+            
+            <InputSelect id="iconUrl" class="form-control" @bind-Value="Hazard.IconUrl">
+                @foreach(var image in clientImages.Images)
+                {
+                    <option value="@image">@image</option>
+                }
+            </InputSelect>
+            <img src="@clientImages.ToAbsolutePath(Hazard.IconUrl)"/>
+
         </div>
         <div class="form-group">
             <label for="mediaUrl">Media Url</label>
-            <input type="text" class="form-control" name="mediaUrl" @bind="@Hazard.MediaUrl">
+            <InputSelect id="mediaUrl" class="form-control" @bind-Value="Hazard.MediaUrl">
+                @foreach(var image in clientImages.Images)
+                {
+                    <option value="@image">@image</option>
+                }
+            </InputSelect>
+            <img src="@clientImages.ToAbsolutePath(Hazard.MediaUrl)"/>
         </div>
 
         <div class="form-group">
@@ -59,21 +77,15 @@ else
         </div>
 
         <button type="button" class="btn btn-primary" @onclick="@Save">Submit</button>
-    </form>
+    </EditForm>
 }
 
 @code {
 
     public Dictionary<string, object> EditorConfig = new Dictionary<string, object>
-{
+    {
         { "plugins", "image" },
         { "toolbar", "image" },
-        {"image_list", new []
-        {
-            // TODO: Figure out a strategy for loading a list of images from assets availabe within the app
-            new { title = "Image 1", value = "http://localhost:8080/images/hazards/earthquake.png"}
-        } }
-
     };
 
     [Parameter]
@@ -103,13 +115,12 @@ else
         if (string.IsNullOrEmpty(Id))
         {
             Hazard = new HazardInfo();
-
         }
         else
         {
             Hazard = await repository.GetHazardInfoById(Id);
         }
-
+        EditorConfig["image_list"] = clientImages.Images.Select(i => new { title = i.RelativePath, value = i.AbsolutePath }).ToArray();
     }
 
 
