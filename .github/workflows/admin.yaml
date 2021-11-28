@@ -4,12 +4,14 @@ on:
   push:
     paths:
       - 'admin/**'
+      - '2wr-app/public/images/**'
       - 'TwoWeeksReady.Common/**'
       - '.github/workflows/admin.yaml'
     branches: [ master ]
   pull_request:
     paths:
       - 'admin/**'
+      - '2wr-app/public/images/**'
       - '.github/workflows/admin.yaml'
     branches: [ master ]
   workflow_dispatch:
