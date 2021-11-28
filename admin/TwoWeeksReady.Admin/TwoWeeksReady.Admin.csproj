@@ -6,7 +6,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Content Include="client-images.txt" />
+	  <Content Include="client-images.txt">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -33,6 +35,7 @@
 			<ClientImage>%(ClientImages.Identity)</ClientImage>
 			<ClientImageIndexOffset>$([MSBuild]::Add($(ClientImage.IndexOf(`2wr-app`)), 14))</ClientImageIndexOffset>
 		</PropertyGroup>
+		<Message Text="Client Image: %(ClientImages.Identity)" Importance="high" />
 		<WriteLinesToFile Lines="$([System.String]::Copy(&quot;%(ClientImages.Identity)&quot;).Substring($(ClientImageIndexOffset)))" File="./client-images.txt" Overwrite="false" />
 	</Target>
 </Project>
