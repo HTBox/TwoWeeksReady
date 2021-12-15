@@ -115,6 +115,7 @@ namespace TwoWeeksReady.Admin
             services.AddScoped<TokenProvider>();
             //services.AddScoped<IRepository, StubRepository>();
             services.AddScoped<IRepository, FunctionsRepository>();
+            services.AddSingleton<ClientImageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

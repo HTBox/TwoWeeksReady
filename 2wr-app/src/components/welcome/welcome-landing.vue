@@ -2,11 +2,11 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
-        <img src="/img/icons/safari-pinned-tab.svg" width="350" />
+        <img src="/img/icons/safari-pinned-tab.svg" width="350" alt="2 Weeks Ready Backpack Logo"/>
       </v-col>
 
       <v-col v-if="stage === 1" cols="12" md="6" offset-md="3" class="text-left pa-6">
-        <h2 class="text-center text-uppercase">Welcome to 2 weeks ready</h2>
+        <h1 class="text-center text-uppercase text-h2">Welcome to 2 weeks ready</h1>
         <p>
           <strong>2 Weeks Ready</strong> is a mobile application that makes
           emergency preparedness a <strong>simple</strong>,
@@ -49,6 +49,7 @@
         fab
         class="mb-12"
         @click="next()"
+        aria-label="Next"
       >
         <v-icon>mdi-chevron-right</v-icon>
       </v-btn>

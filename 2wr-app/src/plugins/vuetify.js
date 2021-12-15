@@ -6,7 +6,7 @@ import VueRouter from 'vue-router'
 
 const themeColors = {
     lightOrange: "#f99b2c",
-    darkOrange: "#d75727",
+    darkOrange: "#c14d23",
     background: "#f8f1c7"
 }
 

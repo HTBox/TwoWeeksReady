@@ -10,7 +10,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "api": "func start --prefix ..\\api\\TwoWeeksReady\\",
-    "azurite": "azurite --silent --location c:\\temp\\azurite"
+    "azurite": "azurite --silent --location c:\\temp\\azurite",
+    "e2etest": "playwright test"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.13.6",
