@@ -15,6 +15,17 @@
 		"azurite.azurite"
 
 	],
+	
+	"features": {
+		"docker-in-docker": {
+			"version": "latest",
+			"moby": true
+		},
+		"node": {
+			"version": "lts",
+			"nodeGypDependencies": true
+		}
+	}
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "bash -i tools/install-dev-tools.sh",
