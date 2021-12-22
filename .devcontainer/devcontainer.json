@@ -12,8 +12,9 @@
 	"extensions": [
 		"ms-azuretools.vscode-azurefunctions",
 		"ms-dotnettools.csharp",
-		"azurite.azurite"
-
+		"azurite.azurite",
+		//"ms-azuretools.vscode-cosmosdb"
+		// unable to get preview extension working through devcontainer emulator due to certificate error
 	],
 	
 	"features": {
