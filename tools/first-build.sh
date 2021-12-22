@@ -15,4 +15,4 @@ npm install -g azurite
 npx playwright install
 npm run build
 npm run e2etest
-popd .
+popd

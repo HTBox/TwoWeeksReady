@@ -14,7 +14,7 @@
 		"ms-dotnettools.csharp",
 		"azurite.azurite",
 		//"ms-azuretools.vscode-cosmosdb"
-		// unable to get preview extension working through devcontainer emulator due to certificate error
+		// unable to get preview extension working through devcontainer emulator due to certificate error, but works with deprecated feature in Azure Storage Explorer
 	],
 	
 	"features": {
