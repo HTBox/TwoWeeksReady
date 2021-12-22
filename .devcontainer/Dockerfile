@@ -23,9 +23,13 @@ RUN apt-get update && curl -ssL https://raw.githubusercontent.com/microsoft/vsco
 RUN wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
-
 RUN apt-get update \
   && apt-get install -y apt-transport-https \
   && apt-get update \
   && apt-get install -y dotnet-sdk-5.0 \
   && apt-get install -y dotnet-sdk-6.0
+
+  # Install Chrome for Desktop Testing through VNC
+  RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && curl -sSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /tmp/chrome.deb \
+    && apt-get -y install /tmp/chrome.deb
