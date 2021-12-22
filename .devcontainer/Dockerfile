@@ -10,11 +10,22 @@ FROM mcr.microsoft.com/azure-functions/dotnet:3.0-dotnet3-core-tools
 
 # # Comment out these lines if you want to use zsh.
 
-# ARG INSTALL_ZSH=true
-# ARG USERNAME=vscode
-# ARG USER_UID=1000
-# ARG USER_GID=$USER_UID
+ARG INSTALL_ZSH=false
+ARG USERNAME=vscode
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
 
-# RUN apt-get update && curl -ssL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/common-debian.sh -o /tmp/common-script.sh \
-#     && /bin/bash /tmp/common-script.sh "$INSTALL_ZSH" "$USERNAME" "$USER_UID" "$USER_GID" \
-#     && rm /tmp/common-script.sh 
+RUN apt-get update && curl -ssL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/common-debian.sh -o /tmp/common-script.sh \
+    && /bin/bash /tmp/common-script.sh "$INSTALL_ZSH" "$USERNAME" "$USER_UID" "$USER_GID" \
+    && rm /tmp/common-script.sh 
+
+# Setup .NET 5 & 6 SDKs
+RUN wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+RUN rm packages-microsoft-prod.deb
+
+RUN apt-get update \
+  && apt-get install -y apt-transport-https \
+  && apt-get update \
+  && apt-get install -y dotnet-sdk-5.0 \
+  && apt-get install -y dotnet-sdk-6.0
