@@ -12,7 +12,9 @@ dotnet build ./admin/admin.sln
 pushd ./2wr-app
 npm install
 npm install -g azurite
-npx playwright install
+npx playwright instal
 npm run build
-npm run e2etest
 popd
+
+# setup default configuration files
+bash ./tools/setup-config.sh > /dev/null
