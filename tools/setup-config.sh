@@ -5,7 +5,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 pushd $SCRIPT_DIR
 
 # create api settings file from sample
-API_SETTINGS_FILE=../api/local.settings.json
+API_SETTINGS_FILE=../api/TwoWeeksReady/local.settings.json
 if [[ ! -f $API_SETTINGS_FILE ]]
 then
 cp ./samples/local.settings.sample.json $API_SETTINGS_FILE
