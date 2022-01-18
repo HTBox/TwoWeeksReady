@@ -1,6 +1,7 @@
 {
   "version": "2.0.0",
   "tasks": [
+    // TwoWeeksReady.Admin tasks
     {
       "label": "build",
       "command": "dotnet",
@@ -37,6 +38,27 @@
         "/consoleloggerparameters:NoSummary"
       ],
       "problemMatcher": "$msCompile"
-    }
+    },
+    // CosmoDB Emulator tasks
+    {
+      "label": "Start CosmoDB Emulator (Docker)",
+      "command": ". ./tools/CosmosEmulator/start-emulator.sh",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Stop CosmoDB Emulator (Docker)",
+      "command": ". ./tools/CosmosEmulator/stop-emulator.sh",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    
   ]
 }
