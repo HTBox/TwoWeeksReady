@@ -30,7 +30,8 @@
 			"password": "vscode",
 			"webPort": "6080",
 			"vncPort": "5901"
-		}
+		},
+		"github-cli": "latest"
 	},
 
 	// Use 'postCreateCommand' to run commands after the container is created.
