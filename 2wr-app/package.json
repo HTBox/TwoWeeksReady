@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development npm-run-all --parallel dev:*",
     "dev:serve": "vue-cli-service serve",
-    "dev:napi": "func start --prefix ..\\api\\TwoWeeksReady\\",
+    "dev:napi": "func start --prefix ../api/TwoWeeksReady/",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
