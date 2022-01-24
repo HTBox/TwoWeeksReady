@@ -61,7 +61,7 @@
     },
     // Azure Functions (API) Tasks
     {
-      "label": "clean (functions)",
+      "label": "API (Clean)",
       "command": "dotnet",
       "args": [
         "clean",
@@ -75,7 +75,7 @@
       }
     },
     {
-      "label": "build (functions)",
+      "label": "API (Build)",
       "command": "dotnet",
       "args": [
         "build",
@@ -83,7 +83,7 @@
         "/consoleloggerparameters:NoSummary"
       ],
       "type": "process",
-      "dependsOn": "clean (functions)",
+      "dependsOn": "API (Clean)",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -94,8 +94,9 @@
       }
     },
     {
+      "label": "API (Run)",
       "type": "func",
-      "dependsOn": "build (functions)",
+      "dependsOn": "API (Build)",
       "options": {
         "cwd": "${workspaceFolder}/api/TwoWeeksReady/bin/Debug/netcoreapp3.1",
         "languageWorkers__node__arguments": "--inspect=5858"
