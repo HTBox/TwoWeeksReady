@@ -9,7 +9,7 @@ docker run --detach --rm -p 8081:8081 -p 10251:10251 -p 10252:10252 -p 10253:102
 
 # wait for process to complete and server to start
 wait
-sleep 45s # necessary wait time for the cosmosdb server to start up and start responding to web requests
+sleep 120s # necessary wait time for the cosmosdb server to start up and start responding to web requests
 
 # install the certificate
 curl --insecure --url https://localhost:8081/_explorer/emulator.pem -o ~/emulatorcert.crt
