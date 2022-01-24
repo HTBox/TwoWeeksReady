@@ -1,6 +1,7 @@
 {
   "version": "2.0.0",
   "tasks": [
+    // TwoWeeksReady.Admin tasks
     {
       "label": "build",
       "command": "dotnet",
@@ -37,6 +38,72 @@
         "/consoleloggerparameters:NoSummary"
       ],
       "problemMatcher": "$msCompile"
+    },
+    // CosmoDB Emulator tasks
+    {
+      "label": "Start CosmoDB Emulator (Docker)",
+      "command": ". ./tools/CosmosEmulator/start-emulator.sh",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Stop CosmoDB Emulator (Docker)",
+      "command": ". ./tools/CosmosEmulator/stop-emulator.sh",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    // Azure Functions (API) Tasks
+    {
+      "label": "API (Clean)",
+      "command": "dotnet",
+      "args": [
+        "clean",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "type": "process",
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/api/TwoWeeksReady"
+      }
+    },
+    {
+      "label": "API (Build)",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "type": "process",
+      "dependsOn": "API (Clean)",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/api/TwoWeeksReady"
+      }
+    },
+    {
+      "label": "API (Run)",
+      "type": "func",
+      "dependsOn": "API (Build)",
+      "options": {
+        "cwd": "${workspaceFolder}/api/TwoWeeksReady/bin/Debug/netcoreapp3.1",
+        "languageWorkers__node__arguments": "--inspect=5858"
+      },
+      "command": "host start",
+      "isBackground": true,
+      "problemMatcher": "$func-dotnet-watch"
     }
   ]
 }

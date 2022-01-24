@@ -1,0 +1,42 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/azure-functions-dotnetcore-3.1
+{
+	"name": "TwoWeeksReady",
+	"dockerFile": "Dockerfile",
+	"forwardPorts": [ 7071, 6080, 5901 ],
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-azuretools.vscode-azurefunctions",
+		"ms-dotnettools.csharp",
+		"azurite.azurite",
+		//"ms-azuretools.vscode-cosmosdb"
+		// unable to get preview extension working through devcontainer emulator due to certificate error, but works with deprecated feature in Azure Storage Explorer
+	],
+	
+	"features": {
+		"docker-in-docker": {
+			"version": "latest",
+			"moby": true
+		},
+		"node": {
+			"version": "lts",
+			"nodeGypDependencies": true
+		},
+		"desktop-lite": {
+			"password": "vscode",
+			"webPort": "6080",
+			"vncPort": "5901"
+		},
+		"github-cli": "latest"
+	},
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "bash -i tools/first-build.sh",
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode"
+}
