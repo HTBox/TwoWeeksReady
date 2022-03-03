@@ -4,7 +4,7 @@
 
 ## Application wireframes
 
-See [Application wireframes](https://xd.adobe.com/view/158c8bc4-5ef2-47dd-90c0-ba3c508e4d62-40df)
+See [Application wireframes](https://xd.adobe.com/view/158c8bc4-5ef2-47dd-90c0-ba3c508e4d62-40df/grid)
 
 ## Material design icons
 
