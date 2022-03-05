@@ -9,6 +9,7 @@ import EmergencyKitEditPage from '../views/prepare/emergency-kits/emergency-kit-
 import HazardHuntListing from '../views/prepare/hazards/hazard-hunt-list-view.vue';
 import HazardInfoListing from '../views/prepare/hazards/hazard-info-list-view.vue';
 import HazardInfo from '../views/prepare/hazards/hazard-info-view.vue';
+import HazardHunt from '../views/prepare/hazards/hazard-hunt-view.vue';
 import Recent from '../views/recent/recent.vue';
 import Settings from '../views/settings/settings.vue';
 
@@ -65,7 +66,16 @@ const routes = [{
     meta: {
       requiresAuth: true
     }
-  }, {
+  },
+  {
+    path: '/prepare/hazardhunt/:id',
+    name: 'hazardhuntdetails',
+    component: HazardHunt,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/prepare/hazardinfo',
     name: 'hazardinfolist',
     component: HazardInfoListing,
