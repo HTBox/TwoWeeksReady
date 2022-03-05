@@ -25,7 +25,7 @@
         <span>Login</span>
         <v-icon>mdi-login-variant</v-icon>
       </v-btn>
-      <v-btn v-if="$auth.isAuthenticated" to="/prepare" height="100%" color="secondary">
+      <v-btn v-if="$auth.isAuthenticated" to="/prepare/makeaplan" height="100%" color="secondary">
         <span>Prepare</span>
         <v-icon>mdi-clipboard-list-outline</v-icon>
       </v-btn>
