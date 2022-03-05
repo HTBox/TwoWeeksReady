@@ -14,7 +14,7 @@ test.describe("Welcome page accessibility test", () => {
     await injectAxe(page);
   });
 
-  test("Check Accessability", async () => {
+  test("Check Accessibility", async () => {
     await checkA11y(page, null, {
       axeOptions: {},
       detailedReport: true,
