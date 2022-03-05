@@ -1,7 +1,7 @@
 <template>
   <v-app :style="{background: $vuetify.theme.themes[theme].background}">
     <div v-if="isBusy" class="loading-line" role="progressbar"></div>
-    <v-main>
+    <v-main id="theMain">
       <router-view></router-view>
       <v-dialog persistent :value="error">
         <v-card>
@@ -78,6 +78,10 @@ export default {
 </script>
 
 <style scoped>
+
+#theMain {
+  margin-bottom: 3rem;
+}
 
 .theme--dark.v-bottom-navigation .v-btn:not(.v-btn--active)
 {
