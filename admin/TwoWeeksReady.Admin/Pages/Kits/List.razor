@@ -47,7 +47,13 @@ else
     protected override async Task OnInitializedAsync()
     {
 
-        BaseKits = await Repository.GetAllBaseKits();
+        try {
+            BaseKits = await Repository.GetAllBaseKits();
+        } catch (NotImplementedException)
+        {
+            // do nothing for now...  site is still growing
+            BaseKits = Enumerable.Empty<BaseKit>();
+        }
 
     }
 

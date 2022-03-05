@@ -15,137 +15,100 @@ using TwoWeeksReady.Admin.Security;
 using System;
 using System.Net.Http;
 
-namespace TwoWeeksReady.Admin
+namespace TwoWeeksReady.Admin;
+
+public static class StartupExtensions
 {
-    public class Startup
+    public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
+        services.AddRazorPages();
+        services.AddServerSideBlazor();
+
+        services.Configure<CookiePolicyOptions>(options =>
         {
-            Configuration = configuration;
-        }
+            options.CheckConsentNeeded = context => true;
+            options.MinimumSameSitePolicy = SameSiteMode.None;
+        });
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        // Add authentication services
+        services.AddAuthentication(options =>
         {
-            services.AddRazorPages();
-            services.AddServerSideBlazor();
+            options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        })
+        .AddCookie()
+        .AddOpenIdConnect("Auth0", options =>
+        {
+            options.Authority = $"https://{configuration["Auth0:Domain"]}";
 
-            services.Configure<CookiePolicyOptions>(options =>
+            options.ClientId = configuration["Auth0:ClientId"];
+            options.ClientSecret = configuration["Auth0:ClientSecret"];
+
+            options.ResponseType = OpenIdConnectResponseType.Code;
+            options.SaveTokens = true;
+
+            options.Scope.Clear();
+            options.Scope.Add("openid");
+            options.Scope.Add("profile");
+
+            options.CallbackPath = new PathString("/callback");
+            options.ClaimsIssuer = "Auth0";
+
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+                NameClaimType = "name",
+                RoleClaimType = "https://schemas.2wradmin.com/roles"
+            };
 
-            // Add authentication services
-            services.AddAuthentication(options =>
+            options.Events = new OpenIdConnectEvents
             {
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })            
-            .AddCookie()
-            .AddOpenIdConnect("Auth0", options =>
-            {
-                options.Authority = $"https://{Configuration["Auth0:Domain"]}";
-
-                options.ClientId = Configuration["Auth0:ClientId"];
-                options.ClientSecret = Configuration["Auth0:ClientSecret"];
-
-                options.ResponseType = OpenIdConnectResponseType.Code;
-                options.SaveTokens = true;
-
-                options.Scope.Clear();
-                options.Scope.Add("openid");
-                options.Scope.Add("profile");
-
-                options.CallbackPath = new PathString("/callback");
-                options.ClaimsIssuer = "Auth0";
-
-                options.TokenValidationParameters = new TokenValidationParameters
+                OnRedirectToIdentityProvider = context =>
                 {
-                    NameClaimType = "name",
-                    RoleClaimType = "https://schemas.2wradmin.com/roles"
-                };
+                    // The context's ProtocolMessage can be used to pass along additional query parameters
+                    // to Auth0's /authorize endpoint.
+                    // 
+                    // Set the audience query parameter to the API identifier to ensure the returned Access Tokens can be used
+                    // to call protected endpoints on the corresponding API.
+                    context.ProtocolMessage.SetParameter("audience", configuration["Auth0:Audience"]);
 
-                options.Events = new OpenIdConnectEvents
+                    return Task.FromResult(0);
+                },
+                OnRedirectToIdentityProviderForSignOut = (context) =>
                 {
-                    OnRedirectToIdentityProvider = context =>
+                    var logoutUri = $"https://{configuration["Auth0:Domain"]}/v2/logout?client_id={configuration ["Auth0:ClientId"]}";
+
+                    var postLogoutUri = context.Properties.RedirectUri;
+
+                    if (!string.IsNullOrEmpty(postLogoutUri))
                     {
-                        // The context's ProtocolMessage can be used to pass along additional query parameters
-                        // to Auth0's /authorize endpoint.
-                        // 
-                        // Set the audience query parameter to the API identifier to ensure the returned Access Tokens can be used
-                        // to call protected endpoints on the corresponding API.
-                        context.ProtocolMessage.SetParameter("audience", Configuration["Auth0:Audience"]);
-
-                        return Task.FromResult(0);
-                    },
-                    OnRedirectToIdentityProviderForSignOut = (context) =>
-                    {
-                        var logoutUri = $"https://{Configuration["Auth0:Domain"]}/v2/logout?client_id={Configuration["Auth0:ClientId"]}";
-
-                        var postLogoutUri = context.Properties.RedirectUri;
-
-                        if (!string.IsNullOrEmpty(postLogoutUri))
+                        if (postLogoutUri.StartsWith("/"))
                         {
-                            if (postLogoutUri.StartsWith("/"))
-                            {
-                                var request = context.Request;
-                                postLogoutUri = request.Scheme + "://" + request.Host + request.PathBase + postLogoutUri;
-                            }
+                            var request = context.Request;
+                            postLogoutUri = request.Scheme + "://" + request.Host + request.PathBase + postLogoutUri;
                         }
+                    }
 
-                        context.Response.Redirect(logoutUri);
-                        context.HandleResponse();
+                    context.Response.Redirect(logoutUri);
+                    context.HandleResponse();
 
-                        return Task.CompletedTask;
-                    }                    
-                };
-            });
+                    return Task.CompletedTask;
+                }
+            };
+        });
 
-			services.AddHttpContextAccessor();
-            services.AddHttpClient("ApiClient", (HttpClient client) =>
-            {
-                client.BaseAddress = new Uri(Configuration["ApiUrl"]);
-            });
-
-            services.AddScoped<TokenProvider>();
-            //services.AddScoped<IRepository, StubRepository>();
-            services.AddScoped<IRepository, FunctionsRepository>();
-            services.AddSingleton<ClientImageService>();
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        services.AddHttpContextAccessor();
+        services.AddHttpClient("ApiClient", (HttpClient client) =>
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            client.BaseAddress = new Uri(configuration["ApiUrl"]);
+        });
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+        services.AddScoped<TokenProvider>();
+        //services.AddScoped<IRepository, StubRepository>();
+        services.AddScoped<IRepository, FunctionsRepository>();
+        services.AddSingleton<ClientImageService>();
 
-            app.UseRouting();
-
-            app.UseCookiePolicy();
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("/_Host");
-            });
-        }
+        return services;
     }
+
 }
