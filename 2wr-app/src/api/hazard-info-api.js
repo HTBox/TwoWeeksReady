@@ -7,5 +7,5 @@ export default {
 
     async get(id) {
         return (await baseApiInstance.getInstance()).get(`hazardinfo-by-id/${id}`);
-    },
+    }
 };

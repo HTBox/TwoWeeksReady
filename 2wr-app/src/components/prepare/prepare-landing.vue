@@ -57,8 +57,8 @@
           </v-card-text>          
         </v-card>
 
-        <!-- Hiding for now. Requirements in progress
-          <v-card
+        
+        <v-card
           to="prepare/hazardhunt"
           color="primary"
           class="my-4"
@@ -72,7 +72,7 @@
             <div class="text-subtitle-1">Observe your surroundings and identify common hazards that could
             mean danger in certain situations.</div>
           </v-card-text>              
-        </v-card> -->
+        </v-card> 
 
       </v-col>
     </v-row>
