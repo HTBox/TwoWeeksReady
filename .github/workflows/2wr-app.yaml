@@ -34,6 +34,11 @@ jobs:
       working-directory: ./2wr-app
     - run: npm run e2etest
       working-directory: ./2wr-app
+    - name: Upload e2e Test Results
+      uses: actions/upload-artifact@v2
+      with:
+        name: e2e-test-results
+        path: ./2wr-app/test-results
     - name: Write env file
       run: 'echo "$DEV_ENV" > ./2wr-app/.env'
       shell: bash
