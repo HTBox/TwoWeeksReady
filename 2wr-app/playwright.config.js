@@ -8,5 +8,8 @@ const config = {
         port: 8080,
         timeout: 120 * 1000,
     },
+    use: {
+        screenshot: 'only-on-failure',
+    }
 };
 module.exports = config;

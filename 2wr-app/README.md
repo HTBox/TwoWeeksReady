@@ -18,7 +18,7 @@ In VSCode, you can get a walk-through of the code via the [CodeTour](https://mar
 
 ## Project Prerequisites
 
-1. Node.js 14.17.6 LTS
+1. Node.js 16.x.x LTS
 
 ## Project setup
 
