@@ -5,12 +5,12 @@ on:
     paths:
       - '2wr-app/**'
       - '.github/workflows/2wr-app.yaml'
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
     paths:
       - '2wr-app/**'
       - '.github/workflows/2wr-app.yaml'
-    branches: [ master ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
