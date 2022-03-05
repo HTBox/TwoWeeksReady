@@ -32,6 +32,8 @@ jobs:
       working-directory: ./2wr-app
     - run: npx playwright install
       working-directory: ./2wr-app
+    - name: Write sample env file for e2e tests
+      run: 'cp ./2wr-app/.env-sample ./2wr-app/.env'
     - run: npm run e2etest
       working-directory: ./2wr-app
     - name: Upload e2e Test Results
@@ -40,6 +42,8 @@ jobs:
       with:
         name: e2e-test-results
         path: ./2wr-app/test-results
+    - name: Clear sample env file from e2e tests
+      run: 'rm ./2wr-app/.env'
     - name: Write env file
       run: 'echo "$DEV_ENV" > ./2wr-app/.env'
       shell: bash
