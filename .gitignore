@@ -12,6 +12,7 @@
 
 # Azurite files
 __azurite_*.json
+__blobstorage__
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
