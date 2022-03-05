@@ -30,6 +30,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
       working-directory: ./2wr-app
+    - run: npm run e2etest
+      working-directory: ./2wr-app
     - name: Write env file
       run: 'echo "$DEV_ENV" > ./2wr-app/.env'
       shell: bash
