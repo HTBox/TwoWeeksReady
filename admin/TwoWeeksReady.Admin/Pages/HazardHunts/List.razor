@@ -43,7 +43,12 @@ else
     protected override async Task OnInitializedAsync()
     {
 
-        _HazardHunts = await Repository.GetAllHazardHunts();
+        try {
+            _HazardHunts = await Repository.GetAllHazardHunts();
+        } catch (NotImplementedException) {
+            // Application is still growing, let's not throw an error yet
+            _HazardHunts = Enumerable.Empty<HazardHunt>();
+        }
 
     }
 
