@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 import Prepare from '../views/prepare/prepare.vue';
 import Welcome from '../views/welcome/welcome.vue';
+import MakeAPlan from '../views/prepare/make-a-plan/make-a-plan.vue';
 import EmergencyKitListing from '../views/prepare/emergency-kits/emergency-kit-listing.vue';
 import EmergencyKitCreatePage from '../views/prepare/emergency-kits/emergency-kit-create.vue';
 import EmergencyKitEditPage from '../views/prepare/emergency-kits/emergency-kit-edit.vue';
@@ -34,6 +35,14 @@ const routes = [{
     path: '/prepare',
     name: 'prepare',
     component: Prepare
+  },
+  {
+    path: '/prepare/makeaplan',
+    name: 'makeaplan',
+    component: MakeAPlan,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/prepare/emergencykits',
