@@ -26,6 +26,8 @@ namespace TwoWeeksReady.Admin.Data
 		Task<HazardInfo> SaveHazardInfo(HazardInfo hazardInfo);
 
 		Task<HazardInfo> CreateHazardInfo(HazardInfo hazardInfo);
+
+		Task<HazardHunt> CreateHazardHunt(HazardHunt hazardHunt);
 	}
 
 }

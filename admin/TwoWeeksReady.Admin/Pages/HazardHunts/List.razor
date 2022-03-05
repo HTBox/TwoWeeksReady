@@ -4,8 +4,6 @@
 @inject IRepository Repository
 <h1>Administer Hazard Hunt for Two Weeks Ready</h1>
 
-<h3>Current Hazards Defined:</h3>
-
 @if (_HazardHunts != null && _HazardHunts.Any())
 {
 
@@ -35,6 +33,7 @@
 else
 {
     <p>No Hazards defined.</p>
+    <a class="btn btn-primary" href="/HazardHunts/new">Add New Hazard</a>
 }
 
 @code {
