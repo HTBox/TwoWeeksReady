@@ -1,8 +1,8 @@
 {
     "azureFunctions.projectSubpath": "api/TwoWeeksReady",
-    "azureFunctions.deploySubpath": "api/TwoWeeksReady/bin/Release/netcoreapp3.1/publish",
+    "azureFunctions.deploySubpath": "api/TwoWeeksReady/bin/Release/net6.0/publish",
     "azureFunctions.projectLanguage": "C#",
-    "azureFunctions.projectRuntime": "~3",
+    "azureFunctions.projectRuntime": "~4",
     "debug.internalConsoleOptions": "neverOpen",
     "azureFunctions.preDeployTask": "publish (functions)"
 }
