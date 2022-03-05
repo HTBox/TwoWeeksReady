@@ -7,13 +7,13 @@ on:
       - '2wr-app/public/images/**'
       - 'TwoWeeksReady.Common/**'
       - '.github/workflows/admin.yaml'
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
     paths:
       - 'admin/**'
       - '2wr-app/public/images/**'
       - '.github/workflows/admin.yaml'
-    branches: [ master ]
+    branches: [ main ]
   workflow_dispatch:
 jobs:
   build:
@@ -23,11 +23,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.x    
-    - name: Setup .NET 5
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
+        dotnet-version: 6.0.x
     - name: Build
       run: dotnet build -c Release
       working-directory: ./admin
@@ -36,12 +32,12 @@ jobs:
       working-directory: ./admin
     - name: Zip Functions Package
       run: zip -r ../deploy.zip ./
-      working-directory: ./admin/TwoWeeksReady.Admin/bin/Release/net5.0/publish/
+      working-directory: ./admin/TwoWeeksReady.Admin/bin/Release/net6.0/publish/
     - name: Upload Deployment Zip
       uses: actions/upload-artifact@v2
       with:
         name: deployment_zip
-        path: ./admin/TwoWeeksReady.Admin/bin/Release/net5.0/deploy.zip
+        path: ./admin/TwoWeeksReady.Admin/bin/Release/net6.0/deploy.zip
     - name: Upload Deployment Script
       uses: actions/upload-artifact@v2
       with:

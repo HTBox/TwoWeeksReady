@@ -6,12 +6,12 @@ on:
       - 'api/**'
       - 'TwoWeeksReady.Common/**'
       - '.github/workflows/api.yaml'
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
     paths:
       - 'api/**'
       - '.github/workflows/api.yaml'
-    branches: [ master ]
+    branches: [ main ]
   workflow_dispatch:
 jobs:
   build:
@@ -21,7 +21,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.x
+        dotnet-version: 6.0.x
     - name: Build
       run: dotnet build -c Release
       working-directory: ./api
@@ -30,12 +30,12 @@ jobs:
       working-directory: ./api
     - name: Zip Functions Package
       run: zip -r ../deploy.zip ./
-      working-directory: ./api/TwoWeeksReady/bin/Release/netcoreapp3.1/publish/
+      working-directory: ./api/TwoWeeksReady/bin/Release/net6.0/publish/
     - name: Upload Deployment Zip
       uses: actions/upload-artifact@v2
       with:
         name: deployment_zip
-        path: ./api/TwoWeeksReady/bin/Release/netcoreapp3.1/deploy.zip
+        path: ./api/TwoWeeksReady/bin/Release/net6.0/deploy.zip
     - name: Upload Deployment Script
       uses: actions/upload-artifact@v2
       with:

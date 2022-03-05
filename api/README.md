@@ -4,11 +4,11 @@
 
 ## Prerequisites
 
-[.NET Core SDK 3.1](https://dotnet.microsoft.com/download)
+[.NET SDK 6.0](https://dotnet.microsoft.com/download)
 
-[Azure Functions Core Tools 3](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Ccsharp%2Cbash#install-the-azure-functions-core-tools)
+[Azure Functions Core Tools 4](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Ccsharp%2Cbash#install-the-azure-functions-core-tools)
 
-  `npm i -g azure-functions-core-tools@3 --unsafe-perm true`
+  `npm i -g azure-functions-core-tools@4 --unsafe-perm true`
 
 ### Using VS Code
 
@@ -24,11 +24,11 @@ Alternatively, there is an Azurite VS Code Extension:
 
 [Install Azure Extension](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite#install-and-run-the-azurite-visual-studio-code-extension)
 
-### Using Visual Studio 2019
+### Using Visual Studio 2022
 
-Open the `api.sln` in Visual Studio 2019. 
+Open the `api.sln` in Visual Studio 2022. 
 
-You will also need the Azure Storage Emulator if using Visual Studio 2019 (if you're using VS Code, look above).
+You will also need the Azure Storage Emulator if using Visual Studio 2022 (if you're using VS Code, look above).
 
 [Install Azure Storage Emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator?toc=/azure/storage/blobs/toc.json#get-the-storage-emulator)
 
@@ -64,6 +64,7 @@ Create a `local.settings.json` file in the TwoWeeksReady project folder. You wil
 {
   "IsEncrypted": false,
   "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
     "OidcApiAuthSettings:Audience": "https://2wrdev.azurewebsites.net",
     "OidcApiAuthSettings:IssuerUrl": "https://login.2wr.org/"
