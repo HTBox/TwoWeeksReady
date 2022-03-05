@@ -8,5 +8,6 @@ const config = {
         port: 8080,
         timeout: 120 * 1000,
     },
+    reporter: process.env.CI ? 'github' : 'list',
 };
 module.exports = config;
