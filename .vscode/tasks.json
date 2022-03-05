@@ -98,7 +98,7 @@
       "type": "func",
       "dependsOn": "API (Build)",
       "options": {
-        "cwd": "${workspaceFolder}/api/TwoWeeksReady/bin/Debug/netcoreapp3.1",
+        "cwd": "${workspaceFolder}/api/TwoWeeksReady/bin/Debug/net6.0",
         "languageWorkers__node__arguments": "--inspect=5858"
       },
       "command": "host start",
