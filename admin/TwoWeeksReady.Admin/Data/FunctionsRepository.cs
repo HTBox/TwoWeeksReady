@@ -25,9 +25,9 @@ namespace TwoWeeksReady.Admin.Data
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<HazardHunt>> GetAllHazardHunts()
+        public async Task<IEnumerable<HazardHunt>> GetAllHazardHunts()
         {
-            throw new NotImplementedException();
+            return await _httpClient.GetFromJsonAsync<IList<HazardHunt>>("hazardhunt-list");
         }
 
         public async Task<IEnumerable<HazardInfo>> GetAllHazardInfos()
@@ -40,9 +40,9 @@ namespace TwoWeeksReady.Admin.Data
             throw new NotImplementedException();
         }
 
-        public Task<HazardHunt> GetHazardHuntById(string id)
+        public async Task<HazardHunt> GetHazardHuntById(string id)
         {
-            throw new NotImplementedException();
+            return await _httpClient.GetFromJsonAsync<HazardHunt>($"hazardhunt-by-id/{id}");
         }
 
         public async Task<HazardInfo> GetHazardInfoById(string id)
@@ -55,9 +55,17 @@ namespace TwoWeeksReady.Admin.Data
             throw new NotImplementedException();
         }
 
-        public Task<HazardHunt> SaveHazardHunt(HazardHunt hazardHunt)
+        public async Task<HazardHunt> SaveHazardHunt(HazardHunt hazardHunt)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.PutAsJsonAsync("hazardhunt-update", hazardHunt);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<HazardHunt>();
+            }
+            else
+            {
+                throw new Exception("Error saving hazard hunt");
+            }
         }
 
         public async Task<HazardInfo> SaveHazardInfo(HazardInfo hazardInfo)
@@ -73,6 +81,7 @@ namespace TwoWeeksReady.Admin.Data
             }
         }
 
+       
         public async Task<HazardInfo> CreateHazardInfo(HazardInfo hazardInfo)
         {
             var response = await _httpClient.PostAsJsonAsync("hazardinfo-create", hazardInfo);
@@ -83,6 +92,19 @@ namespace TwoWeeksReady.Admin.Data
             else
             {
                 throw new Exception("Error saving hazard info");
+            }
+        }
+
+        public async Task<HazardHunt> CreateHazardHunt(HazardHunt hazardHunt)
+        {
+            var response = await _httpClient.PostAsJsonAsync("hazardhunt-create", hazardHunt);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<HazardHunt>();
+            }
+            else
+            {
+                throw new Exception("Error saving hazard hunt");
             }
         }
     }

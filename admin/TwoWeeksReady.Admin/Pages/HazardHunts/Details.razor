@@ -1,18 +1,90 @@
 ﻿@page "/HazardHunts/{id}"
+@page "/HazardHunts/new"
 @attribute [Authorize(Roles = "admin")]
+
+@using TinyMCE.Blazor
+@using System.IO;
+@using System.Linq;
 
 @inject IRepository repository
 @inject IJSRuntime JS
+@inject Microsoft.Extensions.Configuration.IConfiguration configuration 
+@inject ClientImageService clientImages
 
-<h3>Details</h3>
-Hazard Name:
-<input type="text" @bind="@Hazard.Name" />
-<br />
-Short Description:
-<input type="text" @bind="@Hazard.Description" />
-<span class="btn btn-secondary float-right" style="cursor: pointer" @onclick="@Save">Save</span>
+@{ 
+    var tinyMCEApiKey = configuration["TinyMCEApiKey"];
+}
+
+@if(Hazard == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h3>Details</h3>
+    <EditForm Model="@Hazard">
+        <div class="form-group">
+            <label for="name">Hazard Name</label>
+            <input type="text" class="form-control" name="name" @bind="@Hazard.Name">
+        </div>
+        <div class="form-group">
+            <label for="description">Short Description:</label>
+            <textarea class="form-control" name="description" @bind="@Hazard.Description" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="iconUrl">Icon Url</label>
+            
+            <InputSelect id="iconUrl" class="form-control" @bind-Value="Hazard.IconUrl">
+                @foreach(var image in clientImages.Images)
+                {
+                    <option value="@image.RelativePath">@image.RelativePath</option>
+                }
+            </InputSelect>
+            <img src="@clientImages.ToAbsolutePath(Hazard.IconUrl)"/>
+
+        </div>
+        <div class="form-group">
+            <label for="mediaUrl">Media Url</label>
+            <InputSelect id="mediaUrl" class="form-control" @bind-Value="Hazard.MediaUrl">
+                @foreach(var image in clientImages.Images)
+                {
+                    <option value="@image.RelativePath">@image.RelativePath</option>
+                }
+            </InputSelect>
+            <img src="@clientImages.ToAbsolutePath(Hazard.MediaUrl)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="beforeSafetyDetails">Before Safety Details</label>
+            <Editor Id="beforeSafetyDetails" Conf="@EditorConfig" ApiKey="@tinyMCEApiKey" @bind-Value="@Hazard.BeforeSafetyDetails" />
+        </div>
+
+        <div class="form-group">
+            <label for="duringSafetyDetails">During Safety Details</label>
+            <Editor Id="duringSafetyDetails" Conf="@EditorConfig" ApiKey="@tinyMCEApiKey" @bind-Value="@Hazard.DuringSafetyDetails" />
+        </div>
+
+        <div class="form-group">
+            <label for="afterSafetyDetails">After Safety Details</label>
+            <Editor Id="afterSafetyDetails" Conf="@EditorConfig" ApiKey="@tinyMCEApiKey" @bind-Value="@Hazard.AfterSafetyDetails" />
+        </div>
+
+
+        <div class="form-group">
+            <label for="externalLinks">External Links (One link per line)</label>
+            <textarea rows="6" class="form-control" name="externalLinks" @bind="@ExternalLinks"></textarea>
+        </div>
+
+        <button type="button" class="btn btn-primary" @onclick="@Save">Submit</button>
+    </EditForm>
+}
 
 @code {
+    public Dictionary<string, object> EditorConfig = new Dictionary<string, object>
+    {
+        { "plugins", "image" },
+        { "toolbar", "image" },
+    };
 
     [Parameter]
     public string Id { get; set; }
@@ -22,19 +94,47 @@ Short Description:
 
     private HazardHunt Hazard { get; set; }
 
+    private string ExternalLinks
+    {
+        get
+        {
+            return string.Join(Environment.NewLine, Hazard?.ExternalLinks ?? new string[0]);
+        }
+        set
+        {
+            var links = value.Split(new string[] { "\n", Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s));
+            Hazard.ExternalLinks = links.ToArray();
+        }
+    }
+      
 
     protected override async Task OnInitializedAsync()
     {
-        Hazard = await repository.GetHazardHuntById(Id);
+        if (string.IsNullOrEmpty(Id))
+        {
+            Hazard = new HazardHunt();
+        }
+        else
+        {
+            Hazard = await repository.GetHazardHuntById(Id);
+        }
+        EditorConfig["image_list"] = clientImages.Images.Select(i => new { title = i.RelativePath, value = i.AbsolutePath }).ToArray();
     }
-
-
+        
     public async Task Save()
     {
-        await repository.SaveHazardHunt(Hazard);
-        await OnSave.InvokeAsync(Hazard);
+        if (string.IsNullOrEmpty(Hazard.Id))
+        {
+            Hazard = await repository.CreateHazardHunt(Hazard);
+        }
+        else
+        {
+            Hazard = await repository.SaveHazardHunt(Hazard);
+        }
 
-        await JS.InvokeVoidAsync("alert", new object[] { "Hazard Hunt Saved" });
+        //await OnSave.InvokeAsync(Hazard);
+
+        await JS.InvokeVoidAsync("alert", new object[] { "Hazard Info Saved" });
 
     }
 }
