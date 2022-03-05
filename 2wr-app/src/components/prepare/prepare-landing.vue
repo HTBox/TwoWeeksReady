@@ -26,7 +26,7 @@
           </v-card-text>            
         </v-card>
         <v-card
-          to="/prepare/familyplan"
+          to="/prepare/makeaplan"
           color="primary"
           class="my-4"
           ripple
