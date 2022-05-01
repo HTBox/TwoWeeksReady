@@ -29,3 +29,21 @@ For many years, we’ve been talking about the importance of being prepared for 
 **Use this application as a means to prepare to become two weeks ready.**
 
 For additional details, questions, etc.  You can reach out out to Pascal @schuback or Richard @richcampbell on twitter and/or join our hackathon dev channel on slack (https://join.slack.com/share/enQtMzE4MjQ4MTUzMzM2Ny0yNWE1OGJlMGIwNDJmMTI5MTEyYTVmMDViNzBmMThjYzkyOTk3ZDQwNTgyZGU1YjI3ZTA3ZmEyZjU5MDU1MGRk). (LINK posted 3/5 and expires 14 days after)
+
+## Getting Started
+This project is configured to work with DevContainers/Codespaces to get developers up and running as quickly as possible. For DevContainers, ll you need is [Docker][2] installed and you should be good to go! For Codespaces, you will need a GitHub account wiht Codespaces enabled.
+
+To see a full demo on how to setup your DevContainer/Codespaces environment, check out [this video][1] from @davidwesst where he walks through setting up HTBox/TwoWeeksReady, executing the various development tasks, and provides an overview about DevContainers and Codespaces.
+
+To setup your own development environment from scratch or to install the dependendies locally, refer to the files [`.devcontainer/devcontainer.json`](https://github.com/HTBox/TwoWeeksReady/blob/main/.devcontainer/devcontainer.json) and [`.devcontainer/Dockerfile`](https://github.com/HTBox/TwoWeeksReady/blob/main/.devcontainer/devcontainer.json) to understand what tools are required.
+
+### Resources
+- [Tutorial Video from @davidwesst][1]
+- [Docker Desktop][2]
+- [Developing with VSCode and DevContainers][3]
+- [Developing with VSCode and GitHub Codespaces][4]
+
+[1]: https://www.youtube.com/watch?v=rYfsNBODfZc
+[2]: https://www.docker.com/products/personal/
+[3]: https://code.visualstudio.com/docs/remote/containers#_quick-start-try-a-development-container
+[4]: https://code.visualstudio.com/docs/remote/codespaces
