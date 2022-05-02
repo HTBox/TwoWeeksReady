@@ -31,7 +31,7 @@ For many years, we’ve been talking about the importance of being prepared for 
 For additional details, questions, etc.  You can reach out out to Pascal @schuback or Richard @richcampbell on twitter and/or join our hackathon dev channel on slack (https://join.slack.com/share/enQtMzE4MjQ4MTUzMzM2Ny0yNWE1OGJlMGIwNDJmMTI5MTEyYTVmMDViNzBmMThjYzkyOTk3ZDQwNTgyZGU1YjI3ZTA3ZmEyZjU5MDU1MGRk). (LINK posted 3/5 and expires 14 days after)
 
 ## Getting Started
-This project is configured to work with DevContainers/Codespaces to get developers up and running as quickly as possible. For DevContainers, ll you need is [Docker][2] installed and you should be good to go! For Codespaces, you will need a GitHub account wiht Codespaces enabled.
+This project is configured to work with DevContainers/Codespaces to get developers up and running as quickly as possible. For DevContainers, all you need is [Docker][2] installed and you should be good to go! For Codespaces, you will need a GitHub account wiht Codespaces enabled.
 
 To see a full demo on how to setup your DevContainer/Codespaces environment, check out [this video][1] from @davidwesst where he walks through setting up HTBox/TwoWeeksReady, executing the various development tasks, and provides an overview about DevContainers and Codespaces.
 
