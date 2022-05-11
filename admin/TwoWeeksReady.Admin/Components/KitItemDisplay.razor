@@ -55,7 +55,7 @@
     public async Task Save()
     {
         IsEditMode = false;
-        await repository.SaveBaseKitItem(Item);
+        @* await repository.SaveBaseKitItem(Item); *@
         await OnSave.InvokeAsync(Item);
 
     }

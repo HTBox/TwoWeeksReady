@@ -20,9 +20,10 @@ namespace TwoWeeksReady.Admin.Data
             _tokenProvider = tokenProvider;
             this._httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokenProvider.AccessToken);
         }
-        public Task<IEnumerable<BaseKit>> GetAllBaseKits()
+
+        public async Task<IEnumerable<BaseKit>> GetAllBaseKits()
         {
-            throw new NotImplementedException();
+            return await _httpClient.GetFromJsonAsync<IList<BaseKit>>("basekits");
         }
 
         public async Task<IEnumerable<HazardHunt>> GetAllHazardHunts()
@@ -35,9 +36,9 @@ namespace TwoWeeksReady.Admin.Data
             return await _httpClient.GetFromJsonAsync<IList<HazardInfo>>("hazardinfo-list");
         }
 
-        public Task<BaseKit> GetBaseKitById(string id)
+        public async Task<BaseKit> GetBaseKitById(string id)
         {
-            throw new NotImplementedException();
+            return await _httpClient.GetFromJsonAsync<BaseKit>($"basekit-by-id/{id}");
         }
 
         public async Task<HazardHunt> GetHazardHuntById(string id)
@@ -50,9 +51,17 @@ namespace TwoWeeksReady.Admin.Data
             return await _httpClient.GetFromJsonAsync<HazardInfo>($"hazardinfo-by-id/{id}");
         }
 
-        public Task<BaseKitItem> SaveBaseKitItem(BaseKitItem kit)
+        public async Task<BaseKit> SaveBaseKit(BaseKit kit)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.PutAsJsonAsync("basekits-update", kit);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<BaseKit>();
+            }
+            else
+            {
+                throw new Exception("Error saving base kit");
+            }
         }
 
         public async Task<HazardHunt> SaveHazardHunt(HazardHunt hazardHunt)
@@ -74,14 +83,26 @@ namespace TwoWeeksReady.Admin.Data
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadFromJsonAsync<HazardInfo>();
-            } 
+            }
             else
             {
                 throw new Exception("Error saving hazard info");
             }
         }
 
-       
+        public async Task<BaseKit> CreateBaseKit(BaseKit kit)
+        {
+            var response = await _httpClient.PostAsJsonAsync("basekit-create", kit);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<BaseKit>();
+            }
+            else
+            {
+                throw new Exception("Error saving base kit");
+            }
+        }
+
         public async Task<HazardInfo> CreateHazardInfo(HazardInfo hazardInfo)
         {
             var response = await _httpClient.PostAsJsonAsync("hazardinfo-create", hazardInfo);
@@ -105,6 +126,45 @@ namespace TwoWeeksReady.Admin.Data
             else
             {
                 throw new Exception("Error saving hazard hunt");
+            }
+        }
+
+        public async Task<bool> DeleteBaseKit(string id)
+        {
+            var response = await _httpClient.DeleteAsync($"basekit-delete/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception("Error deleting base kit");
+            }
+        }
+
+        public async Task<bool> DeleteHazardHunt(string id)
+        {
+            var response = await _httpClient.DeleteAsync($"hazardhunt-delete/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception("Error deleting hazard hunt");
+            }
+        }
+
+        public async Task<bool> DeleteHazardInfo(string id)
+        {
+            var response = await _httpClient.DeleteAsync($"hazardinfo-delete/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception("Error deleting hazard info");
             }
         }
     }
