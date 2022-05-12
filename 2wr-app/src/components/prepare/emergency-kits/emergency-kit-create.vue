@@ -3,29 +3,58 @@
     <v-app-bar app flat dense fixed  color="background">
       <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
       <v-icon class="mr-2">mdi-medical-bag</v-icon>
-      <v-toolbar-title>Emergency Kit Create</v-toolbar-title>
+      <v-toolbar-title>Build a Kit</v-toolbar-title>
     </v-app-bar>
+        <v-card
+      class="mx-auto"
+      max-width="344"
+      outlined
+    >
+      <v-list-item>
+         <v-list-item-avatar
+               tile
+            size="80"
+        >
+          <v-img contain :src="baseKit.iconUrl" alt="" />
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title class="text-h5 mb-1" v-text="baseKit.name">
+            
+          </v-list-item-title>
+        </v-list-item-content>
+
+      </v-list-item>
+
+    </v-card>
     <v-form v-model="valid">
       <v-container>
         <v-row>
           <v-col cols="12">
-            <v-select label="Create from Base Kit Type" v-model="selectedBaseKit" 
-            :items="baseKits"   return-object item-text="name"/>
+            <v-text-field 
+                label="Kit name" 
+                v-model="name" 
+                required  
+                dense
+                outlined
+                :placeholder="`My ${baseKit.name}`"
+                :rules="kitNameRules" 
+                :counter="120"/>
           </v-col>
         </v-row>
-        <v-row v-if="selectedBaseKit">
-          <v-col cols="5">
-              <v-text-field type="number" label="People" v-model="numberOfPeople" />
-          </v-col>
-          <v-col cols="2">
-              <span>+</span>
+        <v-row>
+          <v-col cols="4">
+              <v-text-field outlined dense type="number" label="Adults" v-model="numberOfAdults" />
           </v-col>
           
-          <v-col cols="5">
-              <v-text-field type="number" label="Pets" v-model="numberOfPets" />
+          <v-col cols="4">
+              <v-text-field outlined dense type="number" label="Children" v-model="numberOfChildren" />
+          </v-col>
+          
+          <v-col cols="4">
+              <v-text-field outlined dense type="number" label="Pets" v-model="numberOfPets" />
           </v-col>
         </v-row>
-        <v-row v-if="selectedBaseKit">
+        <v-row>
           <v-col cols="12">
              <v-btn
                         color="primary"
@@ -37,144 +66,60 @@
                       </v-btn>
           </v-col>
         </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-text-field 
-                label="Kit name" 
-                v-model="name" 
-                required  
-                :rules="kitNameRules" 
-                :counter="120"/>
-          </v-col>
-        </v-row>
+              </v-container>
+    </v-form>
 
-        <v-row>
-          <v-col cols="9" lg="3">
-            Color: <v-color-picker hide-inputs v-model="color" flat></v-color-picker>
-          </v-col>
-          <v-col cols="3">
-            <v-select label="Icon" v-model="icon" :items="icons" required :rules="iconRules">
-              <template v-slot:item="{ item }">
-                <v-divider class="mb-2"></v-divider>
-                <v-list-item disabled>
-                  <v-list-item-avatar :color="color">
-                    <v-icon color="white">
-                      {{ item.value }}
-                    </v-icon>
-                  </v-list-item-avatar>
-                </v-list-item>
-              </template>
-              <template v-slot:selection="{ item }">
-                <v-list-item-avatar :color="color">
-                  <v-icon color="white">
-                    {{ item.value }}
-                  </v-icon>
-                </v-list-item-avatar>
-              </template>
-            </v-select>
-          </v-col>
-        </v-row>
+       <v-list>
+         <v-list-item 
+          v-for="item in kitItems"
+          :key="item.id">
+            <v-row>
+              <v-col cols="auto">
+                <v-list-item-action class="mr-0">
+                  <v-checkbox
+                    v-model="item.isAvailableInKit"
+                    color="primary"
+                  ></v-checkbox>
+                </v-list-item-action>
+              </v-col>
+              <v-col cols="4">
+                <v-list-item-action class="mr-0">
+                <v-text-field type="number" 
+                              outlined
+                              dense
+                              v-model="item.quantity"
+                ></v-text-field>
+                
+              </v-list-item-action>
+              </v-col>
+              <v-col cols="auto">
+                <v-list-item-content>
+                <v-list-item-title>
+                  <v-text-field type="text" 
+                              outlined
+                              dense
+                              v-model="item.name"
+                ></v-text-field>
+                </v-list-item-title>
+                </v-list-item-content>
+              </v-col>
+            </v-row>
+                
 
-        <v-row>
-          <v-col cols="12">
-            <v-data-table
-              :headers="headers"
-              :items="kitItems"
-              class="elevation-1"
-            >
-              <template v-slot:top>
-                <v-toolbar flat>
-                  <v-toolbar-title>Kit Items</v-toolbar-title>
-                  <v-divider class="mx-4" inset vertical></v-divider>
-                  <v-spacer></v-spacer>
-                  <v-dialog v-model="dialog" max-width="500px">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        color="primary"
-                        dark
-                        class="mb-2"
-                        v-bind="attrs"
-                        v-on="on"
-                      >
-                        Add Kit Item
-                      </v-btn>
-                    </template>
-                    <v-card>
-                      <v-card-title>
-                        <span class="headline">{{ formTitle }}</span>
-                      </v-card-title>
+              
 
-                      <v-card-text>
-                        <v-container>
-                          <v-row>
-                            <v-col cols="12" sm="6" md="4">
-                              <v-text-field
-                                v-model="editedItem.name"
-                                label="Item Name"
-                                :rules="kitItemNameRules"
-                                :counter="120"
-                              ></v-text-field>
-                            </v-col>
-                            <v-col cols="12" sm="6" md="4">
-                              <v-text-field
-                                v-model="editedItem.description"
-                                label="Description"
-                              ></v-text-field>
-                            </v-col>
-                            <v-col cols="12" sm="6" md="4">
-                              <v-text-field
-                                v-model="editedItem.quantity"
-                                type="number"
-                                label="Quantity"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-card-text>
+  
+         </v-list-item>
 
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" text @click="close">
-                          Cancel
-                        </v-btn>
-                        <v-btn color="blue darken-1" text @click="save" :disabled="editedItem.name.length == 0">
-                          Save
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
-                  <v-dialog v-model="dialogDelete" max-width="500px">
-                    <v-card>
-                      <v-card-title class="headline"
-                        >Are you sure you want to delete this
-                        item?</v-card-title
-                      >
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" text @click="closeDelete"
-                          >Cancel</v-btn
-                        >
-                        <v-btn
-                          color="blue darken-1"
-                          text
-                          @click="deleteItemConfirm"
-                          >OK</v-btn
-                        >
-                        <v-spacer></v-spacer>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
-                </v-toolbar>
-              </template>
-              <template v-slot:item.actions="{ item }">
-                <v-icon small class="mr-2" @click="editKitItem(item)">
-                  mdi-pencil
-                </v-icon>
-                <v-icon small @click="deleteKitItem(item)"> mdi-delete </v-icon>
-              </template>
-            </v-data-table>
-          </v-col>
-        </v-row>
+       </v-list>
+        <v-btn
+                  color="primary"
+                  dark
+                  class="mb-2"
+                  @click="addNewItem"
+                >
+                  Add New Item
+                </v-btn>
 
         <v-row>
           <v-col cols="12">
@@ -195,22 +140,28 @@
             </v-btn>
           </v-col>
         </v-row>
-      </v-container>
-    </v-form>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+
   </v-container>
 </template>
 
 <script>
 import { maxLength, required } from '@/rules';
 import { mapState } from "vuex";
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   name: "EmergencyKitCreate",
   data: () => ({
     valid: false,
-    selectedBaseKit: null,
-    numberOfPeople: 1,
-    numberOfPets: 0,
+    loading: false,
+    baseKitId: "",
+    numberOfAdults: 2,
+    numberOfChildren: 1,
+    numberOfPets: 1,
     dialog: false,
     dialogDelete: false,
     headers: [
@@ -224,61 +175,25 @@ export default {
       { text: "Actions", value: "actions", sortable: false },
     ],
     name: "",
-    color: "#0000FF",
-    icon: "",
     items: "",
     kitItems: [],
-    editedIndex: -1,
-    editedItem: {
-      name: "",
-      description: "",
-      quantity: 0,
-    },
-    defaultItem: {
-      name: "My Kit Item",
-      description: "A description of my kit item",
-      quantity: 1,
-    },
     kitNameRules: [required(), maxLength(120)],
-    iconRules: [required()],
     kitItemNameRules: [required(), maxLength(120)]
   }),
   computed: mapState({
     isSaving: (state) => state.emergencyKitStore.isSaving,
     saveErrorMessage: (state) => state.emergencyKitStore.saveErrorMessage,
-    icons: () => {
-      const materialIcons = [
-        "mdi-alarm-light",
-        "mdi-allergy",
-        "mdi-ambulance",
-        "mdi-bacteria",
-        "mdi-bandage",
-        "mdi-biohazard",
-        "mdi-bottle-tonic-skull",
-        "mdi-beehive-outline",
-        "mdi-car-emergency",
-        "mdi-campfire",
-        "mdi-flash",
-        "mdi-fire-extinguisher",
-        "mdi-hospital-building",
-        "mdi-skull-crossbones",
-        "mdi-tank",
-      ];
-
-      return materialIcons.map((i) => {
-        return {
-          value: i,
-          text: i,
-        };
-      });
-    },
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },
-    baseKits: (state) => state.baseKitStore.list,
+    baseKit(state){
+      return state.baseKitStore.list.find((kit) => kit.id === this.baseKitId);
+    } 
   }),
-  created() {
-    this.$store.dispatch(`baseKitStore/getBaseKitListAsync`);
+  async created() {
+    this.baseKitId = this.$route.params.baseKitId;
+    await this.$store.dispatch(`baseKitStore/getBaseKitListAsync`);
+    this.loading = false;
   },
   methods: {
     goBack() {
@@ -287,22 +202,58 @@ export default {
     removeKitItem(index) {
       this.kitItems.splice(index, 1);
     },
+    addNewItem() {
+      this.kitItems.push({
+        id: uuidv4(),
+        baseKitItemId: null,
+        name: "New Item",
+        isAvailableInKit: false,
+        description: null,
+        quantity: 0,
+        quantityUnit: null
+      });
+    },
    createFromBaseKit() {
-     if (this.selectedBaseKit && 
-         this.selectedBaseKit.items && 
-         this.selectedBaseKit.items.length > 0) {
-          this.icon = this.selectedBaseKit.icon;
-        
-          const totalPersonCount = Math.max(1, (+this.numberOfPeople + +this.numberOfPets));
-          this.kitItems = this.selectedBaseKit.items.map(item => {
+     if (this.baseKit && 
+         this.baseKit.items && 
+         this.baseKit.items.length > 0) {
+          
+          
+          let newKitItems = this.baseKit.items.map(item => {
             return {
+              id: uuidv4(),
+              baseKitItemId: item.id,
               name: item.name,
+              isAvailableInKit: false,
               description: item.description,
-              quantity: item.quantityPerCount * totalPersonCount,
+              quantity: (item.quantityPerAdult * this.numberOfAdults) 
+                      + (item.quantityPerChild * this.numberOfChildren) 
+                      + (item.quantityPerPet * this.numberOfPets),
               quantityUnit: item.quantityUnit,
-
             }
           });
+          newKitItems = newKitItems.filter(i => i.quantity > 0);
+
+          this.kitItems = this.kitItems.map(exitingItem => {
+            const newKitItem = newKitItems.find(newItem => newItem.baseKitItemId === exitingItem.baseKitItemId);
+            if (newKitItem)
+            {
+              return {
+                id: exitingItem.id,
+                baseKitItemId: exitingItem.baseKitItemId,
+                name: exitingItem.name,
+                isAvailableInKit: exitingItem.isInKit && (newKitItem.quantity === exitingItem.quantity),
+                description: exitingItem.description,
+                quantity: newKitItem.quantity,
+                quantityUnit: exitingItem.quantityUnit,
+              }
+            }
+            else {
+              return exitingItem;
+            }
+          });
+
+          this.kitItems.push(...newKitItems.filter(newItem => this.kitItems.findIndex(exitingItem => exitingItem.baseKitItemId === newItem.baseKitItemId) === -1));
        
      }
    },
@@ -310,9 +261,9 @@ export default {
       const success = await this.$store.dispatch(
         `emergencyKitStore/createEmergencyKitAsync`,
         {
+          id: uuidv4(),
           name: this.name,
-          color: this.color,
-          icon: this.icon,
+          baseKitId: this.baseKitId,
           kitItems: this.kitItems,
         }
       );

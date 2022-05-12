@@ -30,9 +30,21 @@
   
 
       </v-list-item>
-          <v-card-text>
-            {{ baseKit.description }}
-        </v-card-text>
+      <v-card-text>
+        {{ baseKit.description }}
+      </v-card-text>
+      <v-card-actions>
+        <v-btn
+          outlined
+          text
+          :to="{ name: 'emergencykitcreate'} "
+        >
+        <v-icon left>
+          mdi-plus
+        </v-icon>
+          Add Kit
+        </v-btn>
+      </v-card-actions>
 
     </v-card>
     <v-list>
