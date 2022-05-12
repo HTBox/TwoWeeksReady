@@ -175,8 +175,7 @@ namespace TwoWeeksReady.EmergencyKits
                 UserId = authorizationResult.User.Identity.Name,
                 Name = bki.Name,
                 Description = bki.Description,
-                Photo = bki.Photo,
-                Quantity = bki.QuantityPerCount * request.Count,
+                Quantity = bki.QuantityPerAdult * request.Count,
                 QuantityUnit = bki.QuantityUnit,
                 IsAvailableInKit = false
             }));        
