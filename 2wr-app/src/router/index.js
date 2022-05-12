@@ -54,17 +54,17 @@ const routes = [{
     }
   },
   {
-    path: '/prepare/emergencykits',
-    name: 'emergencykits',
-    component: EmergencyKitListing,
+    path: '/prepare/emergencykits/create',
+    name: 'emergencykitcreate',
+    component: EmergencyKitCreatePage,
     meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/prepare/emergencykits/create',
-    name: 'emergencykitcreate',
-    component: EmergencyKitCreatePage,
+    path: '/prepare/emergencykits/:baseKitId',
+    name: 'emergencykits',
+    component: EmergencyKitListing,
     meta: {
       requiresAuth: true
     }

@@ -25,7 +25,7 @@
           :key="baseKit.id"
           cols="6"
         >
-          <v-card>
+          <v-card @click="goToKitListing(baseKit.id)">
             <v-img
               contain
               :src="baseKit.iconUrl"
@@ -63,6 +63,9 @@ export default {
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
     },
+    goToKitListing(baseKitId){
+       this.$router.push(`/prepare/emergencykits/${baseKitId}`);
+    }
   },
 };
 </script>

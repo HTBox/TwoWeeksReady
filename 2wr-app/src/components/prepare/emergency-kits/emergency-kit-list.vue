@@ -2,62 +2,56 @@
   <v-container class="py-0">
     <v-app-bar app flat dense fixed color="background">
       <v-icon class="mr-2" v-on:click="goBack()">mdi-arrow-left</v-icon>
-      <v-icon class="mr-2">mdi-medical-bag</v-icon>
-      <v-toolbar-title>Emergency Kit List</v-toolbar-title>
-      <v-fab-transition>
-        <v-btn
-          color="green"
-          dark
-          absolute
-          bottom
-          right
-          fab
-          to="/prepare/emergencykits/create"
-        >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </v-fab-transition>
+      <v-toolbar-title>Build a Kit</v-toolbar-title>
+      <v-progress-linear
+        v-if="loading"
+        indeterminate
+        color="green"
+      ></v-progress-linear>
     </v-app-bar>
-    <v-data-iterator
-      :items="listing"
-      disable-pagination
-      disable-sort
-      hide-default-footer
-      :search="search"
+    
+    <v-card
+      class="mx-auto"
+      max-width="344"
+      outlined
     >
-      <template v-slot:header>
-        <v-text-field
-          v-model="search"
-          clearable
-          label="Search"
-          append-icon="mdi-magnify"
+      <v-list-item>
+         <v-list-item-avatar
+               tile
+            size="80"
         >
-        </v-text-field>
-      </template>
-      <template v-slot:default="props">
-        <v-card
-          v-for="item in props.items"
-          :key="item.id"
-          :color="item.color"
-          class="my-4"
-          ripple
-          @click="editKit(item.id)"
-        >
-          <v-card-title class="white--text">
-            <v-col class="col-9">
-              <v-icon class="mr-2 white--text">{{ item.icon }}</v-icon>
-              {{ item.name }}
-            </v-col>
-            <v-col class="text-right">
-              <v-icon class="mr-2 white--text" @click="deleteKit(item.id)"
-                >mdi-trash-can-outline</v-icon
-              >
-            </v-col>
-          </v-card-title>
-        </v-card>
-      </template>
-    </v-data-iterator>
-  </v-container>
+          <v-img contain :src="baseKit.iconUrl" alt="" />
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title class="text-h5 mb-1" v-text="baseKit.name">
+            
+          </v-list-item-title>
+        </v-list-item-content>
+  
+
+      </v-list-item>
+          <v-card-text>
+            {{ baseKit.description }}
+        </v-card-text>
+
+    </v-card>
+    <v-list>
+      <v-list-item 
+         v-for="kit in kits"
+        :key="kit.id" :to="{ name: 'emergencykitedit',
+                             params: { id: kit.id} }">
+          <v-list-item-content>
+            <v-list-item-title v-text="kit.name"></v-list-item-title>
+          </v-list-item-content>
+      </v-list-item>
+      <v-list-item v-if="!loading && kits.length === 0">
+          <v-list-item-content>
+            <v-list-item-title>No Kits Defined</v-list-item-title>
+          </v-list-item-content>
+      </v-list-item>
+    </v-list>
+
+    </v-container>
 </template>
 
 <script>
@@ -67,18 +61,24 @@ export default {
   name: "EmergencyKitList",
   data: () => ({
     search: "",
-    headers: [
-      {
-        text: "Kit name",
-        value: "name",
-      },
-    ],
+    baseKitId: "",
+    loading: true,
   }),
   computed: mapState({
-    listing: (state) => state.emergencyKitStore.list,
+    kits: (state) => state.emergencyKitStore.list,
+    baseKit(state){
+      return state.baseKitStore.list.find((kit) => kit.id === this.baseKitId);
+    } 
   }),
-  created() {
-    this.$store.dispatch(`emergencyKitStore/getEmergencyKitListAsync`);
+  async created() {
+    this.baseKitId = this.$route.params.baseKitId;
+    const baseKitPromise = this.$store.dispatch(`baseKitStore/getBaseKitListAsync`);
+    const kitsPromise = this.$store.dispatch(`emergencyKitStore/getEmergencyKitListAsync`,
+      this.baseKitId);
+
+    await Promise.all([baseKitPromise, kitsPromise]);
+    
+    this.loading = false;
   },
   methods: {
     goBack() {
