@@ -6,7 +6,7 @@ import Welcome from '../views/welcome/welcome.vue';
 import MakeAPlan from '../views/prepare/make-a-plan/make-a-plan.vue';
 import EmergencyKitBuildPage from '../views/prepare/emergency-kits/emergency-kit-build.vue';
 import EmergencyKitListing from '../views/prepare/emergency-kits/emergency-kit-listing.vue';
-import EmergencyKitCreatePage from '../views/prepare/emergency-kits/emergency-kit-create.vue';
+import EmergencyKitDetailsPage from '../views/prepare/emergency-kits/emergency-kit-details.vue';
 import HazardHuntListing from '../views/prepare/hazards/hazard-hunt-list-view.vue';
 import HazardInfoListing from '../views/prepare/hazards/hazard-info-list-view.vue';
 import HazardInfo from '../views/prepare/hazards/hazard-info-view.vue';
@@ -55,7 +55,7 @@ const routes = [{
   {
     path: '/prepare/emergencykits/:baseKitId/create',
     name: 'emergencykitcreate',
-    component: EmergencyKitCreatePage,
+    component: EmergencyKitDetailsPage,
     meta: {
       requiresAuth: true
     }
@@ -71,7 +71,7 @@ const routes = [{
   {
     path: '/prepare/emergencykits/:baseKitId/edit/:id',
     name: 'emergencykitedit',
-    component: EmergencyKitCreatePage,
+    component: EmergencyKitDetailsPage,
     meta: {
       requiresAuth: true
     }

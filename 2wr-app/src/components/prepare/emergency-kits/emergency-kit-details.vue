@@ -154,7 +154,7 @@ import { mapState } from "vuex";
 import { v4 as uuidv4 } from 'uuid';
 
 export default {
-  name: "EmergencyKitCreate",
+  name: "EmergencyKitDetails",
   data: () => ({
     valid: false,
     id: null,
