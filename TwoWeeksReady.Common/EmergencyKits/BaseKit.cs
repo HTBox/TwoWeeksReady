@@ -11,6 +11,9 @@ namespace TwoWeeksReady.Common.EmergencyKits
 		[JsonProperty(PropertyName = "name")]
 		public string Name { get; set; }
 
+		[JsonProperty(PropertyName = "description")]
+		public string Description { get; set; }
+
 		[JsonProperty(PropertyName = "iconUrl")]
 		public string IconUrl { get; set; } 
 
