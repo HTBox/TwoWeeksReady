@@ -134,9 +134,9 @@
               :disabled="!valid || isSaving"
               :loading="isSaving"
               class="mr-4"
-              @click="createKit"
+              @click="isInEditMode ? saveKit() : createKit()"
             >
-              create
+              {{ isInEditMode ? 'Save' : 'Create'}}
             </v-btn>
           </v-col>
         </v-row>
@@ -157,6 +157,8 @@ export default {
   name: "EmergencyKitCreate",
   data: () => ({
     valid: false,
+    id: null,
+    isInEditMode: false,
     loading: false,
     baseKitId: "",
     numberOfAdults: 2,
@@ -183,16 +185,41 @@ export default {
   computed: mapState({
     isSaving: (state) => state.emergencyKitStore.isSaving,
     saveErrorMessage: (state) => state.emergencyKitStore.saveErrorMessage,
-    formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
-    },
     baseKit(state){
       return state.baseKitStore.list.find((kit) => kit.id === this.baseKitId);
     } 
   }),
   async created() {
     this.baseKitId = this.$route.params.baseKitId;
-    await this.$store.dispatch(`baseKitStore/getBaseKitListAsync`);
+    const loadingPromises = [];
+    loadingPromises.push(this.$store.dispatch(`baseKitStore/getBaseKitListAsync`));
+    if (this.$route.params.id)
+    {
+      this.isInEditMode = true;
+      const kitPromise = this.$store.dispatch(
+        `emergencyKitStore/getEmergencyKitAsync`,
+        this.$route.params.id
+      );
+      loadingPromises.push(kitPromise);
+      kitPromise.then(() => {
+        const kit = this.$store.state.emergencyKitStore.item;
+        this.name = kit.name;
+        this.id = kit.id;
+
+        this.kitItems = kit.kitItems.map(item => {
+          return {
+                id: item.id,
+                baseKitItemId: item.baseKitItemId,
+                name: item.name,
+                isAvailableInKit: item.isAvailableInKit,
+                description: item.description,
+                quantity: item.quantity,
+                quantityUnit: item.quantityUnit,
+          }
+        });
+      });
+    }
+    await Promise.all(loadingPromises);
     this.loading = false;
   },
   methods: {
@@ -242,7 +269,7 @@ export default {
                 id: exitingItem.id,
                 baseKitItemId: exitingItem.baseKitItemId,
                 name: exitingItem.name,
-                isAvailableInKit: exitingItem.isInKit && (newKitItem.quantity === exitingItem.quantity),
+                isAvailableInKit: exitingItem.isAvailableInKit && (newKitItem.quantity === exitingItem.quantity),
                 description: exitingItem.description,
                 quantity: newKitItem.quantity,
                 quantityUnit: exitingItem.quantityUnit,
@@ -271,46 +298,19 @@ export default {
         this.goBack();
       }
     },
-    editKitItem(item) {
-      this.editedIndex = this.kitItems.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-
-    deleteKitItem(item) {
-      this.editedIndex = this.kitItems.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
-    },
-
-    deleteItemConfirm() {
-      this.kitItems.splice(this.editedIndex, 1);
-      this.closeDelete();
-    },
-
-    close() {
-      this.dialog = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
-
-    closeDelete() {
-      this.dialogDelete = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
-
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.kitItems[this.editedIndex], this.editedItem);
-      } else {
-        this.kitItems.push(this.editedItem);
+    async saveKit() {
+      const success = await this.$store.dispatch(
+        `emergencyKitStore/saveEmergencyKitAsync`,
+        {
+          id: this.id,
+          name: this.name,
+          baseKitId: this.baseKitId,
+          kitItems: this.kitItems,
+        }
+      );
+      if (success) {
+        this.goBack();
       }
-      this.close();
     },
   },
 };
