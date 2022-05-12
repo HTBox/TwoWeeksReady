@@ -1,19 +1,21 @@
 ﻿@page "/Kits/{id}"
 @attribute [Authorize(Roles = "admin")]
 @inject IRepository repository
+@inject IJSRuntime JS
 
 @if (Kit != null)
 {
 	<h3>Kit Details :: @Kit.Name</h3>
 
-	<div class="card-deck">
+	<div class="card-columns">
 	 
 		@foreach (var item in Kit.Items) {
 			<KitItemDisplay Item="@item"></KitItemDisplay>
 		}
 
 	</div>
-
+	<button class="btn btn-primary" @onclick="AddKitItem">Add Item</button>
+	<button class="btn btn-primary" @onclick="SaveBaseKit">Save Kit</button>
 }
 else
 {
@@ -28,14 +30,27 @@ else
 
 	public BaseKit Kit { get; set; }
 
-	protected override async Task OnInitializedAsync()
+	public void AddKitItem()
 	{
-
-		Kit = await repository.GetBaseKitById(Id);
-
-		await base.OnInitializedAsync();
-
+		if (Kit != null && Kit.Items != null)
+		{
+			Kit.Items.Add(new BaseKitItem {Id = Guid.NewGuid().ToString()});
+		}
 	}
 
+	public async Task SaveBaseKit()
+	{
+		if (Kit != null)
+		{
+			Kit = await repository.SaveBaseKit(Kit);
+			await JS.InvokeVoidAsync("alert", new object[] { "Base Kit Saved" });
+		}
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		Kit = await repository.GetBaseKitById(Id);
+		await base.OnInitializedAsync();
+	}
 
 }
