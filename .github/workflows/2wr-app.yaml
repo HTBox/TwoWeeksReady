@@ -30,10 +30,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
       working-directory: ./2wr-app
-    - run: npx playwright install
+    - run: npx playwright install chromium --with-deps
       working-directory: ./2wr-app
     - name: Write sample env file for e2e tests
-      run: 'cp ./2wr-app/.env-sample ./2wr-app/.env'
+      run: 'cp ./2wr-app/.env-sample ./2wr-app/.env'    
     - run: npm run e2etest
       working-directory: ./2wr-app
     - name: Upload e2e Test Results
