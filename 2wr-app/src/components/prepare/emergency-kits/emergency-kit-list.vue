@@ -14,6 +14,7 @@
       class="mx-auto"
       max-width="344"
       outlined
+      v-if="baseKit"
     >
       <v-list-item>
          <v-list-item-avatar
