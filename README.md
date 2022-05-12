@@ -37,6 +37,11 @@ To see a full demo on how to setup your DevContainer/Codespaces environment, che
 
 To setup your own development environment from scratch or to install the dependendies locally, refer to the files [`.devcontainer/devcontainer.json`](https://github.com/HTBox/TwoWeeksReady/blob/main/.devcontainer/devcontainer.json) and [`.devcontainer/Dockerfile`](https://github.com/HTBox/TwoWeeksReady/blob/main/.devcontainer/devcontainer.json) to understand what tools are required.
 
+## Solution Architecture
+
+![Architecture of Two Weeks Ready](https://user-images.githubusercontent.com/2531875/168096742-0b29eee3-b3e1-4485-9d77-c095cb6a9f2e.png)
+
+
 ### Resources
 - [Tutorial Video from @davidwesst][1]
 - [Docker Desktop][2]
