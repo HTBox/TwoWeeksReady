@@ -42,7 +42,7 @@
         </v-card>
 
         <v-card
-          to="/prepare/emergencykits"
+          to="/prepare/emergencykits/build"
           color="primary"
           class="my-4"
           ripple

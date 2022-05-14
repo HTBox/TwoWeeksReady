@@ -7,6 +7,9 @@ namespace TwoWeeksReady.Common.EmergencyKits
 		[JsonProperty(PropertyName = "id")]
 		public string Id { get; set; }
 
+		[JsonProperty(PropertyName = "baseKitItemId")]
+		public string BaseKitItemId { get; set; }
+
 		[JsonProperty(PropertyName = "userId")]
 		public string UserId { get; set; }
 

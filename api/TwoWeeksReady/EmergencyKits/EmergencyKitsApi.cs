@@ -28,8 +28,9 @@ namespace TwoWeeksReady.EmergencyKits
 
         [FunctionName("emergencykits")]
         public async Task<IActionResult> GetKits(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "emergencykits/{baseKitId?}")]
             HttpRequest req,            
+            string baseKitId,
             [CosmosDB( databaseName: "2wr", collectionName: "emergencykits", ConnectionStringSetting = "CosmosDBConnection")]
             DocumentClient client,
             ILogger log)
@@ -44,14 +45,21 @@ namespace TwoWeeksReady.EmergencyKits
            
             log.LogInformation($"Getting list of emergency kits");         
             Uri collectionUri = UriFactory.CreateDocumentCollectionUri("2wr", "emergencykits");
-            var query = client.CreateDocumentQuery<Kit>(collectionUri, new FeedOptions{EnableCrossPartitionQuery = false})
-                                .Where(e => e.UserId == authorizationResult.User.Identity.Name)
-                                .AsDocumentQuery();
+            
+            var kitQuery = client.CreateDocumentQuery<Kit>(collectionUri, new FeedOptions { EnableCrossPartitionQuery = false })
+                                .Where(e => e.UserId == authorizationResult.User.Identity.Name);
+
+            if (!string.IsNullOrEmpty(baseKitId))
+            {
+                kitQuery = kitQuery.Where(e => e.BaseKitId == baseKitId);
+            }
+
+            var documentQuery = kitQuery.AsDocumentQuery();
 
             var emergencyKits = new List<Kit>();
-            while (query.HasMoreResults)
+            while (documentQuery.HasMoreResults)
             {
-                var result = await query.ExecuteNextAsync<Kit>();
+                var result = await documentQuery.ExecuteNextAsync<Kit>();
                 emergencyKits.AddRange(result);            
             }
 
@@ -175,8 +183,7 @@ namespace TwoWeeksReady.EmergencyKits
                 UserId = authorizationResult.User.Identity.Name,
                 Name = bki.Name,
                 Description = bki.Description,
-                Photo = bki.Photo,
-                Quantity = bki.QuantityPerCount * request.Count,
+                Quantity = bki.QuantityPerAdult * request.Count,
                 QuantityUnit = bki.QuantityUnit,
                 IsAvailableInKit = false
             }));        

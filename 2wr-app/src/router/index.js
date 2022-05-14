@@ -4,9 +4,9 @@ import VueRouter from 'vue-router';
 import Prepare from '../views/prepare/prepare.vue';
 import Welcome from '../views/welcome/welcome.vue';
 import MakeAPlan from '../views/prepare/make-a-plan/make-a-plan.vue';
+import EmergencyKitBuildPage from '../views/prepare/emergency-kits/emergency-kit-build.vue';
 import EmergencyKitListing from '../views/prepare/emergency-kits/emergency-kit-listing.vue';
-import EmergencyKitCreatePage from '../views/prepare/emergency-kits/emergency-kit-create.vue';
-import EmergencyKitEditPage from '../views/prepare/emergency-kits/emergency-kit-edit.vue';
+import EmergencyKitDetailsPage from '../views/prepare/emergency-kits/emergency-kit-details.vue';
 import HazardHuntListing from '../views/prepare/hazards/hazard-hunt-list-view.vue';
 import HazardInfoListing from '../views/prepare/hazards/hazard-info-list-view.vue';
 import HazardInfo from '../views/prepare/hazards/hazard-info-view.vue';
@@ -45,7 +45,23 @@ const routes = [{
     }
   },
   {
-    path: '/prepare/emergencykits',
+    path: '/prepare/emergencykits/build',
+    name: 'emergencykitsbuild',
+    component: EmergencyKitBuildPage,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/prepare/emergencykits/:baseKitId/create',
+    name: 'emergencykitcreate',
+    component: EmergencyKitDetailsPage,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/prepare/emergencykits/:baseKitId',
     name: 'emergencykits',
     component: EmergencyKitListing,
     meta: {
@@ -53,17 +69,9 @@ const routes = [{
     }
   },
   {
-    path: '/prepare/emergencykits/create',
-    name: 'emergencykitcreate',
-    component: EmergencyKitCreatePage,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/prepare/emergencykits/edit/:id',
+    path: '/prepare/emergencykits/:baseKitId/edit/:id',
     name: 'emergencykitedit',
-    component: EmergencyKitEditPage,
+    component: EmergencyKitDetailsPage,
     meta: {
       requiresAuth: true
     }
