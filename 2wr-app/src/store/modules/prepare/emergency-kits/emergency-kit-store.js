@@ -55,13 +55,13 @@ const emergencyKitStore = {
     },
   },
   actions: {
-    async getEmergencyKitListAsync({ commit, rootState }) {
+    async getEmergencyKitListAsync({ commit, rootState }, baseKitId) {
       commit("setBusy", null, { root: true });
       commit("setError", "", { root: true });
       
       try {
         if (rootState.globalStore.online) {
-          let response = await emergencyKitApi.getAll();
+          let response = await emergencyKitApi.getAllByBaseKitId(baseKitId);
           commit("SET_LIST", response.data);
           await localForage.setItem("getEmergencyKitListAsync", response.data);
         } else {

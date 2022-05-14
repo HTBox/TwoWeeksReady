@@ -1,8 +1,8 @@
 import baseApiInstance from './base-api-instance';
 
 const emergencyKitApi = {
-    async getAll() {
-        return (await baseApiInstance.getInstance()).get('emergencykits');
+    async getAllByBaseKitId(baseKitId) {
+        return (await baseApiInstance.getInstance()).get(`emergencykits/${baseKitId}`);
     },
     async getById(id) {
         return (await baseApiInstance.getInstance()).get(`emergencykit-by-id/${id}`);

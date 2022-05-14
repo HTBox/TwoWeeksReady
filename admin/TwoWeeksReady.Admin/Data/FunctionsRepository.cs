@@ -53,7 +53,7 @@ namespace TwoWeeksReady.Admin.Data
 
         public async Task<BaseKit> SaveBaseKit(BaseKit kit)
         {
-            var response = await _httpClient.PutAsJsonAsync("basekits-update", kit);
+            var response = await _httpClient.PutAsJsonAsync("basekit-update", kit);
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadFromJsonAsync<BaseKit>();

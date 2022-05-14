@@ -1,15 +1,14 @@
 ﻿@page  "/Kits/"
 @attribute [Authorize (Roles = "admin")]
 @inject IRepository Repository
+@inject ClientImageService clientImages
 
-<h1>Administer the Base Kits for Two Weeks Ready</h1>
-
-<h3>Current Basekits Defined:</h3>
+<h1>Administer Base Kits</h1>
 
 @if (BaseKits != null && BaseKits.Any())
 {
 
-    <table>
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Name</th>
@@ -19,12 +18,10 @@
         <tbody>
             @foreach (var kit in BaseKits)
             {
-
                 <tr>
                     <td>
                         <a href="/Kits/@kit.Id">
-                            <i class="mdi @kit.Icon"
-                               aria-hidden="true"></i>  @kit.Name
+                            <img width="50" alt="" src="@clientImages.ToAbsolutePath(kit.IconUrl)" />  @kit.Name
                         </a>
                     </td>
                     <td>@kit.Items.Count()</td>
@@ -33,11 +30,16 @@
         </tbody>
 
     </table>
-
+    <a class="btn btn-primary" href="/Kits/new">Add New Kit</a>
+}
+else if (BaseKits == null)
+{
+    <p>Loading....</p>
 }
 else
 {
     <p>No base kits defined.</p>
+    <a class="btn btn-primary" href="/Kits/new">Add New Kit</a>
 }
 
 @code {

@@ -1,62 +1,55 @@
 ﻿@inject IRepository repository
 
 <div class="card">
-    <img class="card-img-top" src="@Item.Photo" alt="@Item.Name" />
-
-    @if (IsEditMode)
-    {
-        <div class="card-body">
-            Name: <input type="text" @bind="@Item.Name" /><br />
-            Description: <input type="text" @bind="@Item.Description" /><br />
-            Quantity Per Person: <input type="text" @bind="@Item.QuantityPerCount" /><br />
-            Quantity Unit (lbs, oz): <input type="text" @bind="@Item.QuantityUnit" /><br />
-        </div>
-        <div class="card-footer">
-            <span class="btn btn-secondary float-right" style="cursor: pointer" @onclick="@Save">Save</span>
-        </div>
-    }
-    else
-    {
-        <div class="card-body">
-            <h5>@Item.Name</h5>
-            <span class="card-text">@Item.Description</span>
-        </div>
-        <div class="card-footer">
-            @Item.QuantityPerCount @Item.QuantityUnit
-
-            <span class="btn btn-secondary float-right" style="cursor: pointer" @onclick="@Edit">Edit</span>
-
-        </div>
-    }
-
+    <div class="card-body">
+        <form>
+          <div class="form-group">
+            <label for="itemName">Name</label>
+            <input type="text" class="form-control" 
+                    name="itemName"
+                    placeholder="Name"
+                    @bind="@Item.Name">
+          </div>
+          <div class="form-group">
+            <label for="itemDescription">Description</label>
+            <input type="text" class="form-control" 
+                    name="itemDescription"
+                    placeholder="Description"
+                    @bind="@Item.Description">
+          </div>
+          <div class="form-group">
+            <label for="itemQuantityPerAdult">Quantity Per Adult</label>
+            <input type="number" class="form-control" 
+                    name="itemQuantityPerAdult"
+                    placeholder="QuantityPerAdult"
+                    @bind="@Item.QuantityPerAdult">
+          </div>
+          <div class="form-group">
+            <label for="itemQuantityPerChild">Quantity Per Child</label>
+            <input type="number" class="form-control" 
+                    name="itemQuantityPerChild"
+                    placeholder="QuantityPerChild"
+                    @bind="@Item.QuantityPerChild">
+          </div>
+          <div class="form-group">
+            <label for="itemQuantityPerPet">Quantity Per Pet</label>
+            <input type="number" class="form-control" 
+                    name="itemQuantityPerPet"
+                    placeholder="QuantityPerPet"
+                    @bind="@Item.QuantityPerPet">
+          </div>
+          <div class="form-group">
+            <label for="itemQuantityUnit">Quantity Unit (lbs, oz)</label>
+            <input type="text" class="form-control" 
+                    name="itemQuantityUnit"
+                    placeholder="QuantityUnit"
+                    @bind="@Item.QuantityUnit">
+          </div>
+        </form>
+      </div>
 </div>
 
 @code {
-
-    public bool IsEditMode { get; set; } = false;
-
     [Parameter]
     public BaseKitItem Item { get; set; }
-
-    [Parameter]
-    public EventCallback OnEdit { get; set; }
-
-    [Parameter]
-    public EventCallback OnSave { get; set; }
-
-    public async Task Edit()
-    {
-
-        IsEditMode = true;
-        await OnEdit.InvokeAsync(Item);
-    }
-
-
-    public async Task Save()
-    {
-        IsEditMode = false;
-        @* await repository.SaveBaseKitItem(Item); *@
-        await OnSave.InvokeAsync(Item);
-
-    }
 }

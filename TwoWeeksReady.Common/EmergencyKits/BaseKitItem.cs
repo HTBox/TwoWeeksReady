@@ -13,11 +13,14 @@ namespace TwoWeeksReady.Common.EmergencyKits
 		[JsonProperty(PropertyName = "description")]
 		public string Description { get; set; }
 
-		[JsonProperty(PropertyName = "photo")]
-		public string Photo { get; set; } // URL or byte[] ?
+		[JsonProperty(PropertyName = "quantityPerAdult")]
+		public int QuantityPerAdult { get; set; } //per adult
+		
+		[JsonProperty(PropertyName = "quantityPerChild")]
+		public int QuantityPerChild { get; set; } //per child
 
-		[JsonProperty(PropertyName = "quantityPerCount")]
-		public int QuantityPerCount { get; set; } //per person or pet, 14 days
+		[JsonProperty(PropertyName = "quantityPerPet")]
+		public int QuantityPerPet { get; set; } //per pet
 
 		[JsonProperty(PropertyName = "quantityUnit")]
 		public string QuantityUnit { get; set; } //measurement unit, 14 days

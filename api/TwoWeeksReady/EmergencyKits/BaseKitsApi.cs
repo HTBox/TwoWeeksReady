@@ -81,8 +81,12 @@ namespace TwoWeeksReady.EmergencyKits
 
             log.LogInformation($"Getting single base kit");
             Uri collectionUri = UriFactory.CreateDocumentCollectionUri("2wr", "basekits");
-            var baseKit = client.CreateDocumentQuery<BaseKit>(collectionUri, new FeedOptions { EnableCrossPartitionQuery = true })
-                                .Where(b => b.Id == id).FirstOrDefault();
+
+            var feedOptions = new FeedOptions { EnableCrossPartitionQuery = false };
+            var baseKit = client.CreateDocumentQuery<BaseKit>(collectionUri, feedOptions)
+               .Where(d => d.Id == id)
+               .AsEnumerable()
+               .FirstOrDefault();
 
             if (baseKit == null)
             {
