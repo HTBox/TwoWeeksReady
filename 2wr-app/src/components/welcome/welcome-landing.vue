@@ -41,13 +41,14 @@
     </v-row>
     <v-fab-transition>
       <v-btn
+        data-testid="welcome-next-button"
         color="green"
         dark
         absolute
         bottom
         right
         fab
-        class="mb-12"
+        class="mb-12 welcome-next-button"
         @click="next()"
         aria-label="Next"
       >
@@ -75,3 +76,8 @@ export default {
   },
 };
 </script>
+<style>
+  .v-btn--fab.welcome-next-button {
+    z-index: 10
+  }
+</style>

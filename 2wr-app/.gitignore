@@ -2,6 +2,7 @@
 node_modules
 /dist
 
+/tests/_storagestate
 
 # local env files
 .env
