@@ -13,7 +13,7 @@ if (
 }
 
 const config = {
-  timeout: 120 * 1000,
+  timeout: 30000,
   webServer: {
     command: "npm run serve",
     port: 8080,

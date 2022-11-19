@@ -3,6 +3,7 @@ node_modules
 /dist
 
 /tests/_storagestate
+/playwright-report
 
 # local env files
 .env
