@@ -16,6 +16,7 @@ const config = {
   timeout: 30000,
   webServer: {
     command: "npm run serve",
+    url: "http://localhost:8080",
     port: 8080,
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI
