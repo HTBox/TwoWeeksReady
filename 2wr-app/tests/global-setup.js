@@ -36,5 +36,18 @@ module.exports = async () => {
   await page
     .context()
     .storageState({ path: "./tests/_storagestate/storageState.json" });
+
+
+  const token = await page.evaluate(async () =>await document.getElementById("app").__vue__.$auth.getTokenSilently());
+  const response = await page.request.post("http://localhost:7071/api/hazardinfo-create", {
+    data: {
+      name: "Earthquake",
+      beforeSafetyDetails: "Practice how to drop, cover, and hold on"
+    },
+    headers: {
+      'Authorization': `Bearer  ${token}`,
+    },
+  });
+  expect(response.ok()).toBeTruthy();
   await browser.close();
 };
