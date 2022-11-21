@@ -35,6 +35,9 @@ jobs:
     - name: Write sample env file for e2e tests
       run: 'cp ./2wr-app/.env-sample ./2wr-app/.env'    
     - run: npm run e2etest
+      env:
+          TWO_WEEKS_READY_E2E_TEST_USERNAME: ${{ secrets.TWO_WEEKS_READY_E2E_TEST_USERNAME }}
+          TWO_WEEKS_READY_E2E_TEST_PASSWORD: ${{ secrets.TWO_WEEKS_READY_E2E_TEST_PASSWORD }}
       working-directory: ./2wr-app
     - name: Upload e2e Test Results
       uses: actions/upload-artifact@v2

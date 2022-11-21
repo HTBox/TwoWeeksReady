@@ -16,12 +16,13 @@ const config = {
   timeout: 30000,
   webServer: {
     command: "npm run serve",
-    port: 8080,
+    url: "http://localhost:8080",
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI
   },
   globalSetup: require.resolve("./tests/global-setup"),
   use: {
+    baseURL: "http://localhost:8080/",
     screenshot: "only-on-failure",
     // Tell all tests to load signed-in state from 'storageState.json'.
     storageState: "./tests/_storagestate/storageState.json"
