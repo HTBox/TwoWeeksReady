@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test("Navigate to Hazard Info shows Earthquake Harzard info", async ({
   page
 }) => {
-  await page.goto("http://localhost:8080/");
+  await page.goto("./");
 
   await page.route("**/api/hazardinfo-list", route =>
     route.fulfill({

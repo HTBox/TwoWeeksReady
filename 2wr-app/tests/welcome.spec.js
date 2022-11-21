@@ -10,7 +10,7 @@ test.describe("Welcome page accessibility test", () => {
   test.beforeAll(async () => {
     browser = await chromium.launch();
     page = await browser.newPage();
-    await page.goto("/welcome/");
+    await page.goto("./welcome/");
     await injectAxe(page);
   });
 
@@ -26,7 +26,7 @@ test.describe("Welcome page accessibility test", () => {
 });
 
 test("Welcome page loads", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("./");
 
   await expect(page).toHaveURL(/.*welcome/);
 });

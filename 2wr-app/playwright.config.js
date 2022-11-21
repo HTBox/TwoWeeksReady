@@ -22,6 +22,7 @@ const config = {
   },
   globalSetup: require.resolve("./tests/global-setup"),
   use: {
+    baseURL: "http://localhost:8080/",
     screenshot: "only-on-failure",
     // Tell all tests to load signed-in state from 'storageState.json'.
     storageState: "./tests/_storagestate/storageState.json"
