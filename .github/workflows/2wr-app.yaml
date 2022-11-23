@@ -39,12 +39,18 @@ jobs:
           TWO_WEEKS_READY_E2E_TEST_USERNAME: ${{ secrets.TWO_WEEKS_READY_E2E_TEST_USERNAME }}
           TWO_WEEKS_READY_E2E_TEST_PASSWORD: ${{ secrets.TWO_WEEKS_READY_E2E_TEST_PASSWORD }}
       working-directory: ./2wr-app
-    - name: Upload e2e Test Results
+    - name: Upload e2e Test Results Recordings and Screenshots
       uses: actions/upload-artifact@v2
       if: failure()
       with:
         name: e2e-test-results
         path: ./2wr-app/test-results
+    - name: Upload e2e Test Results Report
+      uses: actions/upload-artifact@v2
+      if: ${{ always() }}
+      with:
+        name: e2e-test-report
+        path: ./2wr-app/playwright-report
     - name: Clear sample env file from e2e tests
       run: 'rm ./2wr-app/.env'
     - name: Write env file
