@@ -49,8 +49,8 @@ jobs:
       uses: actions/upload-artifact@v2
       if: ${{ always() }}
       with:
-        name: e2e-test-results
-        path: ./2wr-app/test-results
+        name: e2e-test-report
+        path: ./2wr-app/playwright-report
     - name: Clear sample env file from e2e tests
       run: 'rm ./2wr-app/.env'
     - name: Write env file
