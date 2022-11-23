@@ -24,8 +24,11 @@ const config = {
   use: {
     baseURL: "http://localhost:8080/",
     screenshot: "only-on-failure",
+    recording: "retain-on-failure",
+    trace: "retain-on-failure",
     // Tell all tests to load signed-in state from 'storageState.json'.
     storageState: "./tests/_storagestate/storageState.json"
-  }
+  },
+  reporter: [["list"], ["html", { output: "reports/report.html" }]]
 };
 module.exports = config;
