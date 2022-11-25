@@ -7,7 +7,7 @@
 
       <v-col v-if="stage === 1" cols="12" md="6" offset-md="3" class="text-left pa-6">
         <h1 class="text-center text-uppercase text-h2">Welcome to 2 weeks ready</h1>
-        <p>
+        <p :style="{ color: '#BBBBBB' }">
           <strong>2 Weeks Ready</strong> is a mobile application that makes
           emergency preparedness a <strong>simple</strong>,
           <strong>easy</strong>, <strong>sharable</strong>, and
@@ -17,7 +17,7 @@
       </v-col>
       <v-col v-if="stage === 2" cols="12" md="6" offset-md="3" class="text-left pa-6">
         <h2 class="text-center text-uppercase">You and earthquake risk</h2>
-        <p>
+        <p >
           The Pacific Northwest is earthquake country with the
           <strong
             >second highest risk for earthquakes in the United States!</strong
