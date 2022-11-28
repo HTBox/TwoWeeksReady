@@ -17,7 +17,7 @@
           <h2>{{item.name}} Safety</h2>
         </v-col>
         <v-col cols="12" class="text-center">
-          <v-btn x-large color="primary" width="80%" @click="beforeDialog = true">Before</v-btn>
+          <v-btn x-large color="primary" width="80%" @click="beforeDialog = false">Before</v-btn>
         </v-col>
         <v-col cols="12" class="text-center">
           <v-btn x-large  color="primary" width="80%" @click="duringDialog = true">During</v-btn>
