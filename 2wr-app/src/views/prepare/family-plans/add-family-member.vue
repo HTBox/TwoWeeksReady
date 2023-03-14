@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref } from "@vue/composition-api";
+import { defineComponent, ref } from "@vue/composition-api";
 import goBack from "@/functions/goBack";
 import Pet from "@/models/family-plans/Pet";
 import Child from "@/models/family-plans/Child";
@@ -73,23 +73,10 @@ export default defineComponent({
   props: { planId: { required: true } },
 
   setup(props) {
-    const pets = ref(null);
     const showPetEditor = ref(false);
     const editorPet = ref(null);
     const showChildEditor = ref(false);
     const editorChild = ref(null);
-
-    onMounted(() => {
-      const result = store.getters[
-        "familyPlansStore/findFamilyPlan"](
-          props.planId
-        );
-      if (result) {
-        pets.value = result.pets;
-      } else {
-        goBack();
-      }
-    });
 
     function launchPetEditor(pet) {
       editorPet.value = pet;
