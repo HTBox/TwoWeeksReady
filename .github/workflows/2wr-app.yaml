@@ -1,5 +1,8 @@
 name: 2wr-app CI/CD
 
+permissions:
+      id-token: write
+
 on:
   push:
     paths:
@@ -84,7 +87,9 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
     - name: Azure Deploy Resources
       uses: Azure/cli@v1.0.0
       with:
@@ -115,7 +120,9 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
     - name: Azure Deploy Resources
       uses: Azure/cli@v1.0.0
       with:
