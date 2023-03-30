@@ -66,6 +66,11 @@ jobs:
 
   deploy_to_dev:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+    
     needs: build
     if: github.event_name != 'pull_request'
     environment: development
@@ -99,6 +104,11 @@ jobs:
           
   deploy_to_beta:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     needs: deploy_to_dev
     if: github.event_name != 'pull_request'
     environment: beta
