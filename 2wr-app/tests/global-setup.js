@@ -27,10 +27,9 @@ module.exports = async () => {
   await page
     .getByLabel("Password")
     .fill(process.env.TWO_WEEKS_READY_E2E_TEST_PASSWORD);
-  await Promise.all([
-    page.waitForNavigation({ url: "http://localhost:8080/prepare" }),
-    page.locator('button[name="action"]').click()
-  ]);
+   
+    await page.getByRole('button', { name: 'Continue', exact: true }).click();
+    await page.waitForURL("http://localhost:8080/prepare");
 
   // Save signed-in state to 'storageState.json'.
   await page
