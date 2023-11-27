@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@mdi/font": "^5.8.55",
-    "@playwright/test": "^1.39.0",
+    "@playwright/test": "^1.40.0",
     "@vue/cli-plugin-babel": "^4.5.10",
     "@vue/cli-plugin-eslint": "^4.5.10",
     "@vue/cli-plugin-pwa": "^4.5.10",
