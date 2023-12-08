@@ -22,7 +22,7 @@ Disasters can impact you when you least expect them to. That’s why our team is
 
 •	**SHARABLE**: Create and share your family emergency plan with the people you care about. It’s customizable and secure. No gimmicks or data mining involved. 
 
-•	**TIME-SAVING**: This app will save you time. Have all your emergency plans, contacts, and important documents in one place on the go! You can also build your kits with ease using our emergency kit calculator. We make it simple. 
+•	**TIME-SAVING**: This app will save you time. Have all your emergency plans, contacts, and important documents in one place on the go! You can also build your kits with ease using our emergency kit calculator. We make it simple.
 
 For many years, we’ve been talking about the importance of being prepared for 72 hours. This is a good start, and helpful in the event of short-term power outages or temporary evacuation. Natural Disasters such as Earthquakes, Tsunamis, Tornados, Hurricanes and Forest Fires, may leave much of your area’s transportation routes destroyed. We will have to count on each other in the community, in the workplace and at home in order to be safe until responders can reach you.
 
