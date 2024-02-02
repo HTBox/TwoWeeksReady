@@ -5,6 +5,7 @@ import FamilyPlanDistantContacts from "../views/prepare/family-plans/distant-con
 import FamilyPlanRoutes from "../views/prepare/family-plans/routes.vue";
 import FamilyPlanChildren from '@/views/prepare/family-plans/children.vue';
 import FamilyPlanPets from '@/views/prepare/family-plans/pets.vue';
+import AddFamilyMember from '@/views/prepare/family-plans/add-family-member.vue'
 
 export default [
   {
@@ -64,6 +65,15 @@ export default [
     path: '/prepare/familyplan/:planId/pets',
     name: "familyplay-pets",
     component: FamilyPlanPets,
+    props: true,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/prepare/familyplan/:planId/addfamilymember',
+    name: "familyplan-addfamilymember",
+    component: AddFamilyMember,
     props: true,
     meta: {
       requiresAuth: true
